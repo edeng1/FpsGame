@@ -7,7 +7,7 @@ public class RagdollDuplicate : MonoBehaviour
 {
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
-    public Enemy1 enemy;
+    public Enemy enemy;
     void Awake()
     {
         ragdollModel.gameObject.SetActive(false);

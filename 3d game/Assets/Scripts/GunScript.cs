@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-public class GunScript : MonoBehaviourPunCallbacks
+//using Photon.Pun;
+public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
 {
     public float bodyDamage = 33f;
     public float headDamage = 100f;
@@ -14,8 +14,8 @@ public class GunScript : MonoBehaviourPunCallbacks
     public bool isSprinting = false;
     public bool isPistol = false;
     public LayerMask collisionLayer;
+    public GunRecoil recoil;
     
-   
 
 
     public Animator anim;
@@ -36,7 +36,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     public GameObject impactEffect;
 
     public float nextTimeToFire = 0f;
-    public GameObject cameraParent;
+    //public GameObject cameraParent;
 
     
     
@@ -44,7 +44,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     {
         
             
-            cameraParent.SetActive(photonView.IsMine);
+            //cameraParent.SetActive(photonView.IsMine);
             
             
         currentAmmo = maxAmmo;
@@ -63,10 +63,7 @@ public class GunScript : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
+        //if (!photonView.IsMine) return;
         if (isReloading)
             return;
 
@@ -167,12 +164,14 @@ public class GunScript : MonoBehaviourPunCallbacks
             }
             
     }
-    [PunRPC]
+    //[PunRPC]
     void Shoot()
     {
-            
+            SoundManager.PlaySound("fire");
             muzzleFlash.Play();
-        
+            recoil.GenerateRecoil();
+            
+            
             currentAmmo--;
 
             RaycastHit hit;
@@ -182,10 +181,10 @@ public class GunScript : MonoBehaviourPunCallbacks
                 
                 Target target = hit.collider.GetComponent<Target>();
                 Debug.Log(hit.collider.name);
-                if (photonView.IsMine)
-                {
+                //if (photonView.IsMine)
+               // {
                     //shooting another player
-                    if (hit.collider.gameObject.layer == 11)
+                    if (hit.collider.gameObject.layer == 12)
                     {
                         //RPC to damage player
                         if (target != null)
@@ -212,11 +211,12 @@ public class GunScript : MonoBehaviourPunCallbacks
                         }
                     }
                 
-            }
+            //}
+            
         }
                 if (hit.rigidbody != null)
                 {
-                    //hit.rigidbody.AddForce(-hit.normal * impactForce);
+                    hit.rigidbody.AddForce(-hit.normal * impactForce);
                     Debug.Log(hit.rigidbody.gameObject.name + "rigidbody");
                 }
 

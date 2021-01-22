@@ -355,7 +355,6 @@ MonoBehaviour:
   muzzleFlash: {fileID: 4619157806572895676}
   impactEffect: {fileID: 100002, guid: 556d09d7fda29fd4185eed4067d5777b, type: 3}
   nextTimeToFire: 0
-  cameraParent: {fileID: 3292067626235667414}
 --- !u!95 &4619157805878416525
 Animator:
   serializedVersion: 3
@@ -1010,7 +1009,6 @@ MonoBehaviour:
   muzzleFlash: {fileID: 4619157807220040624}
   impactEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
   nextTimeToFire: 0
-  cameraParent: {fileID: 3292067626235667414}
 --- !u!95 &4619157807141176733
 Animator:
   serializedVersion: 3
@@ -1086,6 +1084,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 4619157807412769868}
+  maxHP: 100
+  currentHP: 0
+  pointIncreasePerSecond: 5
+  HealthUI: {fileID: 0}
+  mouse: {fileID: 4619157806902789750}
   speed: 12
   normalSpeed: 7
   sprintSpeed: 11
@@ -1199,6 +1202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
+  enemy: {fileID: 0}
   damageType: 0
 --- !u!1 &4619157807526858007
 GameObject:
@@ -1681,7 +1685,6 @@ MonoBehaviour:
   muzzleFlash: {fileID: 2962689025212843178}
   impactEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
   nextTimeToFire: 0
-  cameraParent: {fileID: 3292067626235667414}
 --- !u!95 &1338361582922711913
 Animator:
   serializedVersion: 3
@@ -1848,7 +1851,6 @@ MonoBehaviour:
   muzzleFlash: {fileID: 5269013836189536924}
   impactEffect: {fileID: 100002, guid: 556d09d7fda29fd4185eed4067d5777b, type: 3}
   nextTimeToFire: 0
-  cameraParent: {fileID: 3292067626235667414}
 --- !u!95 &6087484786157728548
 Animator:
   serializedVersion: 3
@@ -3601,7 +3603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1045401375514670, guid: f11fc98cf1e8d5547a9b2ec85cc9c664, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4111819248598986, guid: f11fc98cf1e8d5547a9b2ec85cc9c664, type: 3}
       propertyPath: m_LocalPosition.x

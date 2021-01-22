@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-public class WeaponSwitching : MonoBehaviourPunCallbacks
+//using Photon.Pun;
+public class WeaponSwitching : MonoBehaviour //PunCallbacks
 {
     public int selectedWeapon = 0;
      public Animator anim;
@@ -11,10 +11,7 @@ public class WeaponSwitching : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
+        //if (!photonView.IsMine) return;
 
         //photonView.RPC("SelectWeapon", RpcTarget.All);
         SelectWeapon();
@@ -23,11 +20,8 @@ public class WeaponSwitching : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
-        if (!photonView.IsMine)
-        {
-            return;
-        }
+
+        //if (!photonView.IsMine) return;
         int previousSelectedWeapon = selectedWeapon;
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -46,7 +40,7 @@ public class WeaponSwitching : MonoBehaviourPunCallbacks
             SelectWeapon();
         }
     }
-    [PunRPC]
+    //[PunRPC]
     void SelectWeapon()
     {
         int i = 0;

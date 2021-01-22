@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Photon.Pun;
-public class fast : MonoBehaviourPunCallbacks
+//using Photon.Pun;
+public class fast : MonoBehaviour //PunCallbacks
 {
     /// <summary>
     /// Chain length of bones
@@ -108,10 +108,7 @@ public class fast : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void LateUpdate()
     {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
+        //if (!photonView.IsMine) return;
         ResolveIK();
     }
 

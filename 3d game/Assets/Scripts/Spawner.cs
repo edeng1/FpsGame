@@ -5,8 +5,10 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject AI;
-    private GameObject[] AIs;
-    public Enemy1 enemy;
+    private List<GameObject> AIs;
+    public GameObject gameThingy;
+
+
     int i;
     private float spawnDelay = 10;
     public float max_X;
@@ -14,7 +16,13 @@ public class Spawner : MonoBehaviour
     
     private void Start()
     {
-        InvokeRepeating("Spawn", 3f,5f);
+        AIs = new List<GameObject>();
+        for (i = 0; i < 10; i++)
+        {
+            AIs.Add(AI);
+            
+        }
+        InvokeRepeating("Spawn", 1f,2f);
     }
     private void Update()
     {
@@ -36,7 +44,10 @@ public class Spawner : MonoBehaviour
         float randomZ = Random.Range(-max_Z, max_Z);
 
         Vector3 randomSpawnPos = new Vector3(randomX, 2f, randomZ);
-        Instantiate(AI, randomSpawnPos, Quaternion.identity);
+        
+            gameThingy =Instantiate(AI, randomSpawnPos, Quaternion.identity) as GameObject;
+        
+            
 
     }
 }

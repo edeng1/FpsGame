@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-public class PlayerMovement : MonoBehaviourPunCallbacks
+using UnityEngine.UI;
+//using Photon.Pun;
+public class PlayerMovement : MonoBehaviour//PunCallbacks
 {
     public CharacterController controller;
 
-    
-    
- 
+
+    public float maxHP=100;
+    public float currentHP;
+    public float pointIncreasePerSecond = 5f;
+    //public Text HealthUI;
+    public MouseLook mouse;
+
 
     public float speed=8f;
     public float normalSpeed = 8f;
@@ -24,10 +29,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     //protected Rigidbody rig;
     Vector3 velocity;
     bool isGrounded;
-    
+    private void Awake()
+    {
+        mouse = GetComponent<MouseLook>();
+        
+    }
     void Start()
     {
-        if (!photonView.IsMine)
+        currentHP = maxHP;
+        
+        /*See your arms but not your model, see enemy model but not their arms
+         * 
+         * if (!photonView.IsMine)
         {
             gameObject.layer = 11;
             playerModel.SetActive(true);
@@ -37,19 +50,40 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             gameObject.layer = 9;
             playerModel.SetActive(false);
         }
-
+        */
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (!photonView.IsMine)
+        if (currentHP > 0)
         {
-            return;
+            currentHP += pointIncreasePerSecond * Time.deltaTime;
         }
-        
+        if (currentHP > maxHP)
+        {
+            currentHP = maxHP;
+        }
+        if (currentHP < 0)
+        {
+            currentHP = 0;
+        }
+        /*
+        HealthUI.text = (int)currentHP + "HP";
+        if (currentHP < 40)
+        {
+            HealthUI.color = Color.red;
+        }
+        if (currentHP >= 40)
+        {
+            HealthUI.color = Color.green;
+        }
+        */
+        //if (!photonView.IsMine) return;
+    }
+    void FixedUpdate()
+    {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if(isGrounded&&velocity.y<0)
@@ -92,5 +126,20 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
        
     }
-    
+    public void Die()
+    {
+        print("I Died");
+    }
+    public void AdjustSensitivity(float newSens)
+    {
+        mouse.mouseSensitivity = newSens;
+        PlayerPrefs.SetFloat("Sensitivity", newSens);
+        PlayerPrefs.Save();
+    }
+}
+
+
+public interface ITargetInterface
+{
+    void TakeDamage(float amount);
 }
