@@ -168,6 +168,7 @@ public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
     void Shoot()
     {
             SoundManager.PlaySound("fire");
+            
             muzzleFlash.Play();
             recoil.GenerateRecoil();
             

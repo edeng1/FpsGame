@@ -16,7 +16,7 @@ public class SoundManager : MonoBehaviour
     // Start is called beforfiree the first frame update
     void Start()
     {
-        fireSound = Resources.Load<AudioClip>("FireSound2");
+        fireSound = Resources.Load<AudioClip>("aksoundLow");
         fireSoundEnemy = Resources.Load<AudioClip>("FireSound");
         audioSrc = GetComponent<AudioSource>();
         
@@ -34,14 +34,21 @@ public class SoundManager : MonoBehaviour
         switch (clip)
         {
             case "fire":
+                
                 audioSrc.PlayOneShot(fireSound);
+                
+                
                 break;
             case "enemyFire":
                 audioSrc.PlayOneShot(fireSoundEnemy);
                 break;
         }
+        
     }
-
+    public static void MuteVolume()
+    {
+        audioSrc.volume = 0;
+    }
     public static void StopSound()
     {
 
@@ -61,4 +68,6 @@ public class SoundManager : MonoBehaviour
 
 
     }
+    
+
 }

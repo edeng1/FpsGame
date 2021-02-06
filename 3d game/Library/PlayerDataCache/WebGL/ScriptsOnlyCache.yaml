@@ -67,8 +67,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -285,6 +287,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 10364}
     - Class: 114
       Script: {instanceID: 10442}
+    - Class: 114
+      Script: {instanceID: 10478}
     - Class: 114
       Script: {instanceID: 10488}
     - Class: 114
@@ -2996,4 +3000,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/Map_2.unity
   - Assets/Scenes/Map_3.unity
   - Assets/Scenes/Aim_map.unity
-  playerPath: C:/Users/Dennis Deng/Documents/GitHub/FpsGame/3d game/Builds/WebGL/Build4
+  playerPath: C:/Users/Dennis Deng/Documents/GitHub/FpsGame/3d game/Builds/WebGL/Build6
