@@ -101,9 +101,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6044119351817326442}
   - component: {fileID: 6044119351817326446}
-  - component: {fileID: 6044119351817326440}
   - component: {fileID: 6044119353477465187}
-  m_Layer: 12
+  - component: {fileID: 5681037832819993730}
+  m_Layer: 2
   m_Name: MaleCharRagdoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!54 &6044119351817326440
+--- !u!65 &6044119353477465187
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044119351817326437}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.16931868, y: 2.3002365, z: 0.28383875}
+  m_Center: {x: 0.009200335, y: 0.65011823, z: -0.01408267}
+--- !u!54 &5681037832819993730
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,19 +181,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6044119353477465187
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6044119351817326437}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.16931868, y: 2.3002365, z: 0.28383875}
-  m_Center: {x: 0.009200335, y: 0.65011823, z: -0.01408267}
 --- !u!1 &6044119351828164711
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 6044119351848441539}
   m_Layer: 12
   m_Name: MaleChar
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -388,7 +388,7 @@ MonoBehaviour:
   player: {fileID: 0}
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
-  sightRange: 45
+  sightRange: 20
   attackRange: 10
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -2730,7 +2730,7 @@ GameObject:
   - component: {fileID: 6044119352829998730}
   m_Layer: 12
   m_Name: AIMBOTBOTS
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5234,7 +5234,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 6442545533526799305}
   shootPoint: {fileID: 6044119352243648406}
   range: 100
-  bodyDamage: 15
+  bodyDamage: 10
   impactEffect: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
   nextTimeToFire: 5
   impactForce: 30
@@ -5242,7 +5242,7 @@ MonoBehaviour:
   attackRange: 15
   playerInAttackRange: 0
   shootDelayOnSight: 0.3
-  spreadFactor: 0.05
+  spreadFactor: 0.15
 --- !u!1 &6044119353838602714
 GameObject:
   m_ObjectHideFlags: 0

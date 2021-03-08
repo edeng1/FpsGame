@@ -72,8 +72,12 @@ public class Manager : MonoBehaviour
             Debug.Log("You Win");
 
 
-            
-            Invoke("GoBackToMenu", 3f);
+            if(SceneManager.GetActiveScene().buildIndex+1<SceneManager.sceneCountInBuildSettings)
+            {
+                 Invoke("GoToNextlevel", 3f);
+            }
+            else
+                Invoke("GoBackToMenu", 3f);
 
     }
     public void GameLost()
@@ -108,6 +112,11 @@ public class Manager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-  
-    
+    public void GoToNextlevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+       
+    }
+
+
 }
