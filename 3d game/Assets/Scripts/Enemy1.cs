@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy1 : MonoBehaviour
 {
     private RagdollDuplicate rag;
+    GameObject variablePrefab;
 
     //private Spawner spawn;
 
@@ -18,7 +19,7 @@ public class Enemy1 : MonoBehaviour
    
     private void Awake()
     {
-        
+        variablePrefab = (GameObject)Resources.Load("M4_Carbine 2", typeof(GameObject));
         rag = GetComponent<RagdollDuplicate>();
         if (Manager.FindObjectOfType<Manager>())
         {
@@ -26,6 +27,10 @@ public class Enemy1 : MonoBehaviour
         }
         
         
+    }
+    public void FindGun()
+    {
+
     }
 
     public void Die()
@@ -36,8 +41,16 @@ public class Enemy1 : MonoBehaviour
         }
         
         rag.ToggleDead();
-
+        
+        
         Destroy(gameObject,5f);
+        Invoke("instantiateWeapon", 3f);
+        
+    }
+    public void instantiateWeapon()
+    {
+        Transform v = gameObject.transform.GetChild(1).GetChild(3).transform;
+        Instantiate(variablePrefab, v.position, v.rotation);
     }
    
     

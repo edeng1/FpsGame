@@ -42,10 +42,13 @@ public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
     
     private void Start()
     {
-        
-            
-            //cameraParent.SetActive(photonView.IsMine);
-            
+
+
+        //cameraParent.SetActive(photonView.IsMine);
+        if (fpsCam == null)
+        {
+            fpsCam = FindObjectOfType<Camera>();
+        }
             
         currentAmmo = maxAmmo;
         // anim = GetComponent<Animator>();
@@ -57,12 +60,18 @@ public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
     private void OnEnable()
     {
         isReloading = false;
+        if (anim == null)
+        {
+            anim = transform.parent.GetComponent<Animator>();
+        }
+       
         anim.SetBool("Reloading", false);
     }
    
     // Update is called once per frame
     void Update()
     {
+       
         //if (!photonView.IsMine) return;
         if (isReloading)
             return;
