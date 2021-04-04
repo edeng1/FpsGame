@@ -699,6 +699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 2591570132799843728}
   swappedWeapon: {fileID: 0}
+  holdingAK: 1
 --- !u!1 &2591570133682667500
 GameObject:
   m_ObjectHideFlags: 0
@@ -5054,6 +5055,11 @@ PrefabInstance:
       propertyPath: fpsCam
       value: 
       objectReference: {fileID: 2591570133960441704}
+    - target: {fileID: 1822780368635296701, guid: 9a473c01d0bbba3498a9b0d7e28d66c0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6436024965732930983, guid: 9a473c01d0bbba3498a9b0d7e28d66c0,
         type: 3}
       propertyPath: playerCamera

@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class DroppedWeapon : MonoBehaviour
 {
     WeaponSwapping swap;
     GameObject akPrefab;
     GameObject m4Prefab;
+    TextMeshProUGUI text;
+    
+    string name;
     bool nearWeapon=false;
     
 
@@ -19,8 +24,12 @@ public class DroppedWeapon : MonoBehaviour
     private void OnEnable()
     {
         akPrefab = (GameObject)Resources.Load("AK-48", typeof(GameObject));
+        
         m4Prefab= (GameObject)Resources.Load("M4_Carbine 2", typeof(GameObject));
+        
         swap = FindObjectOfType<WeaponSwapping>();
+        text = GameObject.Find("Pickup").GetComponent<TextMeshProUGUI>();
+        
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -36,7 +45,11 @@ public class DroppedWeapon : MonoBehaviour
                 }
             }*/
 
-            nearWeapon = true;
+            nearWeapon = true;  
+            if (!gameObject.CompareTag(swap.transform.GetChild(0).tag)){
+                text.text = $"Press F to pickup {gameObject.name}";
+            }
+            
             
         }
 
@@ -47,6 +60,7 @@ public class DroppedWeapon : MonoBehaviour
         {
             nearWeapon = false;
         }
+        text.text = "";
     }
 
   
@@ -56,7 +70,9 @@ public class DroppedWeapon : MonoBehaviour
         if (swap.holdingAK && gameObject.tag == "M4")
         {
             swap.swapWeapon();
-            Instantiate(akPrefab, t.position, t.rotation);
+            GameObject ak= (GameObject)Instantiate(akPrefab, t.position, t.rotation);
+            ak.name = "AK";
+            gameObject.name = ak.name;
             Destroy(gameObject);
             
             swap.swappedWeapon= (GameObject)Resources.Load("AK 1", typeof(GameObject));
@@ -64,7 +80,9 @@ public class DroppedWeapon : MonoBehaviour
         else if (!swap.holdingAK && gameObject.tag == "AK")
         {
             swap.swapWeapon();    
-            Instantiate(m4Prefab, t.position, t.rotation);
+            GameObject m4= (GameObject)Instantiate(m4Prefab, t.position, t.rotation);
+            m4.name = "M4";
+            gameObject.name = m4.name;
             Destroy(gameObject);
             
             swap.swappedWeapon = (GameObject)Resources.Load("M4", typeof(GameObject));

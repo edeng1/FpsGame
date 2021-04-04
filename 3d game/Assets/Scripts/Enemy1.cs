@@ -20,6 +20,7 @@ public class Enemy1 : MonoBehaviour
     private void Awake()
     {
         variablePrefab = (GameObject)Resources.Load("M4_Carbine 2", typeof(GameObject));
+        variablePrefab.name = "M4";
         rag = GetComponent<RagdollDuplicate>();
         if (Manager.FindObjectOfType<Manager>())
         {
@@ -50,7 +51,8 @@ public class Enemy1 : MonoBehaviour
     public void instantiateWeapon()
     {
         Transform v = gameObject.transform.GetChild(1).GetChild(3).transform;
-        Instantiate(variablePrefab, v.position, v.rotation);
+        GameObject m4=(GameObject)Instantiate(variablePrefab, v.position, v.rotation);
+        m4.name = "M4";
     }
    
     

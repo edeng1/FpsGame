@@ -7,7 +7,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject AI;
     private List<GameObject> AIs;
     public GameObject gameThingy;
-
+    public int aiOnScreen=10;
 
     int i;
     private float spawnDelay = 10;
@@ -22,7 +22,10 @@ public class Spawner : MonoBehaviour
             AIs.Add(AI);
             
         }
-        InvokeRepeating("Spawn", 1f,2f);
+       
+            InvokeRepeating("Spawn", 1f,2f);
+        
+        
     }
     private void Update()
     {
@@ -44,8 +47,12 @@ public class Spawner : MonoBehaviour
         float randomZ = Random.Range(-max_Z, max_Z);
 
         Vector3 randomSpawnPos = new Vector3(randomX, 2f, randomZ);
-        
-            gameThingy =Instantiate(AI, randomSpawnPos, Quaternion.identity) as GameObject;
+
+
+        if (transform.childCount < aiOnScreen)
+        {
+            gameThingy = Instantiate(AI, randomSpawnPos, Quaternion.identity, transform) as GameObject;
+        }
         
             
 
