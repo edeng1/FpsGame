@@ -91,8 +91,8 @@ public class Manager : MonoBehaviour
         cam.transform.rotation = player.transform.rotation;
         cam.SetActive(true);
         camRig.AddForce(30,0,30);
-        Invoke("GoBackToMenu", 3f);
-
+        //Invoke("GoBackToMenu", 3f);
+        Invoke("restartLevel", 3f);
 
 
     }
@@ -116,6 +116,10 @@ public class Manager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
        
+    }
+    public void restartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 
