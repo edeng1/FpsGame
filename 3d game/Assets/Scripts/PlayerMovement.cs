@@ -106,9 +106,12 @@ public class PlayerMovement : MonoBehaviour//PunCallbacks
 
         controller.Move(velocity * Time.deltaTime);
 
-       
-        anim.SetFloat("VelX", x);
-        anim.SetFloat("VelY", z);
+        if (anim != null)
+        {
+            anim.SetFloat("VelX", x);
+            anim.SetFloat("VelY", z);
+        }
+        
         
         
 

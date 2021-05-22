@@ -7,9 +7,12 @@ public class WeaponSwapping : MonoBehaviour
     public Transform currentWeapon;
     public GameObject swappedWeapon;
     public bool holdingAK=true;
+    public static Dictionary<string, string> weapons=new Dictionary<string, string>();
     // Start is called before the first frame update
     void Start()
     {
+        weapons["M4"] = "M4";
+        weapons["AK"] = "AK 1";
         swappedWeapon = (GameObject)Resources.Load("M4", typeof(GameObject));
     }
     
@@ -28,18 +31,24 @@ public class WeaponSwapping : MonoBehaviour
         {
             holdingAK = true;
         }
+        currentWeapon = transform.GetChild(0);
     }
 
 
 
     public void swapWeapon()
     {
-        currentWeapon = transform.GetChild(0);
+        
+        //GameObject temp = currentWeapon.gameObject;
         Destroy(currentWeapon.gameObject);
         GameObject a=Instantiate(swappedWeapon, currentWeapon.position, currentWeapon.rotation,transform);
         a.transform.SetAsFirstSibling();
-        
+        //swappedWeapon = temp;
 
+    }
+    public Transform getCurrentWeapon()
+    {
+        return currentWeapon;
     }
     
 }

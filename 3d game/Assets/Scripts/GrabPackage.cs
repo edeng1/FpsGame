@@ -23,23 +23,26 @@ public class GrabPackage : MonoBehaviour
             if (haveSpawnsandBots == true)
             {
 
-
-                activeSpawns.SetActive(false);
-
-
-
-                activeBots.SetActive(false);
+                if(activeSpawns!=null)
+                    activeSpawns.SetActive(false);
 
 
-                inactiveBots.SetActive(true);
+                if (activeBots != null)
+                    activeBots.SetActive(false);
+
+                if (inactiveBots != null)
+                    inactiveBots.SetActive(true);
 
             }
 
+            if(package!=null)
+                package.SetActive(false);
 
-            package.SetActive(false);
+            if(extractionPoint!=null)
+                extractionPoint.SetActive(true);
 
-            extractionPoint.SetActive(true);
-            man.GotThePackage();
+            if(man!=null)
+                man.GotThePackage();
         }
         }
        
