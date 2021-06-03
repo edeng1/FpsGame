@@ -69,17 +69,7 @@ public class PlayerMovement : MonoBehaviour//PunCallbacks
         {
             currentHP = 0;
         }
-        /*
-        HealthUI.text = (int)currentHP + "HP";
-        if (currentHP < 40)
-        {
-            HealthUI.color = Color.red;
-        }
-        if (currentHP >= 40)
-        {
-            HealthUI.color = Color.green;
-        }
-        */
+        
         //if (!photonView.IsMine) return;
     }
     void FixedUpdate()

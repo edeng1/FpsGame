@@ -274,7 +274,12 @@ public class Client1 : MonoBehaviour
                 {(int)ServerPackets.welcome,ClientHandle.Welcome },
                 {(int)ServerPackets.spawnPlayer,ClientHandle.SpawnPlayer },
                 {(int)ServerPackets.playerPosition,ClientHandle.PlayerPosition },
-                {(int)ServerPackets.playerRotation,ClientHandle.PlayerRotation  }
+                {(int)ServerPackets.playerRotation,ClientHandle.PlayerRotation  },
+                 {(int)ServerPackets.playerDisconnected,ClientHandle.PlayerDisconnected  },
+                 {(int)ServerPackets.playerHealth,ClientHandle.PlayerHealth  },
+                 {(int)ServerPackets.playerRespawned,ClientHandle.PlayerRespawned  },
+                 {(int)ServerPackets.playerAnimation,ClientHandle.PlayerAnimation  },
+
 
             };
         Debug.Log("Initialize packets");

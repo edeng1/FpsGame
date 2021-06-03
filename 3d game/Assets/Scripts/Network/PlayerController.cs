@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+    public Transform camTransform;
+    public Animator animator;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            ClientSend.PlayerShoot(camTransform.forward);
+        }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            //animator.SetBool("Sprinting", true);
+        }
+        
+            //animator.SetBool("Sprinting", false);
+    }
+
     private void FixedUpdate()
     {
         SendInputToServer();
@@ -17,6 +34,7 @@ public class PlayerController : MonoBehaviour
             Input.GetKey(KeyCode.S),
             Input.GetKey(KeyCode.A),
             Input.GetKey(KeyCode.D),
+            Input.GetKey(KeyCode.LeftShift),
         };
         ClientSend.PlayerMovement(_inputs);
     }

@@ -31,9 +31,14 @@ public class ClientHandle : MonoBehaviour
 
     public static void PlayerPosition(Packet _packet)
     {
+        
         int _id = _packet.ReadInt();
         Vector3 _position = _packet.ReadVector3();
-        MultiplayerManager.players[_id].transform.position = _position;
+        string _anim = _packet.ReadString();
+        bool _animState = _packet.ReadBool();
+        //MultiplayerManager.players[_id].transform.position=_position;
+        MultiplayerManager.players[_id].SetPosition(_position,_anim,_animState);  
+       
     }
     public static void PlayerRotation(Packet _packet)
     {
@@ -42,4 +47,37 @@ public class ClientHandle : MonoBehaviour
         MultiplayerManager.players[_id].transform.rotation = _rotation;
     }
 
+    public static void PlayerDisconnected(Packet _packet)
+    {
+        int _id = _packet.ReadInt();
+
+        Destroy(MultiplayerManager.players[_id].gameObject);
+        MultiplayerManager.players.Remove(_id);
+    }
+    public static void PlayerHealth(Packet _packet)
+    {
+        int _id = _packet.ReadInt();
+
+        float _health = _packet.ReadFloat();
+
+        MultiplayerManager.players[_id].SetHealth(_health);
+        
+
+    }
+    public static void PlayerRespawned(Packet _packet)
+    {
+        int _id = _packet.ReadInt();
+        MultiplayerManager.players[_id].Respawn();
+
+
+    }
+
+    public static void PlayerAnimation(Packet _packet)
+    {
+        int _id = _packet.ReadInt();
+        string _anim = _packet.ReadString();
+        bool _animState = _packet.ReadBool();
+        MultiplayerManager.players[_id].SetAnimation(_anim, _animState);
+        
+    }
 }

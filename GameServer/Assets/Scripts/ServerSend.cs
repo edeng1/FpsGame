@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ServerSend 
 {
+   
     private static void SendTCPData(int _toClient, Packet _packet)
     {
         _packet.WriteLength();
@@ -94,8 +95,10 @@ public class ServerSend
         using (Packet _packet = new Packet((int)ServerPackets.playerPosition))
         {
             _packet.Write(_player.id);
+           
             _packet.Write(_player.transform.position);
-
+            _packet.Write(_player.anim);
+            _packet.Write(_player.animState);
             SendUDPDataToAll(_packet);
         }
     }
@@ -109,5 +112,49 @@ public class ServerSend
             SendUDPDataToAll(_player.id, _packet);
         }
     }
+
+    public static void PlayerDisconnected(int _playerId)
+    {
+        using (Packet _packet = new Packet((int)ServerPackets.playerDisconnected))
+        {
+            _packet.Write(_playerId);
+
+            SendTCPDataToAll(_packet);
+        }
+    }
+    public static void PlayerHealth(Player _player)
+    {
+        using (Packet _packet = new Packet((int)ServerPackets.playerHealth))
+        {
+            _packet.Write(_player.id);
+            _packet.Write(_player.health);
+
+            SendTCPDataToAll(_player.id, _packet);
+        }
+    }
+
+    public static void PlayerRespawned(Player _player)
+    {
+        using (Packet _packet = new Packet((int)ServerPackets.playerRespawned))
+        {
+            _packet.Write(_player.id);
+            
+
+            SendUDPDataToAll(_player.id, _packet);
+        }
+    }
+    
+    public static void PlayerAnimation(Player _player)
+    {
+        using (Packet _packet = new Packet((int)ServerPackets.playerAnimation))
+        {
+           
+            _packet.Write(_player.id);
+            _packet.Write(_player.anim);
+            _packet.Write(_player.animState);
+            SendTCPDataToAll(_player.id, _packet);
+        }
+    }
+    
     #endregion
 }
