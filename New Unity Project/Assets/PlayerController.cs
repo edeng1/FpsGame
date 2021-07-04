@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     private float nextTimeToFire = 0f;
     [SerializeField] TMP_Text healthUI;
     [SerializeField] TMP_Text ammoUI;
-    
+    public bool isDead;
     public float pointIncreasePerSecond = 5f;
 
     public Transform playerBody;
@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     private void Awake()
     {
+        isDead = false;
         isSprinting = false;
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         float y = Input.GetAxisRaw("Vertical");
 
         Vector3 moveDir = new Vector3(x, 0, y).normalized;
-        Debug.Log(y);
+        
         anim.SetFloat("PosY", y);
         anim.SetFloat("PosX", x);
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
@@ -238,14 +239,14 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, int actorNumber)
     {
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, actorNumber);
     }
 
 
     [PunRPC]
-    void RPC_TakeDamage(float damage)
+    void RPC_TakeDamage(float damage,int actorNumber)
     {
         if (!PV.IsMine)
         {
@@ -257,7 +258,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         if(currentHealth<=0)
         {
             
-            Die();
+            Die(actorNumber);
         }
     }
 
@@ -290,9 +291,27 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     void Die()
     {
-        PV.RPC("ToggleDead", RpcTarget.All);
+        if (!isDead)
+        {
+            
+            isDead = true;
 
-        playerManager.Invoke("Die",3f);
+            PV.RPC("ToggleDead", RpcTarget.All);
+
+            playerManager.StartCoroutine(playerManager.Die());
+        }
+    }
+    void Die(int actorNumber)
+    {
+        if (!isDead)
+        {
+
+            isDead = true;
+
+            PV.RPC("ToggleDead", RpcTarget.All);
+
+            playerManager.StartCoroutine(playerManager.Die(actorNumber));
+        }
     }
 
     [PunRPC]

@@ -71,34 +71,34 @@ public class SingeShotGun : Gun
             switch (hit.collider.gameObject.name)
             {
                 case "upperArm.L":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm,PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "upperArm.R":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "lowerArm.L":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "lowerArm.R":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "spine":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageBody);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageBody, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "upperLeg.L":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "upperLeg.R":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "lowerLeg.L":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "lowerLeg.R":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
                 case "head":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead);
+                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead, PhotonNetwork.LocalPlayer.ActorNumber);
                     break;
 
             }
@@ -132,11 +132,13 @@ public class SingeShotGun : Gun
     {
        
             GameObject gunM=Instantiate(itemInfo.itemModel, new Vector3(.2f,.35f, .15f), transform.localRotation*Quaternion.Euler(0, 90, 0), transform.GetChild(0));
-        //new Vector3(transform.position.x + 2f, transform.position.y+ 4f, transform.position.z + 2f)
-       
-        gunM.transform.localPosition = new Vector3(.2f, .35f, .15f);
-        gunM.transform.localRotation = transform.localRotation * Quaternion.Euler(0, 90, 0);
         
+       
+        gunM.transform.localPosition = itemInfo.itemPosition; //.2f .35f .15f
+        gunM.transform.localRotation = transform.localRotation * Quaternion.Euler(itemInfo.itemRotation);// 0 90 0
+        //gunM.transform.localRotation = transform.localRotation * Quaternion.Euler(0, 90, 0);
+        gunM.transform.localScale = itemInfo.itemScale;
+
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
     }
 

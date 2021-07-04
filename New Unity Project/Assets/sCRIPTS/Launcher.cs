@@ -5,10 +5,15 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 using System.Linq;
+using UnityEngine.SceneManagement;
+using ExitGames.Client.Photon;
+
 public class Launcher : MonoBehaviourPunCallbacks
 {
     public static Launcher instance;
 
+
+    public static RoomInfo currentRoomInfo;
     [SerializeField] TMP_InputField roomNameIF;
     [SerializeField] TMP_Text errorText;
     [SerializeField] TMP_Text roomNameText;
@@ -17,15 +22,24 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject roomListItemPrefab;
     [SerializeField] GameObject playerListItemPrefab;
     [SerializeField] GameObject startGameButton;
+    [SerializeField] RoomManager roomManagerPrefab;
+    public static bool inRoom = false;
     // Start is called before the first frame update
 
     void Awake()
     {
+        if (instance)///////////////////
+        {
+            
+            return;
+        }
         instance = this;
     }
     void Start()
     {
+       
         PhotonNetwork.ConnectUsingSettings();
+        CreateRoomManager();
     }
 
     public override void OnConnectedToMaster()
@@ -56,6 +70,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        inRoom = true;
         MenuManager.instance.OpenMenu("Room");
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         Debug.Log("Joined Room "+ PhotonNetwork.CurrentRoom.Name);
@@ -69,6 +84,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
+        
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
@@ -84,10 +100,22 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.instance.OpenMenu("Error");
     }
 
-    public void StartGame()
+    public void StartGame()////////////////////////////////////////////
     {
-        PhotonNetwork.LoadLevel(1);
+
+
+        if (RoomManager.Instance.AllPlayersReady()) {
+            Debug.Log("All players ready");
+           
+            PhotonNetwork.LoadLevel(1);
+        }
+            
+       
+        
     }
+   
+    
+   
 
     public void LeaveRoom()
     {
@@ -99,13 +127,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRoom(info.Name);
         MenuManager.instance.OpenMenu("Loading");
-
+        currentRoomInfo = info;
         
     }
 
     public override void OnLeftRoom()
     {
         MenuManager.instance.OpenMenu("Title");
+        inRoom = false;
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -126,4 +155,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
+
+    public void CreateRoomManager()
+    {
+        if(!FindObjectOfType<RoomManager>())
+            Instantiate(roomManagerPrefab).name="RoomManager";
+    }
+
+   
+
+    
 }
