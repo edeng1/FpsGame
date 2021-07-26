@@ -13,6 +13,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 {
 
     public static RoomManager Instance;
+    GameObject PM;
     PhotonView PV;
     public GameObject launcher;
     private void Awake()
@@ -58,9 +59,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.buildIndex == 1) //were in game scene
+        if (scene.buildIndex != 0) //were in game scene
         {
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
+            
+            
             if (PV.IsMine)
             {
                 Hashtable hash = new Hashtable();
@@ -81,6 +83,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
             
 
         }
+    }
+    public void Spawn()
+    {
+        PM=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
+        //Manager.Instance.NewPlayer_S();
+    }
+
+    public PlayerManager getPlayerManager()
+    {
+        return PM.GetComponent<PlayerManager>();
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)

@@ -8,6 +8,13 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using ExitGames.Client.Photon;
 
+[System.Serializable]
+public class MapData
+{
+    public string name;
+    public int scene;
+}
+
 public class Launcher : MonoBehaviourPunCallbacks
 {
     public static Launcher instance;
@@ -16,6 +23,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     public static RoomInfo currentRoomInfo;
     [SerializeField] TMP_InputField roomNameIF;
     [SerializeField] TMP_Text errorText;
+    [SerializeField] TMP_Text mapValueText;
+    [SerializeField] TMP_Text modeValueText;
     [SerializeField] TMP_Text roomNameText;
     [SerializeField] Transform roomListContent;
     [SerializeField] Transform playerListContent;
@@ -23,7 +32,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject playerListItemPrefab;
     [SerializeField] GameObject startGameButton;
     [SerializeField] RoomManager roomManagerPrefab;
+
+    public MapData[] maps;
+    private int currentMap = 0;
+
     public static bool inRoom = false;
+    
     // Start is called before the first frame update
 
     void Awake()
@@ -40,6 +54,13 @@ public class Launcher : MonoBehaviourPunCallbacks
        
         PhotonNetwork.ConnectUsingSettings();
         CreateRoomManager();
+        mapValueText.text = "Map: " + maps[currentMap].name;
+        modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
+
+    }
+    private void Update()
+    {
+        
     }
 
     public override void OnConnectedToMaster()
@@ -63,9 +84,35 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             return;
         }
-        PhotonNetwork.CreateRoom(roomNameIF.text);
+        RoomOptions options = new RoomOptions();
+
+        options.CustomRoomPropertiesForLobby = new string[] { "map", "mode" };
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+        properties.Add("map", currentMap);
+        properties.Add("mode", (int)GameSettings.GameMode);
+        options.CustomRoomProperties = properties;
+
+        
+
+        PhotonNetwork.CreateRoom(roomNameIF.text,options);
         
         MenuManager.instance.OpenMenu("Loading");
+    }
+
+    public void ChangeMap()
+    {
+        currentMap++;
+        if (currentMap >= maps.Length)
+        { currentMap = 0; }
+        mapValueText.text = "Map: " + maps[currentMap].name;
+    }
+    public void ChangeMode()
+    {
+        int newMode = (int)GameSettings.GameMode + 1;
+        if (newMode >= System.Enum.GetValues(typeof(GameMode)).Length)
+        { newMode = 0; }
+        GameSettings.GameMode = (GameMode)newMode;
+        modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode),newMode);
     }
 
     public override void OnJoinedRoom()
@@ -85,6 +132,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
         
+
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
@@ -107,7 +155,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (RoomManager.Instance.AllPlayersReady()) {
             Debug.Log("All players ready");
            
-            PhotonNetwork.LoadLevel(1);
+            PhotonNetwork.LoadLevel(maps[currentMap].scene);
         }
             
        
@@ -127,14 +175,22 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRoom(info.Name);
         MenuManager.instance.OpenMenu("Loading");
+        GameSettings.GameMode = (GameMode)info.CustomProperties["mode"];
+        Debug.Log("Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode));
         currentRoomInfo = info;
         
     }
+    
 
     public override void OnLeftRoom()
     {
         MenuManager.instance.OpenMenu("Title");
         inRoom = false;
+        GameSettings.GameMode = (GameMode)0;
+        currentMap = 0;
+        mapValueText.text = "Map: " + maps[currentMap].name;
+        modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), (int)GameSettings.GameMode);
+        roomNameIF.text = "";
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -147,7 +203,10 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             if (r.RemovedFromList)
                 continue;
-            Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(r);
+
+       
+
+           Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(r);
         }
     }
 

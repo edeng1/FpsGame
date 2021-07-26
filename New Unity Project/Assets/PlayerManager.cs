@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject normalModel;
 
    public bool die = false;
+   public bool awayTeam;
 
     GameObject controller;
     private void Awake()
@@ -26,11 +27,13 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
 
-        Manager.Instance.playerList.Add(this);
 
         if (PV.IsMine)
         {
-           
+            if (GameSettings.GameMode == GameMode.TDM)
+            {
+                PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
+            }
             CreateController();
         }
         
@@ -41,8 +44,9 @@ public class PlayerManager : MonoBehaviour
     void CreateController()
     {
         Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
-        controller=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnPoint.position, spawnPoint.rotation, 0,new object[] { PV.ViewID });
+        controller=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnPoint.position, spawnPoint.rotation, 0,new object[] { PV.ViewID});
         controller.GetComponent<PlayerController>().isDead = false;
+        
        
     }
 
@@ -65,7 +69,32 @@ public class PlayerManager : MonoBehaviour
         CreateController();
     }
 
- 
+    public void TrySync()
+    {
+        if (!PV.IsMine) return;
+
+        if (GameSettings.GameMode == GameMode.TDM)
+        {
+            PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
+        }
+
+    }
+
+    [PunRPC]
+    private void SyncTeam(bool _awayTeam)
+    {
+        awayTeam = _awayTeam;
+
+        if (!awayTeam)
+        {
+
+        }
+    }
+
+    public PlayerController getController()
+    {
+        return controller.GetComponent<PlayerController>();
+    }
 
 
 

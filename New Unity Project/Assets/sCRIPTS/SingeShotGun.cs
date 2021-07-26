@@ -31,7 +31,7 @@ public class SingeShotGun : Gun
         stash = gi.totalAmmo;
         if (PV.IsMine)
         {
-            PV.RPC("instantiateGunModel", RpcTarget.All);
+            instantiateGunModel();
         }
        
     }
@@ -67,41 +67,59 @@ public class SingeShotGun : Gun
         if(Physics.Raycast(ray,out RaycastHit hit))
         {
             //hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
-            
-            switch (hit.collider.gameObject.name)
+            bool applyDamage = false;
+            if(GameSettings.GameMode==GameMode.FFA)
             {
-                case "upperArm.L":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm,PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "upperArm.R":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "lowerArm.L":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "lowerArm.R":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "spine":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageBody, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "upperLeg.L":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "upperLeg.R":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "lowerLeg.L":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "lowerLeg.R":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-                case "head":
-                    hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead, PhotonNetwork.LocalPlayer.ActorNumber);
-                    break;
-
+                applyDamage = true;
             }
+            if (GameSettings.GameMode == GameMode.TDM)
+            {
+                if (hit.collider.transform.root.GetComponent<IDamageable>()?.getAwayTeam() != GameSettings.IsAwayTeam)
+                {
+
+                    applyDamage = true;
+                }
+            }
+
+                if (applyDamage)
+                {
+
+
+                    switch (hit.collider.gameObject.name)
+                    {
+                        case "upperArm.L":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "upperArm.R":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "lowerArm.L":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "lowerArm.R":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "spine":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageBody, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "upperLeg.L":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "upperLeg.R":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "lowerLeg.L":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "lowerLeg.R":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+                        case "head":
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead, PhotonNetwork.LocalPlayer.ActorNumber);
+                            break;
+
+                    }
+                }
             
             //hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
             PV.RPC("RPC_Shoot", RpcTarget.All, hit.point,hit.normal);
@@ -127,8 +145,13 @@ public class SingeShotGun : Gun
 
     }
 
+    public void instantiateGunModel()
+    {
+        PV.RPC("RPC_instantiateGunModel", RpcTarget.All);
+    }
+
     [PunRPC]
-    private void instantiateGunModel()
+    private void RPC_instantiateGunModel()
     {
        
             GameObject gunM=Instantiate(itemInfo.itemModel, new Vector3(.2f,.35f, .15f), transform.localRotation*Quaternion.Euler(0, 90, 0), transform.GetChild(0));

@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     int itemIndex;
     int previousItemIndex=-1;
 
+
+    public bool awayTeam;
     public float verticalLookRotation;
     bool isGrounded;
     Vector3 smoothMoveVelocity;
@@ -54,12 +56,15 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         sprintSpeed *= transform.localScale.x;
         walkSpeed *=transform.localScale.x;
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+        awayTeam = playerManager.awayTeam;
     }
     private void Start()
     {
         if (PV.IsMine)
         {
             EquipItem(0);
+
+            
             anim = GetComponent<Animator>();
         }
         else
@@ -75,6 +80,10 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         if (!PV.IsMine)
         {
             return;
+        }
+        if (awayTeam != playerManager.awayTeam)
+        {
+            PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
         }
         if (die)
         {
@@ -346,6 +355,21 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         destinationTransform.rotation = sourceTransform.rotation;
     }
 
+    [PunRPC]
+    private void SyncTeam(bool _awayTeam)
+    {
+        awayTeam = _awayTeam;
+        //transform.Find("Primary").GetComponent<SingeShotGun>().instantiateGunModel();
+        if (!awayTeam)
+        {
+
+        }
+    }
+
+    public bool getAwayTeam()
+    {
+        return awayTeam;
+    }
 
 
 }

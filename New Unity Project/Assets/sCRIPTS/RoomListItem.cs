@@ -7,13 +7,28 @@ using UnityEngine;
 public class RoomListItem : MonoBehaviour
 {
     [SerializeField] TMP_Text text;
-
+    [SerializeField] TMP_Text mapText;
+    [SerializeField] TMP_Text modeText;
+    
     public RoomInfo info;
 
    public void SetUp(RoomInfo _info)
     {
         info = _info;
         text.text = info.Name;
+        if (info.CustomProperties.ContainsKey("map"))
+        {
+            mapText.text = "" + Launcher.instance.maps[(int)info.CustomProperties["map"]].name;
+        }
+        if(info.CustomProperties.ContainsKey("mode"))
+        {
+            modeText.text= "" + System.Enum.GetName(typeof(GameMode), info.CustomProperties["mode"]);
+        }
+        else
+        {
+            Debug.Log("no custom property");
+        }
+        
     }
 
     public void OnClick()

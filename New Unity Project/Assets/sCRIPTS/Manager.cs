@@ -6,24 +6,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class PlayerInfo
 {
-    
+
     public int actor;
     public string name;
     public short kills;
     public short deaths;
     public bool awayTeam;
-    
 
-    public PlayerInfo( int a, short k, short d, string n)
+
+
+    public PlayerInfo( int a, short k, short d, string n,bool t)
     {
         
         this.actor = a;
         this.kills = k;
         this.deaths = d;
         this.name = n;
+        this.awayTeam = t;
     }
 }
 
@@ -40,13 +42,22 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public static Manager Instance;
     public List<PlayerInfo> playerInfo = new List<PlayerInfo>();
+    
     public int myind;
-    public List<PlayerManager> playerList=new List<PlayerManager>();
+    
     public Transform ScoreBoardUI;
+    public TMP_Text TimerUI;
     public Transform EndGameUI;
-
+    public int matchLength = 180;
+    private Coroutine timerCoroutine;
+    private int currentMatchTime;
     public int mainMenuScene = 0;
     public int killCount = 3;
+    public int teamKillCount=4;
+    public int awayScore=0;
+    public int homeScore=0;
+
+    private bool playerAdded;
 
     private GameState state = GameState.Waiting;
     //public Dictionary<int, PlayerManager> playerDictionary = new Dictionary<int, PlayerManager>();
@@ -78,7 +89,14 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     // Start is called before the first frame update
     void Start()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            playerAdded = true;
+            RoomManager.Instance.Spawn();
+        }
+        
         NewPlayer_S();
+        InitializeTimer();
     }
 
     // Update is called once per frame
@@ -116,57 +134,166 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private void ScoreBoard(Transform scoreBoard)
     {
-        for(int i=2; i<scoreBoard.childCount;i++)
+
+        //specify gamemode
+        if (GameSettings.GameMode == GameMode.FFA) scoreBoard = scoreBoard.GetChild(3);//FFA
+        if (GameSettings.GameMode == GameMode.TDM) scoreBoard = scoreBoard.GetChild(4);//TDM
+
+        for (int i=2; i<scoreBoard.childCount;i++)
         {
             Destroy(scoreBoard.GetChild(i).gameObject);
         }
-        GameObject playerCard = scoreBoard.GetChild(1).gameObject;
 
+        //set leaderboard map and mode
+        scoreBoard.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = System.Enum.GetName(typeof(GameMode), GameSettings.GameMode); 
+        scoreBoard.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = System.Enum.GetName(typeof(GameMap), SceneManager.GetActiveScene().buildIndex - 1);
+        
+        GameObject playerCard = scoreBoard.GetChild(1).gameObject;
         playerCard.SetActive(false);
 
         List<PlayerInfo> sorted = SortPlayers(playerInfo);
 
         foreach(PlayerInfo p in sorted)
         {
+
             GameObject newCard = Instantiate(playerCard, scoreBoard) as GameObject;
 
-            newCard.transform.Find("User").GetComponent<TMP_Text>().text = p.name.ToString();
-            newCard.transform.Find("Kills").GetComponent<TMP_Text>().text = p.kills.ToString();
-            newCard.transform.Find("Deaths").GetComponent<TMP_Text>().text = p.deaths.ToString();
+            if(GameSettings.GameMode==GameMode.TDM)
+            {
+                
+                if (p.awayTeam)
+                {
+                    
+                    newCard.transform.GetComponent<Image>().color=Color.red;
+                    
+                }
+                if (!p.awayTeam)
+                {
+                    Color blueA = new Color32(87, 95, 197, 205);
+                    newCard.transform.GetComponent<Image>().color = blueA;
+                   
+                }
+
+            }
+
+            var user=newCard.transform.Find("User").GetComponent<TMP_Text>();
+            var kills = newCard.transform.Find("Kills").GetComponent<TMP_Text>();
+            var deaths= newCard.transform.Find("Deaths").GetComponent<TMP_Text>();
+            user.text = p.name.ToString();
+            kills.text = p.kills.ToString();
+            deaths.text = p.deaths.ToString();
+            if (p.actor.Equals(PhotonNetwork.LocalPlayer.ActorNumber))
+            {
+                
+                user.color = Color.yellow;
+                kills.color = Color.yellow;
+                deaths.color = Color.yellow;
+            }
 
             newCard.SetActive(true);
         }
 
         scoreBoard.gameObject.SetActive(true);
+        scoreBoard.parent.gameObject.SetActive(true);
 
 
+    }        
+    private void RefreshTimerUI()
+    {
+        string minutes = (currentMatchTime / 60).ToString("00");
+        string seconds= (currentMatchTime % 60).ToString("00");
+        TimerUI.text = $"{minutes}:{seconds}";
 
-    }                                               
+    }
 
     private List<PlayerInfo> SortPlayers (List<PlayerInfo> _playerInfo)
     {
         List<PlayerInfo> sorted = new List<PlayerInfo>();
 
-        while(sorted.Count<_playerInfo.Count)
+        if (GameSettings.GameMode == GameMode.FFA)
         {
-            short highest = -1;
-            PlayerInfo selection = _playerInfo[0];
+
+            while (sorted.Count < _playerInfo.Count)
+            {
+                short highest = -1;
+                PlayerInfo selection = _playerInfo[0];
+
+                foreach (PlayerInfo p in _playerInfo)
+                {
+                    if (sorted.Contains(p)) continue;
+                    if (p.kills > highest)
+                    {
+                        selection = p;
+                        highest = p.kills;
+                    }
+                }
+
+                sorted.Add(selection);
+
+            }
+        }
+
+        if (GameSettings.GameMode == GameMode.TDM)
+        {
+            List<PlayerInfo> homeSorted = new List<PlayerInfo>();
+            List<PlayerInfo> awaySorted = new List<PlayerInfo>();
+
+            int homeSize = 0;
+            int awaySize = 0;
 
             foreach(PlayerInfo p in _playerInfo)
             {
-                if (sorted.Contains(p)) continue;
-                if(p.kills>highest)
-                {
-                    selection = p;
-                    highest=p.kills;
-                }
+                if (p.awayTeam) awaySize++;
+                else homeSize++;
             }
 
-            sorted.Add(selection);
+            while (homeSorted.Count < homeSize)
+            {
+                short highest = -1;
+                PlayerInfo selection = _playerInfo[0];
 
+                foreach (PlayerInfo p in _playerInfo)
+                {
+                    if (p.awayTeam) continue;
+                    if (homeSorted.Contains(p)) continue;
+                    if (p.kills > highest)
+                    {
+                        selection = p;
+                        highest = p.kills;
+                    }
+                }
+
+                homeSorted.Add(selection);
+
+            }
+            while (awaySorted.Count < awaySize)
+            {
+                short highest = -1;
+                PlayerInfo selection = _playerInfo[0];
+
+                foreach (PlayerInfo p in _playerInfo)
+                {
+                    if (!p.awayTeam) continue;
+                    if (awaySorted.Contains(p)) continue;
+                    if (p.kills > highest)
+                    {
+                        selection = p;
+                        highest = p.kills;
+                    }
+                }
+
+                awaySorted.Add(selection);
+
+            }
+            sorted.AddRange(homeSorted);
+            sorted.AddRange(awaySorted);
         }
+
         return sorted;
+
     }
+    
+
 
     public void OnEvent(EventData photonEvent)
     {
@@ -188,9 +315,19 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             case EventCodes.ChangeStat:
                 ChangeStat_R(o);
                 break;
+            case EventCodes.RefreshTimer:
+                RefreshTimer_R(o);
+                break;
 
-       
+
         }
+    }
+
+    private bool CalculateTeam()
+    {
+        
+
+        return PhotonNetwork.LocalPlayer.ActorNumber % 2 == 0;
     }
 
     public void NewPlayer_S()
@@ -201,7 +338,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         package[1] = (short)0;
         package[2] = (short)0;
         package[3] = PhotonNetwork.LocalPlayer.NickName;
-        
+        package[4] = CalculateTeam();
+       
 
         PhotonNetwork.RaiseEvent(
             (byte)EventCodes.NewPlayer,
@@ -217,13 +355,14 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             (int)data[0],
             (short)data[1],
             (short)data[2],
-            (string)data[3]
-            
+            (string)data[3],
+            (bool)data[4]
+
         );
 
         playerInfo.Add(p);
 
-        
+        RoomManager.Instance.getPlayerManager().TrySync();
 
         UpdatePlayers_S((int)state,playerInfo);
     }
@@ -235,14 +374,14 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         package[0] = state;
         for (int i = 0; i < info.Count; i++)
         {
-            object[] piece = new object[4];
+            object[] piece = new object[5];
 
            
             piece[0] = info[i].actor;
             piece[1] = info[i].kills;
             piece[2] = info[i].deaths;
             piece[3] = info[i].name;
-
+            piece[4] = info[i].awayTeam;
             package[i+1] = piece;
         }
 
@@ -258,7 +397,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         state = (GameState)data[0];
         playerInfo = new List<PlayerInfo>();
-
+        
         for (int i = 1; i < data.Length; i++)
         {
             object[] extract = (object[])data[i];
@@ -269,7 +408,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                 (int)extract[0],
                 (short)extract[1],
                 (short)extract[2],
-                (string)extract[3]
+                (string)extract[3],
+                (bool)extract[4]
 
             );
 
@@ -278,6 +418,15 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             if (PhotonNetwork.LocalPlayer.ActorNumber == p.actor)
             {
                 myind = i-1;
+
+                if(!playerAdded)
+                {
+                    playerAdded = true;
+                    GameSettings.IsAwayTeam = p.awayTeam;
+                  
+                      RoomManager.Instance.Spawn();
+                      RoomManager.Instance.getPlayerManager().TrySync();
+                }
             }
         }
         StateCheck();
@@ -308,7 +457,16 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                 {
                     case 0: //kills
                         playerInfo[i].kills += amt;
+                        if(playerInfo[i].awayTeam)
+                        {
+                            awayScore += amt;
+                        }
+                        if (!playerInfo[i].awayTeam)
+                        {
+                            homeScore += amt;
+                        }
                         Debug.Log($"Player {playerInfo[i].name} : kills = {playerInfo[i].kills}");
+                        
                         break;
 
                     case 1: //deaths
@@ -327,7 +485,25 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         ScoreCheck();
        
     }
-    private void StateCheck()
+
+    public void RefreshTimer_S()
+    {
+        object[] package = new object[] { currentMatchTime };
+
+        PhotonNetwork.RaiseEvent(
+            (byte)EventCodes.RefreshTimer,
+            package,
+            new RaiseEventOptions { Receivers = ReceiverGroup.All },
+            new SendOptions { Reliability = true }
+        );
+    }
+    public void RefreshTimer_R(object[] data)
+    {
+        currentMatchTime = (int)data[0];
+        RefreshTimerUI();
+    }
+
+        private void StateCheck()
     {
         if(state==GameState.Ending)
         {
@@ -339,16 +515,18 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         bool detectWin = false;
 
-        foreach(PlayerInfo p in playerInfo)
+        if (GameSettings.GameMode == GameMode.FFA)
         {
-            if(p.deaths>=killCount)
-            {
-                detectWin = true;
-                break;
-            }
+            detectWin = FFAWin();
+        }
+        if (GameSettings.GameMode == GameMode.TDM)
+        {
+            detectWin = TDMWin();
         }
 
-        if(detectWin)
+
+
+        if (detectWin)
         {
             if(PhotonNetwork.IsMasterClient && state!=GameState.Ending)
             {
@@ -357,13 +535,50 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         }
 
     }
+    private bool FFAWin()
+    {
+        bool detectWin = false;
+        foreach (PlayerInfo p in playerInfo)
+        {
+            if (p.deaths >= killCount)
+            {
+                detectWin = true;
+                break;
+            }
+        }
+        return detectWin;
+    }
+    private bool TDMWin()
+    {
+        bool detectWin = false;
+        if(homeScore>=teamKillCount||awayScore>=teamKillCount)
+        {
+            detectWin = true;
+        }
+        return detectWin;
+    }
+
+
+    private void InitializeTimer()
+    {
+        currentMatchTime = matchLength;
+        RefreshTimerUI();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            timerCoroutine = StartCoroutine(Timer());
+        }
+    }
 
     private void EndGame()
     {
         state = GameState.Ending;
         //Destroy(RoomManager.Instance.gameObject);
+        if (timerCoroutine != null) StopCoroutine(timerCoroutine);
+        currentMatchTime = 0;
+        RefreshTimerUI();
 
-        
+
+
         if (PhotonNetwork.IsMasterClient)
         {
             
@@ -395,6 +610,23 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         PhotonNetwork.LoadLevel(0);
         
       
+    }
+
+    private IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(1f);
+        currentMatchTime -= 1;
+        if(currentMatchTime<=0)
+        {
+            timerCoroutine = null;
+            UpdatePlayers_S((int)GameState.Ending, playerInfo);
+        }
+        else
+        {
+            RefreshTimer_S();
+            timerCoroutine = StartCoroutine(Timer());
+        }
+
     }
     public override void OnLeftRoom()
     {
