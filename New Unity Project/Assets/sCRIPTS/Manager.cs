@@ -48,6 +48,9 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     public Transform ScoreBoardUI;
     public TMP_Text TimerUI;
     public Transform EndGameUI;
+    public TMP_Text HomeScore;
+    public TMP_Text AwayScore;
+    public TMP_Text FFAScore;
     public int matchLength = 180;
     private Coroutine timerCoroutine;
     private int currentMatchTime;
@@ -97,6 +100,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         
         NewPlayer_S();
         InitializeTimer();
+        RefreshStats();
     }
 
     // Update is called once per frame
@@ -474,7 +478,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         Debug.Log($"Player {playerInfo[i].name} : deaths = {playerInfo[i].deaths}");
                         break;
                 }
-                
+
+                RefreshStats();
                 if (ScoreBoardUI.gameObject.activeSelf) ScoreBoard(ScoreBoardUI);
 
                 break;
@@ -509,6 +514,34 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             EndGame();
         }
+    }
+
+    public void RefreshStats()
+    {
+        if (GameSettings.GameMode != GameMode.FFA)
+        {
+            HomeScore.gameObject.SetActive(true);
+            AwayScore.gameObject.SetActive(true);
+            HomeScore.text = $"Home {homeScore}";
+            AwayScore.text = $"Away {awayScore}";
+        }
+        else
+        {
+            FFAScore.gameObject.SetActive(true);
+            if (playerInfo.Count > myind)
+            {
+                
+                FFAScore.text = $"Kills {playerInfo[myind].kills}";
+            }
+            else
+            {
+                
+                FFAScore.text = "Kills 0";
+            }
+           
+        }
+
+
     }
 
     private void ScoreCheck()
@@ -551,8 +584,14 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     private bool TDMWin()
     {
         bool detectWin = false;
-        if(homeScore>=teamKillCount||awayScore>=teamKillCount)
+        if(homeScore>=teamKillCount)
         {
+            EndGameUI = gameObject.transform.GetChild(0).GetChild(4);
+            detectWin = true;
+        }
+        if(awayScore >= teamKillCount)
+        {
+            EndGameUI = gameObject.transform.GetChild(0).GetChild(3);
             detectWin = true;
         }
         return detectWin;
@@ -589,12 +628,20 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         }
       
         StartCoroutine(End(5f));
-        
 
-        ScoreBoardUI.gameObject.SetActive(true);
-        ScoreBoard(ScoreBoardUI);
+        if (GameSettings.GameMode == GameMode.FFA)
+        {
+            ScoreBoardUI.gameObject.SetActive(true);
+            ScoreBoard(ScoreBoardUI);
+        }
+        if (GameSettings.GameMode == GameMode.TDM)
+        {
+            ScoreBoardUI.gameObject.SetActive(true);
+            ScoreBoard(EndGameUI);
+        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
-       
 
     }
 

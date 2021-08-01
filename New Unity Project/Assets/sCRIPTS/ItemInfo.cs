@@ -9,4 +9,5 @@ public class ItemInfo : ScriptableObject
     public Vector3 itemPosition;
     public Vector3 itemRotation;
     public Vector3 itemScale;
+    public AudioClip itemSound;
 }

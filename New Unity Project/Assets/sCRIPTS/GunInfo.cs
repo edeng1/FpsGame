@@ -14,6 +14,7 @@ public class GunInfo : ItemInfo
     public int totalAmmo;
     public int clipSize;
     public float reloadTime;
+   
 
     
 

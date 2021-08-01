@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
             
             anim = GetComponent<Animator>();
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         else
         {
