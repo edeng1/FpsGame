@@ -32,7 +32,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject playerListItemPrefab;
     [SerializeField] GameObject startGameButton;
     [SerializeField] RoomManager roomManagerPrefab;
-
+    [SerializeField] public Camera mainCamera;
     public MapData[] maps;
     private int currentMap = 0;
 
@@ -117,11 +117,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+
         inRoom = true;
         MenuManager.instance.OpenMenu("Room");
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         Debug.Log("Joined Room "+ PhotonNetwork.CurrentRoom.Name);
-
+        
         Player[] players = PhotonNetwork.PlayerList;
         foreach(Transform child in playerListContent)
         {

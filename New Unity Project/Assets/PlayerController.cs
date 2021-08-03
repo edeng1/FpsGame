@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     Vector3 moveAmount;
     private Vector3 realPosition = Vector3.zero;
     public Animator anim;
+    [SerializeField] Pause pauseM;
     bool isSprinting;
     public bool die = false;
     private float lastTime;
@@ -64,6 +65,10 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             EquipItem(0);
 
+            if (!PlayerPrefs.HasKey("sens"))
+            {
+                PlayerPrefs.SetFloat("sens", mouseSensitivity);
+            }
             
             anim = GetComponent<Animator>();
             Cursor.lockState = CursorLockMode.Locked;
@@ -92,39 +97,36 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             Die();
             die = false;
         }
-        Look();
-        Move();
-        Jump();
-        Reload();
-        Sprint();
+        bool pause = Input.GetKeyDown(KeyCode.Escape);
+
+        if(pause)
+        {
+           pauseM.TogglePause();
+        }
+        if(pauseM){
+            if (!pauseM.paused)
+            {
+                Look();
+                Move();
+                Jump();
+                Reload();
+                Sprint();
+                SwitchWeapon();
+                Shoot();
+            }
+        }
+
+        if(mouseSensitivity!=PlayerPrefs.GetFloat("sens"))
+        {
+            mouseSensitivity = PlayerPrefs.GetFloat("sens");
+        }
+
         HealthUI(currentHealth);
         AmmoUI();
-        for (int i=0; i < items.Length; i++)
-        {
-            if (Input.GetKeyDown((i + 1).ToString()))
-            {
-                EquipItem(i);
-                break;
-            }
-        }
+        
         
 
-        var gunInfo = ((GunInfo)items[itemIndex].itemInfo);
-        if (gunInfo.fullyAuto == false)
-        {
-            if (Input.GetMouseButtonDown(0) && !isSprinting)
-            {
-                items[itemIndex].Use();
-            }
-        }
-        else
-        {
-            if (Input.GetMouseButton(0) &&Time.time>=nextTimeToFire && !isSprinting)
-            {
-                nextTimeToFire = Time.time + 1f / gunInfo.fireRate;
-                items[itemIndex].Use();
-            }
-        }
+        
 
 
 
@@ -187,6 +189,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
     }
 
+
     void EquipItem(int _index)
     {
         if (_index == previousItemIndex)
@@ -207,6 +210,38 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             Hashtable hash = new Hashtable();
             hash.Add("itemIndex", itemIndex);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+    }
+
+    void SwitchWeapon()
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (Input.GetKeyDown((i + 1).ToString()))
+            {
+                EquipItem(i);
+                break;
+            }
+        }
+    }
+
+    void Shoot()
+    {
+        var gunInfo = ((GunInfo)items[itemIndex].itemInfo);
+        if (gunInfo.fullyAuto == false)
+        {
+            if (Input.GetMouseButtonDown(0) && !isSprinting)
+            {
+                items[itemIndex].Use();
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButton(0) && Time.time >= nextTimeToFire && !isSprinting)
+            {
+                nextTimeToFire = Time.time + 1f / gunInfo.fireRate;
+                items[itemIndex].Use();
+            }
         }
     }
 
