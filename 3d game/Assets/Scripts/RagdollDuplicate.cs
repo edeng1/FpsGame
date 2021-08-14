@@ -44,5 +44,7 @@ public class RagdollDuplicate : MonoBehaviour
      
             CopyTransformData(source, destination);
         }
+        
+       // CopyTransformData(source, destination);
     }
 }

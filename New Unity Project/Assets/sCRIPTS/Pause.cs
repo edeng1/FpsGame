@@ -14,6 +14,7 @@ public class Pause : MonoBehaviour
     private void Start()
     {
         if (PlayerPrefs.HasKey("sens")) { sensSlider.value = PlayerPrefs.GetFloat("sens"); }
+        Debug.Log(PlayerPrefs.GetFloat("sens"));
         
     }
     public void TogglePause()

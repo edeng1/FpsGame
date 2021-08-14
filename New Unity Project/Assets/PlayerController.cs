@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     int itemIndex;
     int previousItemIndex=-1;
 
-
+    public CharacterController controller;
     public bool awayTeam;
     public float verticalLookRotation;
     bool isGrounded;
@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     [SerializeField] TMP_Text ammoUI;
     public bool isDead;
     public float pointIncreasePerSecond = 5f;
-
+    //Vector3 move;
     public Transform playerBody;
-
+    Vector3 velocity;
     Rigidbody rb;
-
+    const float GRAVITY = -9.81f;
     PhotonView PV;
 
     [SerializeField] private GameObject ragdollModel;
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             if (!pauseM.paused)
             {
                 Look();
-                Move();
+                //Move();
                 Jump();
                 Reload();
                 Sprint();
@@ -159,8 +159,47 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         anim.SetFloat("PosY", y);
         anim.SetFloat("PosX", x);
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
+        
 
-     
+        
+
+        
+
+    }
+    void MoveController()
+    {
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
+        Vector3 move = (transform.right * x + transform.forward * y);
+        if (move.magnitude > 1)
+        {
+            move /= move.magnitude;
+        }
+        anim.SetFloat("PosY", y);
+        anim.SetFloat("PosX", x);
+        controller.Move(move * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed) * Time.deltaTime);
+        velocity.y += GRAVITY * Time.deltaTime;
+
+        controller.Move(velocity * Time.deltaTime);
+
+    }
+    private void FixedUpdate()
+    {
+
+        if (!PV.IsMine)
+        {
+            return;
+        }
+        MoveController();
+        //rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+
+
+        //rb.MovePosition(Vector3.Lerp(transform.position, realPosition, Time.fixedDeltaTime / (1 / 30)));
+
     }
     void Sprint()
     {
@@ -271,19 +310,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
      }
 
-    private void FixedUpdate()
-    {
-
-        if (!PV.IsMine)
-        {
-            return;
-        }
-        rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
-        
-        
-           //rb.MovePosition(Vector3.Lerp(transform.position, realPosition, Time.fixedDeltaTime / (1 / 30)));
-        
-    }
+    
 
     public void TakeDamage(float damage, int actorNumber)
     {
@@ -341,7 +368,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             
             isDead = true;
-
+            //GetComponentInChildren<Camera>().gameObject.SetActive(false);
             PV.RPC("ToggleDead", RpcTarget.All);
 
             playerManager.StartCoroutine(playerManager.Die());
@@ -364,8 +391,9 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     public void ToggleDead()
     {
         CopyTransformData(sourceTransform: normalModel.transform, destinationTransform: ragdollModel.transform);
-        ragdollModel.gameObject.SetActive(true);
         normalModel.gameObject.SetActive(false);
+        ragdollModel.gameObject.SetActive(true);
+        
     }
 
     private void CopyTransformData(Transform sourceTransform, Transform destinationTransform)
@@ -382,7 +410,10 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             destination.position = source.position;
             destination.rotation = source.rotation;
             var rb = destination.GetComponent<Rigidbody>();
-
+            if (rb != null)
+            {
+                rb.velocity =new Vector3(0,0,0);
+            }
 
             CopyTransformData(source, destination);
         }

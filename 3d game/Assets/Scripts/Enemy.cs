@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     public Transform wallDetect;
     public float timeUntilMove = 5f;
     public float HP = 100f;
-
+    bool chaseFlag = true;
 
     Vector3 lastPos;
     public Animator anim;
@@ -62,10 +62,14 @@ public class Enemy : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-
+       
         if (_navMeshAgent == null)
         {
             Debug.LogError("Nav mesh agent not attached to" + gameObject.name);
+        }
+        if (chaseFlag)
+        {
+            ChaseFlag();
         }
         else
         {
@@ -118,6 +122,10 @@ public class Enemy : MonoBehaviour
     private void ChasePlayer()
     {
         _navMeshAgent.SetDestination(player.position);
+    }
+    private void ChaseFlag()
+    {
+        _navMeshAgent.SetDestination(FindObjectOfType<Flag>().transform.position);
     }
 
     void OnDrawGizmosSelected()

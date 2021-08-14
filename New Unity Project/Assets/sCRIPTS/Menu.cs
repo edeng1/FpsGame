@@ -9,13 +9,14 @@ public class Menu : MonoBehaviour
     
     public void Open()
     {
-        Vector3 temp = transform.localScale;
+        
         if (menuName == "Room"|| menuName=="Find")
         {
-            LeanTween.moveZ(Launcher.instance.mainCamera.gameObject, 19.5f, .5f);
-            temp = transform.localScale;
-            transform.localScale = new Vector3(0, 0, 0);
-            LeanTween.scale(gameObject, new Vector3(1, 1, 1), .5f);
+            ZoomIn();
+        }
+       if(menuName=="Title")
+        {
+            ZoomOut();
         }
         
         open = true;
@@ -26,5 +27,20 @@ public class Menu : MonoBehaviour
     {
         open = false;
         gameObject.SetActive(false);
+    }
+
+    public void ZoomIn()
+    {
+        Vector3 temp = transform.localScale;
+        LeanTween.moveZ(Launcher.instance.mainCamera.gameObject, 19.5f, .5f);
+        temp = transform.localScale;
+        transform.localScale = new Vector3(0, 0, 0);
+        LeanTween.scale(gameObject, new Vector3(1, 1, 1), .5f);
+    }
+    public void ZoomOut()
+    {
+        
+        LeanTween.moveZ(Launcher.instance.mainCamera.gameObject, 16f, .5f);
+       
     }
 }

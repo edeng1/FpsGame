@@ -44,7 +44,13 @@ public class PlayerManager : MonoBehaviour
     void CreateController()
     {
         Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
+        if (GameSettings.GameMode == GameMode.FFA)
+        {
+            spawnPoint = SpawnManager.Instance.GetSpawnPoint();
+        }
+        
         controller=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnPoint.position, spawnPoint.rotation, 0,new object[] { PV.ViewID});
+        controller.GetComponent<PhotonView>().Owner.TagObject = controller;
         controller.GetComponent<PlayerController>().isDead = false;
         
        

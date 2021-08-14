@@ -14,16 +14,18 @@ public class PlayerInfo
     public string name;
     public short kills;
     public short deaths;
+    public short flagCaps;
     public bool awayTeam;
 
 
 
-    public PlayerInfo( int a, short k, short d, string n,bool t)
+    public PlayerInfo( int a, short k, short d, short fc, string n,bool t)
     {
         
         this.actor = a;
         this.kills = k;
         this.deaths = d;
+        this.flagCaps = fc;
         this.name = n;
         this.awayTeam = t;
     }
@@ -42,9 +44,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public static Manager Instance;
     public List<PlayerInfo> playerInfo = new List<PlayerInfo>();
+    public List<GameObject> playerList = new List<GameObject>();
     
     public int myind;
-    
+    public Transform flag;
     public Transform ScoreBoardUI;
     public TMP_Text TimerUI;
     public Transform EndGameUI;
@@ -70,7 +73,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         UpdatePlayers,
         ChangeStat,
         NewMatch,
-        RefreshTimer
+        RefreshTimer,
+        FlagPickup
     }
 
 
@@ -127,7 +131,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
             foreach(PlayerInfo p in playerInfo)
             {
-                Debug.Log("Actor: "+p.actor + " Kills: "+p.kills+" Deaths:"+p.deaths+Random.Range(0,110));
+                Debug.Log("Actor: "+p.actor + " Kills: "+p.kills+" Deaths:"+p.deaths+" FlagCaps"+p.flagCaps);
             }
             
         }
@@ -322,6 +326,9 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             case EventCodes.RefreshTimer:
                 RefreshTimer_R(o);
                 break;
+            case EventCodes.FlagPickup:
+                FlagPickUp_R(o);
+                break;
 
 
         }
@@ -341,8 +348,9 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         package[0] = PhotonNetwork.LocalPlayer.ActorNumber;
         package[1] = (short)0;
         package[2] = (short)0;
-        package[3] = PhotonNetwork.LocalPlayer.NickName;
-        package[4] = CalculateTeam();
+        package[3] = (short)0;
+        package[4] = PhotonNetwork.LocalPlayer.NickName;
+        package[5] = CalculateTeam();
        
 
         PhotonNetwork.RaiseEvent(
@@ -359,16 +367,22 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             (int)data[0],
             (short)data[1],
             (short)data[2],
-            (string)data[3],
-            (bool)data[4]
+            (short)data[3],
+
+            (string)data[4],
+            (bool)data[5]
 
         );
 
         playerInfo.Add(p);
 
         RoomManager.Instance.getPlayerManager().TrySync();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            FlagManager.Instance.TrySync();
+        }
 
-        UpdatePlayers_S((int)state,playerInfo);
+            UpdatePlayers_S((int)state,playerInfo);
     }
 
     public void UpdatePlayers_S(int state, List<PlayerInfo> info)
@@ -378,14 +392,15 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         package[0] = state;
         for (int i = 0; i < info.Count; i++)
         {
-            object[] piece = new object[5];
+            object[] piece = new object[6];
 
            
             piece[0] = info[i].actor;
             piece[1] = info[i].kills;
             piece[2] = info[i].deaths;
-            piece[3] = info[i].name;
-            piece[4] = info[i].awayTeam;
+            piece[3] = info[i].flagCaps;
+            piece[4] = info[i].name;
+            piece[5] = info[i].awayTeam;
             package[i+1] = piece;
         }
 
@@ -412,8 +427,9 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                 (int)extract[0],
                 (short)extract[1],
                 (short)extract[2],
-                (string)extract[3],
-                (bool)extract[4]
+                (short)extract[3],
+                (string)extract[4],
+                (bool)extract[5]
 
             );
 
@@ -477,6 +493,18 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         playerInfo[i].deaths += amt;
                         Debug.Log($"Player {playerInfo[i].name} : deaths = {playerInfo[i].deaths}");
                         break;
+                    case 2: //flag caps
+                        playerInfo[i].flagCaps += amt;
+                        if (playerInfo[i].awayTeam)
+                        {
+                            awayScore += amt;
+                        }
+                        if (!playerInfo[i].awayTeam)
+                        {
+                            homeScore += amt;
+                        }
+                        Debug.Log($"Player {playerInfo[i].name} : flag captures = {playerInfo[i].flagCaps}");
+                        break;
                 }
 
                 RefreshStats();
@@ -514,6 +542,21 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             EndGame();
         }
+    }
+    public void FlagPickUp_S(Object flag)
+    {
+        object[] package = new object[] { flag };
+        PhotonNetwork.RaiseEvent(
+           (byte)EventCodes.FlagPickup,
+           package,
+           new RaiseEventOptions { Receivers = ReceiverGroup.All },
+           new SendOptions { Reliability = true }
+       );
+    }
+    public void FlagPickUp_R(object[] data)
+    {
+        flag = (Transform)data[0];
+
     }
 
     public void RefreshStats()

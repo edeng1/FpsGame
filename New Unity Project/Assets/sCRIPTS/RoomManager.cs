@@ -158,7 +158,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
 
 
-    protected void OnApplicationQuit() { PhotonNetwork.Disconnect(); }
+    protected void OnApplicationQuit() { PhotonNetwork.Disconnect(); PlayerPrefs.SetFloat("sens", PlayerPrefs.GetFloat("sens")); PlayerPrefs.Save(); }
 
   
 
