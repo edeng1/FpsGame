@@ -102,8 +102,19 @@ public class PlayerManager : MonoBehaviour
         return controller.GetComponent<PlayerController>();
     }
 
+    public int getViewID(int actorNumber)
+    {
+        return PV.ViewID;
+    }
 
-
+    public void destroyGameObject()
+    {
+        Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        Destroy(controller);
+    }
 
 
 

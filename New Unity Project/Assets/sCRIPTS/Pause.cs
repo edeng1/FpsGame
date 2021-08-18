@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+
 public class Pause : MonoBehaviour
 {
     public bool paused = false;
@@ -51,6 +53,18 @@ public class Pause : MonoBehaviour
     public void Quit()
     {
         disconnecting = true;
+        //RoomManager.Instance.destroyPM();
+        Manager.Instance.PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber);
         SceneManager.LoadScene(0);
+        if (!PhotonNetwork.IsMasterClient) // when master client quits, the other clients will return to the same menu.
+        {
+            PhotonNetwork.LeaveRoom();
+            //Cursor.lockState = CursorLockMode.None;
+            //Cursor.visible = true;
+            
+        }
+
     }
+
+    
 }

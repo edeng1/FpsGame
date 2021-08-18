@@ -59,7 +59,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     private int currentMatchTime;
     public int mainMenuScene = 0;
     public int killCount = 3;
-    public int teamKillCount=4;
+    public int teamKillCount=1;
     public int awayScore=0;
     public int homeScore=0;
 
@@ -74,7 +74,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         ChangeStat,
         NewMatch,
         RefreshTimer,
-        FlagPickup
+        FlagPickup,
+        PlayerLeft
     }
 
 
@@ -99,6 +100,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         if (PhotonNetwork.IsMasterClient)
         {
             playerAdded = true;
+            GameSettings.IsAwayTeam = CalculateTeam();
             RoomManager.Instance.Spawn();
         }
         
@@ -131,7 +133,9 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
             foreach(PlayerInfo p in playerInfo)
             {
-                Debug.Log("Actor: "+p.actor + " Kills: "+p.kills+" Deaths:"+p.deaths+" FlagCaps"+p.flagCaps);
+                Debug.Log("Actor: "+p.actor + " Kills: "+p.kills+" Deaths:"+p.deaths+" FlagCaps"+p.flagCaps +"p.AwayTeam? "+p.awayTeam);
+                Debug.Log("My Actor "+PhotonNetwork.LocalPlayer.ActorNumber+" My GameSettings.AwayTeam "+GameSettings.IsAwayTeam);
+                
             }
             
         }
@@ -329,6 +333,9 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             case EventCodes.FlagPickup:
                 FlagPickUp_R(o);
                 break;
+            case EventCodes.PlayerLeft:
+                PlayerLeft_R(o);
+                break;
 
 
         }
@@ -336,8 +343,13 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private bool CalculateTeam()
     {
-        
-
+        Debug.Log(PhotonNetwork.PlayerList.Length);
+        if(PhotonNetwork.LocalPlayer.ActorNumber> PhotonNetwork.PlayerList.Length)//if player leaves then rejoins
+        {
+            Debug.Log("Calculated with PlayerListLength");
+            return PhotonNetwork.PlayerList.Length % 2 == 0;
+        }
+        Debug.Log("Calculated with ActorNum");
         return PhotonNetwork.LocalPlayer.ActorNumber % 2 == 0;
     }
 
@@ -379,10 +391,39 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         RoomManager.Instance.getPlayerManager().TrySync();
         if (PhotonNetwork.IsMasterClient)
         {
-            FlagManager.Instance.TrySync();
+            if(FindObjectOfType<FlagManager>())
+                FlagManager.Instance.TrySync();
         }
 
             UpdatePlayers_S((int)state,playerInfo);
+    }
+
+    public void PlayerLeft_S(int actorNumber)
+    {
+        object[] package = new object[1];
+
+        package[0] = PhotonNetwork.LocalPlayer.ActorNumber;
+        PhotonNetwork.RaiseEvent(
+           (byte)EventCodes.PlayerLeft,
+           package,
+           new RaiseEventOptions { Receivers = ReceiverGroup.MasterClient },
+           new SendOptions { Reliability = true }
+       );
+    }
+
+    public void PlayerLeft_R(object[] data)
+    {
+
+        foreach(PlayerInfo p in playerInfo)
+        {
+            if (p.actor.Equals((int)data[0]))
+            {
+                playerInfo.Remove(p);
+                break;
+            }
+        }
+        UpdatePlayers_S((int)state,playerInfo);
+        
     }
 
     public void UpdatePlayers_S(int state, List<PlayerInfo> info)
@@ -629,12 +670,12 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         bool detectWin = false;
         if(homeScore>=teamKillCount)
         {
-            EndGameUI = gameObject.transform.GetChild(0).GetChild(4);
+            EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
             detectWin = true;
         }
         if(awayScore >= teamKillCount)
         {
-            EndGameUI = gameObject.transform.GetChild(0).GetChild(3);
+            EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
             detectWin = true;
         }
         return detectWin;
@@ -681,6 +722,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             ScoreBoardUI.gameObject.SetActive(true);
             ScoreBoard(EndGameUI);
+            //EndGameUI.gameObject.SetActive(true);
         }
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -695,9 +737,11 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
 
         //PhotonNetwork.LeaveRoom();
-        PhotonNetwork.AutomaticallySyncScene = false;
+
+        //PhotonNetwork.AutomaticallySyncScene = false;
         
-        PhotonNetwork.LoadLevel(0);
+        if(PhotonNetwork.IsMasterClient) //I changed this. please no break
+            PhotonNetwork.LoadLevel(0);
         
       
     }

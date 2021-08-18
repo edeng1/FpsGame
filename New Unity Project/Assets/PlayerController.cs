@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     Rigidbody rb;
     const float GRAVITY = -9.81f;
     PhotonView PV;
+    private int actorNumber;
 
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     private void Awake()
     {
+        actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         isDead = false;
         isSprinting = false;
         rb = GetComponent<Rigidbody>();
@@ -437,6 +439,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     public bool getAwayTeam()
     {
         return awayTeam;
+    }
+
+    public int getActorNumber()
+    {
+        return actorNumber;
     }
 
 

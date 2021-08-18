@@ -12,6 +12,7 @@ public class Flag : MonoBehaviour
     public Transform FlagSpawn;
     public bool atHomeBase = true;
     public bool playerHasFlag = false;
+   
     
     GameObject go;
     Vector3 flagPos = new Vector3(0, 0, 0);
@@ -23,7 +24,7 @@ public class Flag : MonoBehaviour
     }
     private void Start()
     {
-        Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
+        
         if (gameObject.CompareTag("Away")) { awayFlag = true; }
         FlagSpawn = transform.parent;
         transform.position = FlagSpawn.position;
@@ -62,14 +63,14 @@ public class Flag : MonoBehaviour
 
 
             }
-            else
+            else //If the flag is your teams, and not at the homebase and the enemy player isnt holding it.
             {
                 if (atHomeBase == false && playerHasFlag == false)
                 {
 
 
 
-                    PV.RPC("RPC_ReturnFlag", RpcTarget.All);
+                    PV.RPC("RPC_ReturnFlag", RpcTarget.All); //returns flag to homebase
 
 
                 }
@@ -110,7 +111,15 @@ public class Flag : MonoBehaviour
 
     public void ScoreFlag()
     {
-        PV.RPC("RPC_ScoreFlag", RpcTarget.All);
+        if (PV.IsMine)
+        {
+            
+            Manager.Instance.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 2, 1);
+            
+            PV.RPC("RPC_ScoreFlag", RpcTarget.All);
+            //isCapped = false;
+        }
+       
     }
 
     [PunRPC]
@@ -119,14 +128,14 @@ public class Flag : MonoBehaviour
         atHomeBase = true;
         transform.parent = FlagSpawn;
         transform.position = FlagSpawn.position;
-        Manager.Instance.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 2, 1);
+        
     }
 
 
 
 
 
-    public void TrySync()
+    public void TrySync()//Called in FlagManager, which is called in Manager by the Master Client whenever a NewPlayer joins the game. Syncs flag positions and parents for the new player.
     {
         if (transform.parent == null)
         {

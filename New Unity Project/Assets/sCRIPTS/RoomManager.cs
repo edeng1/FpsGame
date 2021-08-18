@@ -14,11 +14,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public static RoomManager Instance;
     GameObject PM;
+    public List<PlayerManager> playerManagers;
     PhotonView PV;
     public GameObject launcher;
     private void Awake()
     {
-        
+        playerManagers = new List<PlayerManager>();
         if(Instance)
         {
             Destroy(gameObject);
@@ -71,8 +72,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
            
         }
-        if (scene.buildIndex == 0&&Launcher.inRoom)
+        if (scene.buildIndex == 0&& PhotonNetwork.InRoom)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             Launcher.instance.OnJoinedRoom();
             if (PV.IsMine)
             {
@@ -81,13 +84,24 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                 
             }
-            
+            Debug.Log("Im ready");
+
+        }
+        if (scene.buildIndex == 0 && !PhotonNetwork.InRoom)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Launcher.instance.OnLeftRoom();
+
+
 
         }
     }
     public void Spawn()
     {
+        
         PM=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
+        playerManagers.Add(PM.GetComponent<PlayerManager>());
         //Manager.Instance.NewPlayer_S();
     }
 
@@ -156,7 +170,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     }
 
-
+    public void destroyPM()
+    {
+        PM.GetComponent<PlayerManager>().destroyGameObject();
+    }
 
     protected void OnApplicationQuit() { PhotonNetwork.Disconnect(); PlayerPrefs.SetFloat("sens", PlayerPrefs.GetFloat("sens")); PlayerPrefs.Save(); }
 
@@ -165,6 +182,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (AllPlayersReady())
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Debug.Log("All Players Ready");
+                Debug.Log("Sync scene? "+PhotonNetwork.AutomaticallySyncScene);
+            }
+        }
         if(AllPlayersReady()&& !PhotonNetwork.AutomaticallySyncScene)
         {
             PhotonNetwork.AutomaticallySyncScene = true;

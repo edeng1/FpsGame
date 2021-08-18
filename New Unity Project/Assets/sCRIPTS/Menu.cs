@@ -1,27 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
     public string menuName;
     public bool open;
+    public Camera mainCam;
     
+
     public void Open()
     {
-        
-        if (menuName == "Room"|| menuName=="Find")
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            ZoomIn();
+
+
+            if (menuName == "Room" || menuName == "Find")
+            {
+                ZoomIn();
+
+            }
+            if (menuName == "Title")
+            {
+                ZoomOut();
+
+            }
+
+            open = true;
+
+            gameObject.SetActive(true);
         }
-       if(menuName=="Title")
-        {
-            ZoomOut();
-        }
-        
-        open = true;
-        
-        gameObject.SetActive(true);
     }
     public void Close()
     {
@@ -40,7 +48,12 @@ public class Menu : MonoBehaviour
     public void ZoomOut()
     {
         
-        LeanTween.moveZ(Launcher.instance.mainCamera.gameObject, 16f, .5f);
+        if (mainCam != null)
+        {
+            //LeanTween.moveZ(Launcher.instance.mainCamera.gameObject, 16f, .5f);
+            LeanTween.moveZ(mainCam.gameObject, 16f, .5f);
+        }
        
+
     }
 }
