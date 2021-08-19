@@ -19,14 +19,15 @@ public class Flag : MonoBehaviour
     PlayerController playerController;
     private void Awake()
     {
-        
+        FlagSpawn = transform.parent;
         PV = GetComponent<PhotonView>();
     }
     private void Start()
     {
-        
+        Debug.Log(transform.parent+" "+FlagSpawn);
+
         if (gameObject.CompareTag("Away")) { awayFlag = true; }
-        FlagSpawn = transform.parent;
+        
         transform.position = FlagSpawn.position;
     }
     private void Update()
@@ -137,6 +138,7 @@ public class Flag : MonoBehaviour
 
     public void TrySync()//Called in FlagManager, which is called in Manager by the Master Client whenever a NewPlayer joins the game. Syncs flag positions and parents for the new player.
     {
+        if (FlagSpawn == null) { FlagSpawn = transform.parent; }
         if (transform.parent == null)
         {
             PV.RPC("SyncFlagOnGround", RpcTarget.All, flagPos);
