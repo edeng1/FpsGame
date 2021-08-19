@@ -148,8 +148,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
 
         //specify gamemode
-        if (GameSettings.GameMode == GameMode.FFA) scoreBoard = scoreBoard.GetChild(3);//FFA
-        if (GameSettings.GameMode == GameMode.TDM) scoreBoard = scoreBoard.GetChild(4);//TDM
+        if (GameSettings.GameMode == GameMode.FFA) { scoreBoard = scoreBoard.GetChild(3); }//FFA
+        if (GameSettings.GameMode == GameMode.TDM) { scoreBoard = scoreBoard.GetChild(4); }//TDM
 
         for (int i=2; i<scoreBoard.childCount;i++)
         {

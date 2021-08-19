@@ -124,8 +124,27 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
     }
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)//When Gamemode or Map is changed in game options, this sends it to all the clients.
+    {
+        foreach(var p in propertiesThatChanged)
+        {
+            Debug.Log(p.Key);
+        }
+        if (propertiesThatChanged.ContainsKey("map")){
+            currentMap = (int)propertiesThatChanged["map"];
+        }
+        if (propertiesThatChanged.ContainsKey("mode"))
+        {
+           int modeNum= (int)propertiesThatChanged["mode"];
+            GameSettings.GameMode = (GameMode)modeNum;
+        }
 
-   
+        Debug.Log(propertiesThatChanged);
+
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+    }
+
+
 
     public void ChangeMap()
     {
