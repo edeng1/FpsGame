@@ -52,13 +52,15 @@ public class SingeShotGun : Gun
     }
 
     void Shoot()
-    {
+    {   
+        if (isReloading) { return; }
         if (clip > 0)
         {
             clip--;
         }
         else
         {
+
             StartCoroutine(Reload());
             return;
         }
@@ -171,15 +173,22 @@ public class SingeShotGun : Gun
 
     public IEnumerator Reload()
     {
-        isReloading = true;
-        yield return new WaitForSeconds(gi.reloadTime - .25f);
-        stash += clip;
-        clip = Mathf.Min(gi.clipSize, stash);
-        stash -= clip;
-        
+        if (stash > 0&&clip<gi.clipSize)
+        {
 
-        yield return new WaitForSeconds(.25f);
-        isReloading = false;
+            isReloading = true;
+            player.anim.SetBool("isReloading", isReloading);
+            yield return new WaitForSeconds(gi.reloadTime - .25f);
+            stash += clip;
+            clip = Mathf.Min(gi.clipSize, stash);
+            stash -= clip;
+
+
+            yield return new WaitForSeconds(.25f);
+            isReloading = false;
+            player.anim.SetBool("isReloading", isReloading);
+        }
+
     }
 
 
@@ -188,6 +197,10 @@ public class SingeShotGun : Gun
 
     }
 
+    public bool IsReloading()
+    {
+        return isReloading;
+    }
     public int GetStash() { return stash; }
     public int GetClip() { return clip; }
 }

@@ -59,7 +59,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     private int currentMatchTime;
     public int mainMenuScene = 0;
     public int killCount = 3;
-    public int teamKillCount=1;
+    public int teamKillCount=4;
     public int awayScore=0;
     public int homeScore=0;
 
@@ -97,6 +97,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     // Start is called before the first frame update
     void Start()
     {
+        
         if (PhotonNetwork.IsMasterClient)
         {
             playerAdded = true;
@@ -112,11 +113,16 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     // Update is called once per frame
     void Update()
     {
+        
+
         if(state==GameState.Ending)
         {
             return;
         }
-
+        if (playerAdded == true&&state==GameState.Waiting)
+        {
+            state = GameState.Playing;
+        }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if(playerInfo==null)
@@ -526,7 +532,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         {
                             homeScore += amt;
                         }
-                        Debug.Log($"Player {playerInfo[i].name} : kills = {playerInfo[i].kills}");
+                        Debug.Log($"Player {playerInfo[i].name} : kills = {playerInfo[i].kills} :actor = {actor}");
                         
                         break;
 
@@ -544,7 +550,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         {
                             homeScore += amt;
                         }
-                        Debug.Log($"Player {playerInfo[i].name} : flag captures = {playerInfo[i].flagCaps}");
+                        Debug.Log($"Player {playerInfo[i].name} : flag captures = {playerInfo[i].flagCaps} :actor = {actor} :LocalActorNum: {PhotonNetwork.LocalPlayer.ActorNumber}");
                         break;
                 }
 
@@ -678,6 +684,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
             detectWin = true;
         }
+        
         return detectWin;
     }
 
@@ -691,7 +698,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             timerCoroutine = StartCoroutine(Timer());
         }
     }
-
+    public GameState getState()
+    {
+        return state;
+    }
     private void EndGame()
     {
         state = GameState.Ending;
@@ -738,10 +748,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         //PhotonNetwork.LeaveRoom();
 
-        //PhotonNetwork.AutomaticallySyncScene = false;
+        PhotonNetwork.AutomaticallySyncScene = false;
         
-        if(PhotonNetwork.IsMasterClient) //I changed this. please no break
-            PhotonNetwork.LoadLevel(0);
+        //if(PhotonNetwork.IsMasterClient) //I changed this. please no break
+        PhotonNetwork.LoadLevel(0);
         
       
     }

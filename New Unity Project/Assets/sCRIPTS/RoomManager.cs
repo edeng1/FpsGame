@@ -17,6 +17,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public List<PlayerManager> playerManagers;
     PhotonView PV;
     public GameObject launcher;
+    
     private void Awake()
     {
         playerManagers = new List<PlayerManager>();
@@ -31,9 +32,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         
         Instance = this;
         PV = GetComponent<PhotonView>();
-        
+
         Hashtable hash = new Hashtable();
-        hash.Add("PlayerReady", true);
+        hash.Add("PlayerReady", false);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
 
 
@@ -74,6 +75,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         if (scene.buildIndex == 0&& PhotonNetwork.InRoom)
         {
+            
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Launcher.instance.OnJoinedRoom();
@@ -84,6 +86,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                 
             }
+            if (PhotonNetwork.IsMasterClient)
+            {
+
+            }
+
             Debug.Log("Im ready");
 
         }
@@ -92,10 +99,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Launcher.instance.OnLeftRoom();
-
+            
 
 
         }
+    }
+    private bool SceneSynced()
+    {
+        return PhotonNetwork.AutomaticallySyncScene;
     }
     public void Spawn()
     {
@@ -182,10 +193,27 @@ public class RoomManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0 && PhotonNetwork.InRoom)
+        {
+            Hashtable hash = new Hashtable();
+            hash.Add("PlayerReady", true);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+
+
         if (AllPlayersReady())
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
+                foreach (var photonPlayer in PhotonNetwork.PlayerList)
+                {
+                    Debug.Log((bool)photonPlayer.CustomProperties["PlayerReady"]);
+                    
+                        
+                    
+
+
+                }
                 Debug.Log("All Players Ready");
                 Debug.Log("Sync scene? "+PhotonNetwork.AutomaticallySyncScene);
             }

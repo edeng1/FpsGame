@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     Vector3 velocity;
     Rigidbody rb;
     const float GRAVITY = -9.81f;
+    const float fallSpeed = 7f;
     PhotonView PV;
     private int actorNumber;
 
@@ -170,6 +171,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     }
     void MoveController()
     {
+        
+        
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
@@ -184,7 +187,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         anim.SetFloat("PosY", y);
         anim.SetFloat("PosX", x);
         controller.Move(move * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed) * Time.deltaTime);
-        velocity.y += GRAVITY * Time.deltaTime;
+        velocity.y += GRAVITY*fallSpeed * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
 
@@ -220,6 +223,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         if(Input.GetKey(KeyCode.R))
         {
             items[itemIndex].StartCoroutine(((SingeShotGun)items[itemIndex]).Reload());
+           
         }
     }
     void Jump()

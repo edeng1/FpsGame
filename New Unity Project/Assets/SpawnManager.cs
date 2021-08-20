@@ -8,7 +8,9 @@ public class SpawnManager : MonoBehaviour
     SpawnPoint[] spawnPoints;
     List<SpawnPoint> homeSpawn;
     List<SpawnPoint> awaySpawn;
-    
+    [SerializeField] List<SpawnPoint> homeStartSpawn;
+    [SerializeField] List<SpawnPoint> awayStartSpawn;
+
     private void Awake()
     {
         Instance = this;
@@ -21,7 +23,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (GameSettings.GameMode == GameMode.TDM)
         {
-          
+           
             homeSpawn = new List<SpawnPoint>();
             awaySpawn = new List<SpawnPoint>();
             foreach (SpawnPoint sp in spawnPoints)
@@ -49,10 +51,16 @@ public class SpawnManager : MonoBehaviour
             
             if (GameSettings.IsAwayTeam)
             {
-                return awaySpawn[Random.Range(0,awaySpawn.Count)].transform;
+                
+                
+                return awaySpawn[Random.Range(0, awaySpawn.Count)].transform;
             }
             else
+            {
+               
                 return homeSpawn[Random.Range(0, homeSpawn.Count)].transform;
+            }
+                
         }
 
         return spawnPoints[Random.Range(0, spawnPoints.Length)].transform;

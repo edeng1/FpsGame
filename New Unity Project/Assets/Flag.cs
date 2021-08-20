@@ -112,14 +112,13 @@ public class Flag : MonoBehaviour
 
     public void ScoreFlag()
     {
-        if (PV.IsMine)
-        {
-            
+        
+            Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
             Manager.Instance.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 2, 1);
             
             PV.RPC("RPC_ScoreFlag", RpcTarget.All);
             //isCapped = false;
-        }
+        
        
     }
 
