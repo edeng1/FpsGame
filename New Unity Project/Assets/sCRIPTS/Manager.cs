@@ -684,6 +684,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
             detectWin = true;
         }
+        else
+        {
+            EndGameUI = gameObject.transform.GetChild(0).GetChild(0);
+        }
         
         return detectWin;
     }

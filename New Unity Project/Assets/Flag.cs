@@ -58,8 +58,8 @@ public class Flag : MonoBehaviour
                 go = player.TagObject as GameObject;
 
 
-                //Manager.Instance.FlagPickUp_S(other.transform as Object);
-                PV.RPC("RPC_PickUpFlag", RpcTarget.All, other.GetComponent<PhotonView>().ViewID);
+                if(transform.parent!=playerController)
+                    PV.RPC("RPC_PickUpFlag", RpcTarget.All, other.GetComponent<PhotonView>().ViewID);
 
 
 
@@ -89,7 +89,7 @@ public class Flag : MonoBehaviour
         playerHasFlag = true;
         transform.parent = PhotonView.Find(vID).transform;
         transform.position = transform.parent.position;
-
+        UIEventSystem.current.UIUpdateFlagPickUp(gameObject.tag+ " flag has been taken");
     }
 
     [PunRPC]
@@ -100,6 +100,7 @@ public class Flag : MonoBehaviour
         flagPos = transform.parent.position;
         transform.parent = null;
         transform.position = flagPos;
+        UIEventSystem.current.UIUpdateFlagDrop(gameObject.tag + " flag has been dropped");
     }
 
     [PunRPC]
@@ -108,6 +109,7 @@ public class Flag : MonoBehaviour
         atHomeBase = true;
         transform.parent = FlagSpawn;
         transform.position = FlagSpawn.position;
+        UIEventSystem.current.UIUpdateFlagReturn(gameObject.tag + " flag has been returned");
     }
 
     public void ScoreFlag()
@@ -117,9 +119,9 @@ public class Flag : MonoBehaviour
             Manager.Instance.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 2, 1);
             
             PV.RPC("RPC_ScoreFlag", RpcTarget.All);
-            //isCapped = false;
-        
-       
+            
+
+
     }
 
     [PunRPC]
@@ -128,7 +130,8 @@ public class Flag : MonoBehaviour
         atHomeBase = true;
         transform.parent = FlagSpawn;
         transform.position = FlagSpawn.position;
-        
+        UIEventSystem.current.UIUpdateFlagReturn(gameObject.tag + " flag has been scored");
+
     }
 
 

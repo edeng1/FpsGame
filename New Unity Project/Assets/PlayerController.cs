@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     private float nextTimeToFire = 0f;
     [SerializeField] TMP_Text healthUI;
     [SerializeField] TMP_Text ammoUI;
+    [SerializeField] TMP_Text eventUI;
     public bool isDead;
     public float pointIncreasePerSecond = 5f;
     //Vector3 move;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     const float fallSpeed = 7f;
     PhotonView PV;
     private int actorNumber;
+
 
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         walkSpeed *=transform.localScale.x;
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
         awayTeam = playerManager.awayTeam;
+
     }
     private void Start()
     {
@@ -84,7 +87,20 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
             
     }
-
+    private void OnEnable()
+    {
+        UIEventSystem.current.onFlagPickUp += EventUI;
+        UIEventSystem.current.onFlagDrop += EventUI;
+        UIEventSystem.current.onFlagReturn += EventUI;
+        UIEventSystem.current.onFlagCapture += EventUI;
+    }
+    private void OnDisable()
+    {
+        UIEventSystem.current.onFlagPickUp -= EventUI;
+        UIEventSystem.current.onFlagDrop -= EventUI;
+        UIEventSystem.current.onFlagReturn -= EventUI;
+        UIEventSystem.current.onFlagCapture -= EventUI;
+    }
     private void Update()
     {
         if (!PV.IsMine)
@@ -361,6 +377,26 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     }
 
+    void EventUI(string eventText)
+    {
+        StartCoroutine(DisplayEvent(eventText));
+    }
+
+    IEnumerator DisplayEvent(string eventText)
+    {
+        if (eventText.Substring(0, 4) == "Away")
+        {
+            eventUI.color = new Color32(236, 110, 10, 205);
+        }
+        else
+        {
+            eventUI.color =new Color32(87, 95, 197, 205);
+        }
+        eventUI.text = eventText;
+        yield return new WaitForSeconds(1f);
+        eventUI.text = "";
+    }
+
     void AmmoUI()
     {
         var gun= ((SingeShotGun)items[itemIndex]);
@@ -449,6 +485,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     {
         return actorNumber;
     }
+
 
 
 }
