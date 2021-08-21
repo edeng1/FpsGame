@@ -58,7 +58,7 @@ public class Flag : MonoBehaviour
                 go = player.TagObject as GameObject;
 
 
-                if(transform.parent!=playerController)
+                if(playerHasFlag==false)
                     PV.RPC("RPC_PickUpFlag", RpcTarget.All, other.GetComponent<PhotonView>().ViewID);
 
 

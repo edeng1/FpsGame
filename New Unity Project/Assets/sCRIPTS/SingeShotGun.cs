@@ -78,7 +78,7 @@ public class SingeShotGun : Gun
             {
                 applyDamage = true;
             }
-            if (GameSettings.GameMode == GameMode.TDM)
+            if (GameSettings.GameMode != GameMode.FFA)
             {
                 if (hit.collider.transform.root.GetComponent<IDamageable>()?.getAwayTeam() != GameSettings.IsAwayTeam)
                 {

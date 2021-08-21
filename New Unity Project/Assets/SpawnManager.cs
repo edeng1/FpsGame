@@ -21,7 +21,7 @@ public class SpawnManager : MonoBehaviour
     }
     private void SetupTDMSpawns()
     {
-        if (GameSettings.GameMode == GameMode.TDM)
+        if (GameSettings.GameMode != GameMode.FFA)
         {
            
             homeSpawn = new List<SpawnPoint>();
@@ -46,7 +46,7 @@ public class SpawnManager : MonoBehaviour
     }
     public Transform GetSpawnPoint()
     {
-        if(GameSettings.GameMode== GameMode.TDM)
+        if(GameSettings.GameMode!= GameMode.FFA)
         {
             
             if (GameSettings.IsAwayTeam)

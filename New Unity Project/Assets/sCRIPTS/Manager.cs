@@ -60,6 +60,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     public int mainMenuScene = 0;
     public int killCount = 3;
     public int teamKillCount=4;
+    public int teamFlagCount = 4;
     public int awayScore=0;
     public int homeScore=0;
 
@@ -97,7 +98,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     // Start is called before the first frame update
     void Start()
     {
-        
+        EndGameUI = ScoreBoardUI;
         if (PhotonNetwork.IsMasterClient)
         {
             playerAdded = true;
@@ -156,7 +157,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         //specify gamemode
         if (GameSettings.GameMode == GameMode.FFA) { scoreBoard = scoreBoard.GetChild(3); }//FFA
         if (GameSettings.GameMode == GameMode.TDM) { scoreBoard = scoreBoard.GetChild(4); }//TDM
-
+        if (GameSettings.GameMode == GameMode.CTF) { scoreBoard = scoreBoard.GetChild(5); }//CTF
         for (int i=2; i<scoreBoard.childCount;i++)
         {
             Destroy(scoreBoard.GetChild(i).gameObject);
@@ -176,7 +177,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             GameObject newCard = Instantiate(playerCard, scoreBoard) as GameObject;
 
-            if(GameSettings.GameMode==GameMode.TDM)
+            if(GameSettings.GameMode!=GameMode.FFA)
             {
                 
                 if (p.awayTeam)
@@ -200,6 +201,14 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             user.text = p.name.ToString();
             kills.text = p.kills.ToString();
             deaths.text = p.deaths.ToString();
+            if (GameSettings.GameMode == GameMode.CTF)
+            {
+                var caps= newCard.transform.Find("Caps").GetComponent<TMP_Text>();
+                caps.text = p.flagCaps.ToString();
+                if (p.actor.Equals(PhotonNetwork.LocalPlayer.ActorNumber)) { caps.color = Color.yellow; }
+
+            }
+
             if (p.actor.Equals(PhotonNetwork.LocalPlayer.ActorNumber))
             {
                 
@@ -251,7 +260,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
         }
 
-        if (GameSettings.GameMode == GameMode.TDM)
+        if (GameSettings.GameMode != GameMode.FFA)
         {
             List<PlayerInfo> homeSorted = new List<PlayerInfo>();
             List<PlayerInfo> awaySorted = new List<PlayerInfo>();
@@ -395,11 +404,15 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         playerInfo.Add(p);
 
         RoomManager.Instance.getPlayerManager().TrySync();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            if(FindObjectOfType<FlagManager>())
-                FlagManager.Instance.TrySync();
+        if (GameSettings.GameMode == GameMode.CTF) {
+            if (PhotonNetwork.IsMasterClient)
+            {
+
+                if (FindObjectOfType<FlagManager>())
+                    FlagManager.Instance.TrySync();
+            }
         }
+       
 
             UpdatePlayers_S((int)state,playerInfo);
     }
@@ -524,13 +537,16 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                 {
                     case 0: //kills
                         playerInfo[i].kills += amt;
-                        if(playerInfo[i].awayTeam)
+                        if (GameSettings.GameMode == GameMode.TDM)
                         {
-                            awayScore += amt;
-                        }
-                        if (!playerInfo[i].awayTeam)
-                        {
-                            homeScore += amt;
+                            if (playerInfo[i].awayTeam)
+                            {
+                                awayScore += amt;
+                            }
+                            if (!playerInfo[i].awayTeam)
+                            {
+                                homeScore += amt;
+                            }
                         }
                         Debug.Log($"Player {playerInfo[i].name} : kills = {playerInfo[i].kills} :actor = {actor}");
                         
@@ -542,13 +558,17 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         break;
                     case 2: //flag caps
                         playerInfo[i].flagCaps += amt;
-                        if (playerInfo[i].awayTeam)
+                        if (GameSettings.GameMode == GameMode.CTF)
                         {
-                            awayScore += amt;
-                        }
-                        if (!playerInfo[i].awayTeam)
-                        {
-                            homeScore += amt;
+                            
+                            if (playerInfo[i].awayTeam)
+                            {
+                                awayScore += amt;
+                            }
+                            if (!playerInfo[i].awayTeam)
+                            {
+                                homeScore += amt;
+                            }
                         }
                         Debug.Log($"Player {playerInfo[i].name} : flag captures = {playerInfo[i].flagCaps} :actor = {actor} :LocalActorNum: {PhotonNetwork.LocalPlayer.ActorNumber}");
                         break;
@@ -646,7 +666,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             detectWin = TDMWin();
         }
-
+        if (GameSettings.GameMode == GameMode.CTF)
+        {
+            detectWin = CTFWin();
+        }
 
 
         if (detectWin)
@@ -691,6 +714,26 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         
         return detectWin;
     }
+    private bool CTFWin()
+    {
+        bool detectWin = false;
+        if (homeScore >= teamFlagCount)
+        {
+            EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
+            detectWin = true;
+        }
+        if (awayScore >= teamFlagCount)
+        {
+            EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
+            detectWin = true;
+        }
+        else
+        {
+            EndGameUI = gameObject.transform.GetChild(0).GetChild(0);
+        }
+
+        return detectWin;
+    }
 
 
     private void InitializeTimer()
@@ -732,7 +775,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             ScoreBoardUI.gameObject.SetActive(true);
             ScoreBoard(ScoreBoardUI);
         }
-        if (GameSettings.GameMode == GameMode.TDM)
+        if (GameSettings.GameMode != GameMode.FFA)
         {
             ScoreBoardUI.gameObject.SetActive(true);
             ScoreBoard(EndGameUI);

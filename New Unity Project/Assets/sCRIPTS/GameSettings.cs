@@ -8,7 +8,8 @@ using UnityEngine;
 public enum GameMode
 {
     FFA=0,
-    TDM=1
+    TDM=1,
+    CTF=2
 }
 
 public enum GameMap

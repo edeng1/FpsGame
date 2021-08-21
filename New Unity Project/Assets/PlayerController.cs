@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
 
 
-        if (transform.position.y < -20f)
+        if (transform.position.y < -40f)
         {
             Die();
         }

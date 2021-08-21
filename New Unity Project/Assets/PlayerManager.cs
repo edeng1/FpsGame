@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour
 
         if (PV.IsMine)
         {
-            if (GameSettings.GameMode == GameMode.TDM)
+            if (GameSettings.GameMode != GameMode.FFA)
             {
                 PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
             }
@@ -79,7 +79,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (!PV.IsMine) return;
 
-        if (GameSettings.GameMode == GameMode.TDM)
+        if (GameSettings.GameMode != GameMode.FFA)
         {
             PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
         }
