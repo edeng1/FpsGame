@@ -63,7 +63,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     public int teamFlagCount = 4;
     public int awayScore=0;
     public int homeScore=0;
-
+    
     private bool playerAdded;
 
     private GameState state = GameState.Waiting;
@@ -114,9 +114,9 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     // Update is called once per frame
     void Update()
     {
-        
 
-        if(state==GameState.Ending)
+        
+        if (state==GameState.Ending)
         {
             return;
         }
@@ -510,6 +510,11 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
         }
         StateCheck();
+        if (homeScore > awayScore)
+            EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
+        if (awayScore > homeScore)
+            EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
+        else { EndGameUI = gameObject.transform.GetChild(0).Find("ScoreBoard"); }
     }
 
     public void ChangeStat_S(int actor, byte stat, byte amt)
@@ -809,6 +814,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         currentMatchTime -= 1;
         if(currentMatchTime<=0)
         {
+            
             timerCoroutine = null;
             UpdatePlayers_S((int)GameState.Ending, playerInfo);
         }

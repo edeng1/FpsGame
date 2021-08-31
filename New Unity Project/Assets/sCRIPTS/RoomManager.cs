@@ -8,11 +8,13 @@ using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Proyecto26;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
 
     public static RoomManager Instance;
+    public static PlayerData playerData;
     GameObject PM;
     public List<PlayerManager> playerManagers;
     PhotonView PV;
@@ -28,8 +30,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         
         DontDestroyOnLoad(gameObject);
+        Data.SaveToDatabase(new PlayerData());
+        LoadFromDataBase();
         
-        
+
         Instance = this;
         PV = GetComponent<PhotonView>();
 
@@ -39,9 +43,22 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
 
     }
+    public void LoadFromDataBase()
+    {
+        RestClient.Get<PlayerData>("https://multiplayer-game-258e6-default-rtdb.firebaseio.com/Player0000.json").Then(response =>
+        {
+
+            PhotonNetwork.NickName = response.username.ToString();
+        }).Catch(err => {
+            Debug.Log(err);
+
+        } ) ;
+
+        }
     void Start()
     {
         launcher = Launcher.instance.gameObject;
+        
     }
 
    public override void OnEnable()
@@ -96,8 +113,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         if (scene.buildIndex == 0 && !PhotonNetwork.InRoom)
         {
+            
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+
             Launcher.instance.OnLeftRoom();
             
 
@@ -193,6 +212,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        Launcher.instance.usernameText.text = "Username: "+Data.playerData.username;
+        PhotonNetwork.NickName = Data.playerData.username;
+        Launcher.instance.xpText.text = "XP: "+Data.playerData.xp.ToString();
         if (SceneManager.GetActiveScene().buildIndex == 0 && PhotonNetwork.InRoom)
         {
             Hashtable hash = new Hashtable();
@@ -214,13 +236,24 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
 
                 }
+                Debug.Log(Data.playerData.username + " LocalID"+Data.playerData.localId);
+                
                 Debug.Log("All Players Ready");
                 Debug.Log("Sync scene? "+PhotonNetwork.AutomaticallySyncScene);
             }
         }
+        if (!PhotonNetwork.IsMasterClient && !PhotonNetwork.AutomaticallySyncScene)
+        {
+            PhotonNetwork.AutomaticallySyncScene=true;
+
+        }
         if(AllPlayersReady()&& !PhotonNetwork.AutomaticallySyncScene)
         {
             PhotonNetwork.AutomaticallySyncScene = true;
+            if(PhotonNetwork.IsMasterClient)
+            {
+                SceneManager.LoadScene(0);
+            }
         }
     }
 }

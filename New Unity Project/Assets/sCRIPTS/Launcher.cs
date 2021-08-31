@@ -7,6 +7,7 @@ using Photon.Realtime;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using ExitGames.Client.Photon;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class MapData
@@ -21,6 +22,9 @@ public class Launcher : MonoBehaviourPunCallbacks
 
 
     public static RoomInfo currentRoomInfo;
+
+    [SerializeField] TMP_InputField usernameInputField;
+    [SerializeField] Button usernameSaveButton;
     [SerializeField] TMP_InputField roomNameIF;
     [SerializeField] TMP_Text errorText;
     [SerializeField] TMP_Text mapValueText;
@@ -36,6 +40,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject gameOptionsButton;
     [SerializeField] RoomManager roomManagerPrefab;
     [SerializeField] public Camera mainCamera;
+    [SerializeField] public TMP_Text usernameText;
+    [SerializeField] public TMP_Text xpText;
     private RoomOptions roomOptions;
     public List<Object> roomItems;
     public MapData[] maps;
@@ -44,6 +50,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     public static bool inRoom = false;
     
     // Start is called before the first frame update
+
+
 
     void Awake()
     {
@@ -56,18 +64,45 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-       
+        Debug.Log(Data.idToken);
+
+        if (Data.idToken == null)
+        {
+            MenuManager.instance.OpenMenu("Login");
+        }
+        else
+        {
+
+            PhotonNetwork.ConnectUsingSettings();
+            CreateRoomManager();
+            mapValueText.text = "Map: " + maps[currentMap].name;
+            modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
+            mapValueText_OptionsMenu.text = "Map: " + maps[currentMap].name;
+            modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
+        }
+
+
+    }
+    public void StartAfterLogin()
+    {
         PhotonNetwork.ConnectUsingSettings();
         CreateRoomManager();
         mapValueText.text = "Map: " + maps[currentMap].name;
         modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
         mapValueText_OptionsMenu.text = "Map: " + maps[currentMap].name;
         modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
-
-
+        usernameText.text = Data.playerData.username;
+        xpText.text = Data.playerData.xp.ToString();
     }
+    public void SaveUserName()
+    {
+        Data.playerData.username = usernameInputField.text;
+        Data.SaveToDatabase(new PlayerData(usernameInputField.text,0,0,Data.localId,Data.idToken));
+    }
+
     private void Update()
     {
+        
         
     }
 
@@ -84,7 +119,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("Joined Lobby");
         if (PhotonNetwork.NickName =="")
         {
-            PhotonNetwork.NickName = "Player" + Random.Range(0, 1000).ToString("0000");
+            //PhotonNetwork.NickName = "Player" + Random.Range(0, 1000).ToString("0000");
+            
         }
         Debug.Log(PhotonNetwork.NickName);
         
