@@ -65,7 +65,7 @@ public class SingeShotGun : Gun
             return;
         }
         GenerateRecoil();
-        sfx.PlayOneShot(itemInfo.itemSound);
+        PV.RPC("RPC_playSound",RpcTarget.All);
         PV.RPC("RPC_muzzleFlash", RpcTarget.All);
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
         ray.origin = cam.transform.position;
@@ -134,6 +134,12 @@ public class SingeShotGun : Gun
     void GenerateRecoil()
     {
         time = gi.duration;
+    }
+
+    [PunRPC]
+    void RPC_playSound()
+    {
+        sfx.PlayOneShot(itemInfo.itemSound);
     }
 
 

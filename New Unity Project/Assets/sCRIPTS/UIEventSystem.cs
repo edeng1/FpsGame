@@ -17,6 +17,7 @@ public class UIEventSystem : MonoBehaviour
     public event Action<string> onFlagCapture;
     public event Action<string> onFlagDrop;
     public event Action<string> onFlagReturn;
+    public event Action<string> onPlayerKilled;
 
     public void UIUpdateFlagPickUp(string _tag)
     {
@@ -34,8 +35,11 @@ public class UIEventSystem : MonoBehaviour
     {
         onFlagReturn(_tag);
     }
+    public void UIUpdatePlayerKilled(string _tag)
+    {
+        onPlayerKilled(_tag);
+    }
 
-    
 
 
 

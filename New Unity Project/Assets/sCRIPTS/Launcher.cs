@@ -43,7 +43,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] public TMP_Text usernameText;
     [SerializeField] public TMP_Text xpText;
     private RoomOptions roomOptions;
-    public List<Object> roomItems;
+    public static List<RoomInfo> roomItems;
     public MapData[] maps;
     private int currentMap = 0;
 
@@ -64,22 +64,25 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        Debug.Log(Data.idToken);
+        Debug.Log(roomItems);
+        //Debug.Log(Data.idToken);
+        if (PlayerPrefs.HasKey("NickName")) { PhotonNetwork.NickName = PlayerPrefs.GetString("NickName"); }
+         
 
-        if (Data.idToken == null)
-        {
-            MenuManager.instance.OpenMenu("Login");
-        }
-        else
-        {
+           // if (Data.idToken == null)
+           // {
+           //MenuManager.instance.OpenMenu("Login");
+           // }
+           // else
+           // {
 
-            PhotonNetwork.ConnectUsingSettings();
+           PhotonNetwork.ConnectUsingSettings();
             CreateRoomManager();
             mapValueText.text = "Map: " + maps[currentMap].name;
             modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
             mapValueText_OptionsMenu.text = "Map: " + maps[currentMap].name;
             modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
-        }
+       // }
 
 
     }
@@ -91,13 +94,17 @@ public class Launcher : MonoBehaviourPunCallbacks
         modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
         mapValueText_OptionsMenu.text = "Map: " + maps[currentMap].name;
         modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
-        usernameText.text = Data.playerData.username;
-        xpText.text = Data.playerData.xp.ToString();
+        //if(Data.playerData.username!=null)
+            //usernameText.text = Data.playerData.username;
+        //if (Data.playerData.xp != null)
+            //xpText.text = Data.playerData.xp.ToString();
     }
     public void SaveUserName()
     {
-        Data.playerData.username = usernameInputField.text;
-        Data.SaveToDatabase(new PlayerData(usernameInputField.text,0,0,Data.localId,Data.idToken));
+        //Data.playerData.username = usernameInputField.text;
+        PlayerPrefs.SetString("NickName", usernameInputField.text);
+        PhotonNetwork.NickName = PlayerPrefs.GetString("NickName");
+        //Data.SaveToDatabase(new PlayerData(usernameInputField.text,Data.playerData.xp,Data.playerData.level,Data.localId,Data.idToken));
     }
 
     private void Update()
@@ -115,15 +122,28 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        MenuManager.instance.OpenMenu("Title");
+        MenuManager.instance.OpenMenu("Title");/////////////////////
+        //StartCoroutine(Wait(MenuManager.instance));
+        
+        if (roomItems != null) { createRoomList(roomItems); }
+        
         Debug.Log("Joined Lobby");
         if (PhotonNetwork.NickName =="")
         {
-            //PhotonNetwork.NickName = "Player" + Random.Range(0, 1000).ToString("0000");
+            PhotonNetwork.NickName = "Player" + Random.Range(0, 1000).ToString("0000");
             
         }
         Debug.Log(PhotonNetwork.NickName);
         
+    }
+    IEnumerator Wait(MenuManager menus)
+    {
+        
+        yield return new WaitUntil(() => menus.isLoaded);
+        
+        MenuManager.instance.OpenMenu("Title");
+
+
     }
 
    public void CreateRoom()
@@ -144,7 +164,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CreateRoom(roomNameIF.text,options);
         
-        MenuManager.instance.OpenMenu("Loading");
+        MenuManager.instance.OpenMenu("Loading");/////////////////////////////////
     }
 
     public void ConfirmGameOptions()//Confirms changes to game options while in room. GameOptions button.
@@ -205,7 +225,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
 
         inRoom = true;
-        MenuManager.instance.OpenMenu("Room");
+        MenuManager.instance.OpenMenu("Room");///////////
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         Debug.Log("Joined Room "+ PhotonNetwork.CurrentRoom.Name);
         
@@ -218,7 +238,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
-
+        Debug.Log(roomItems);
         gameOptionsButton.SetActive(PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
@@ -233,7 +253,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log(message);
         errorText.text = "Room Creation Failed: " + message;
-        MenuManager.instance.OpenMenu("Error");
+        MenuManager.instance.OpenMenu("Error");//////////////////////////////
     }
 
     public void StartGame()////////////////////////////////////////////
@@ -256,13 +276,13 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        MenuManager.instance.OpenMenu("Loading");
+        MenuManager.instance.OpenMenu("Loading");////
     }
 
     public void JoinRoom(RoomInfo info)
     {
         PhotonNetwork.JoinRoom(info.Name);
-        MenuManager.instance.OpenMenu("Loading");
+        MenuManager.instance.OpenMenu("Loading");////////////////////
         GameSettings.GameMode = (GameMode)info.CustomProperties["mode"];
         Debug.Log("Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode));
         currentRoomInfo = info;
@@ -286,13 +306,21 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        roomItems = new List<Object>();
-        
-        foreach(Transform t in roomListContent)
+        roomItems = roomList;
+        Debug.Log(roomItems);
+        createRoomList(roomList);
+
+
+    }
+
+    public void createRoomList(List<RoomInfo> roomList)
+
+    {
+        foreach (Transform t in roomListContent)
         {
             Destroy(t.gameObject);
         }
-       foreach(RoomInfo r in roomList)
+        foreach (RoomInfo r in roomList)
         {
             if (r.RemovedFromList)
                 continue;
@@ -303,6 +331,9 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         }
     }
+
+   
+
     
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

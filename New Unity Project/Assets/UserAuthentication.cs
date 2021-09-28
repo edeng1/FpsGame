@@ -26,14 +26,14 @@ public class UserAuthentication : MonoBehaviour
         RestClient.Post<PlayerData>("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + AuthKey, userData).Then(
             response =>
             {
-                /*
+                
                 Data.idToken = response.idToken;
                 Data.localId = response.localId;
                 response.level = 0;
                 response.xp = 0;
                 Data.SaveToDatabase(response);
                 Data.LoadFromDataBase();
-                Launcher.instance.StartAfterLogin();*/
+                Launcher.instance.StartAfterLogin();
 
             }).Catch(error =>
             {

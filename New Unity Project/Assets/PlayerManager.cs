@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -64,15 +65,27 @@ public class PlayerManager : MonoBehaviour
         PhotonNetwork.Destroy(controller);
         CreateController();
     }
-
+    Tuple<string,string> names;
     public IEnumerator Die(int actorNumber)
     {
-        Manager.Instance.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1);
-        Manager.Instance.ChangeStat_S(actorNumber, 0, 1);
-
+        Manager.Instance.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1); //ActorNumber is player who does the killing
+        Manager.Instance.ChangeStat_S(actorNumber, 0, 1); //actorNumber is of player who is killed.
+        names = Manager.Instance.GetPlayerNames(PhotonNetwork.LocalPlayer.ActorNumber, actorNumber);
+        //" + controller.GetComponent<PlayerController>().GetGunName() +"
+        PV.RPC("RPC_UpdatePlayerKilledUI", RpcTarget.All, names.Item1,names.Item2, controller.GetComponent<PlayerController>().GetGunName());
+       
         yield return new WaitForSeconds(3f);
         PhotonNetwork.Destroy(controller);
         CreateController();
+    }
+
+    [PunRPC]
+    private void RPC_UpdatePlayerKilledUI(string name1,string name2,string gun)
+    {
+        
+        UIEventSystem.current.UIUpdatePlayerKilled(name2 +" "+ gun +" "+ name1);
+        
+        Debug.Log(name2 + " killed " + name1);
     }
 
     public void TrySync()

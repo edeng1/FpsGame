@@ -9,6 +9,8 @@ using System;
 using System.IO;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Proyecto26;
+using UnityEngine.Networking;
+
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -30,8 +32,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         
         DontDestroyOnLoad(gameObject);
-        Data.SaveToDatabase(new PlayerData());
-        LoadFromDataBase();
+        //Data.SaveToDatabase(new PlayerData());
+        //LoadFromDataBase();
         
 
         Instance = this;
@@ -205,16 +207,35 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PM.GetComponent<PlayerManager>().destroyGameObject();
     }
 
-    protected void OnApplicationQuit() { PhotonNetwork.Disconnect(); PlayerPrefs.SetFloat("sens", PlayerPrefs.GetFloat("sens")); PlayerPrefs.Save(); }
+    protected void OnApplicationQuit() {
+        //PV.RPC("QuitGame", RpcTarget.All);
+        
+        
+        PhotonNetwork.Disconnect();
+        PlayerPrefs.SetFloat("sens", PlayerPrefs.GetFloat("sens"));
+        PlayerPrefs.Save();
+    }
+    [PunRPC]
+    void QuitGame()
+    {
+        Debug.Log("I quit");
+    }
 
-  
+
+    void updateUserInfoUI()
+    {
+        if(Launcher.instance.usernameText.text != "Username: " + Data.playerData.username)
+            Launcher.instance.usernameText.text = "Username: " + Data.playerData.username;
+        if(PhotonNetwork.NickName != Data.playerData.username)
+            PhotonNetwork.NickName = Data.playerData.username;
+        if(Launcher.instance.xpText.text != "XP: " + Data.playerData.xp.ToString())
+            Launcher.instance.xpText.text = "XP: " + Data.playerData.xp.ToString();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        Launcher.instance.usernameText.text = "Username: "+Data.playerData.username;
-        PhotonNetwork.NickName = Data.playerData.username;
-        Launcher.instance.xpText.text = "XP: "+Data.playerData.xp.ToString();
+        //updateUserInfoUI();
         if (SceneManager.GetActiveScene().buildIndex == 0 && PhotonNetwork.InRoom)
         {
             Hashtable hash = new Hashtable();
@@ -236,7 +257,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
 
                 }
-                Debug.Log(Data.playerData.username + " LocalID"+Data.playerData.localId);
+               
                 
                 Debug.Log("All Players Ready");
                 Debug.Log("Sync scene? "+PhotonNetwork.AutomaticallySyncScene);

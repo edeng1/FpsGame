@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     [SerializeField] TMP_Text healthUI;
     [SerializeField] TMP_Text ammoUI;
     [SerializeField] TMP_Text eventUI;
+    [SerializeField] TMP_Text eventKillUI;
     public bool isDead;
     public float pointIncreasePerSecond = 5f;
     //Vector3 move;
@@ -93,6 +94,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         UIEventSystem.current.onFlagDrop += EventUI;
         UIEventSystem.current.onFlagReturn += EventUI;
         UIEventSystem.current.onFlagCapture += EventUI;
+        UIEventSystem.current.onPlayerKilled += EventKillUI;
     }
     private void OnDisable()
     {
@@ -100,6 +102,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         UIEventSystem.current.onFlagDrop -= EventUI;
         UIEventSystem.current.onFlagReturn -= EventUI;
         UIEventSystem.current.onFlagCapture -= EventUI;
+        UIEventSystem.current.onPlayerKilled -= EventKillUI;
     }
     private void Update()
     {
@@ -397,6 +400,18 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         eventUI.text = "";
     }
 
+    void EventKillUI(string eventText)
+    {
+        StartCoroutine(DisplayKillEvent(eventText));
+    }
+    IEnumerator DisplayKillEvent(string eventText)
+    {
+       
+        eventKillUI.text = eventText;
+        yield return new WaitForSeconds(1f);
+        eventKillUI.text = "";
+    }
+
     void AmmoUI()
     {
         var gun= ((SingeShotGun)items[itemIndex]);
@@ -484,6 +499,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     public int getActorNumber()
     {
         return actorNumber;
+    }
+
+    public string GetGunName()
+    {
+        return ((SingeShotGun)items[itemIndex]).itemInfo.itemName;
     }
 
 

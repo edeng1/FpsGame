@@ -7,6 +7,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
+
 public class PlayerInfo
 {
 
@@ -54,6 +56,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     public TMP_Text HomeScore;
     public TMP_Text AwayScore;
     public TMP_Text FFAScore;
+    public TMP_Text KillUI;//unnecessary, used in PlayerController
     public int matchLength = 180;
     private Coroutine timerCoroutine;
     private int currentMatchTime;
@@ -63,7 +66,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     public int teamFlagCount = 4;
     public int awayScore=0;
     public int homeScore=0;
-    
+    int actNum;
     private bool playerAdded;
 
     private GameState state = GameState.Waiting;
@@ -83,21 +86,44 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private void OnEnable()
     {
+        
         PhotonNetwork.AddCallbackTarget(this);
+        //StartCoroutine(AddEvent());
     }
     private void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
+       // UIEventSystem.current.onPlayerKilled -= EventKillUI;
+    }
+    IEnumerator AddEvent()//unnecessary, used in PlayerController
+    {
+        yield return new WaitForSeconds(3f);
+        UIEventSystem.current.onPlayerKilled += EventKillUI;
+
+    }
+   
+    void EventKillUI(string eventText)//unnecessary, used in PlayerController
+    {
+        //StartCoroutine(DisplayKillEvent(eventText));
+    }
+    IEnumerator DisplayKillEvent(string eventText)
+    {
+        //string[] s = eventText.Split(' ');
+        // eventKillUI.text = s[0] + " " + ((SingeShotGun)items[itemIndex]).itemInfo.itemName+" "+ s[1];
+        KillUI.text = eventText;
+        yield return new WaitForSeconds(1f);
+        KillUI.text = "";
     }
 
     private void Awake()
     {
-        
+           
         Instance = this;
     }
     // Start is called before the first frame update
     void Start()
     {
+        actNum = PhotonNetwork.LocalPlayer.ActorNumber;
         EndGameUI = ScoreBoardUI;
         if (PhotonNetwork.IsMasterClient)
         {
@@ -615,7 +641,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             EndGame();
         }
     }
-    public void FlagPickUp_S(Object flag)
+    public void FlagPickUp_S(object flag)
     {
         object[] package = new object[] { flag };
         PhotonNetwork.RaiseEvent(
@@ -832,5 +858,49 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     }
 
 
+
+    private void OnApplicationQuit()
+    {
+        PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber);
+        Debug.Log("I quit");
+    }
+
+
+    public Tuple<string,string> GetPlayerNames(int myActor,int yourActor)
+    {
+        string myName = "";
+        string yourName = "";
+
+        for (int i = 0; i < playerInfo.Count; i++)
+        {
+            if (playerInfo[i].actor ==myActor)
+            {
+                myName = playerInfo[i].name;
+            }
+            if (playerInfo[i].actor == yourActor)
+            {
+                yourName = playerInfo[i].name;
+            }
+            if (myName != "" && yourName != "")
+            {
+                break;
+            }
+        }
+
+        return Tuple.Create(myName, yourName);
+
+    }
+
+    public string GetPlayerName(int actor)
+    {
+        for (int i = 0; i < playerInfo.Count; i++)
+        {
+            if (playerInfo[i].actor == actor)
+            {
+                return playerInfo[i].name;
+            }
+        }
+        return "";
+    }
 
 }

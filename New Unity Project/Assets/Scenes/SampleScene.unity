@@ -1115,7 +1115,8 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4c471cae94f844d4f836915670ff0086, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -7243800852753485177, guid: 4c471cae94f844d4f836915670ff0086,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1223,7 +1224,7 @@ GameObject:
   - component: {fileID: 308198187}
   - component: {fileID: 308198186}
   m_Layer: 5
-  m_Name: 'FindRoomMenu '
+  m_Name: FindRoomMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1638,7 +1639,7 @@ GameObject:
   - component: {fileID: 487078631}
   - component: {fileID: 487078630}
   m_Layer: 0
-  m_Name: Button (2)
+  m_Name: SettingsMenuButton (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1659,10 +1660,10 @@ RectTransform:
   m_Father: {fileID: 1659630564}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -145}
+  m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &487078630
 MonoBehaviour:
@@ -1709,13 +1710,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1857619029}
         m_MethodName: OpenMenu
-        m_Mode: 2
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 8890344186903581239}
-          m_ObjectArgumentAssemblyTypeName: Menu, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Settings
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -1770,7 +1771,7 @@ GameObject:
   - component: {fileID: 530966107}
   - component: {fileID: 530966106}
   m_Layer: 0
-  m_Name: Button
+  m_Name: FindMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1791,10 +1792,10 @@ RectTransform:
   m_Father: {fileID: 1659630564}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -25}
+  m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &530966106
 MonoBehaviour:
@@ -1841,13 +1842,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1857619029}
         m_MethodName: OpenMenu
-        m_Mode: 2
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 308198186}
-          m_ObjectArgumentAssemblyTypeName: Menu, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: FindRoom
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -3411,7 +3412,7 @@ GameObject:
   - component: {fileID: 798603184}
   - component: {fileID: 798603183}
   m_Layer: 0
-  m_Name: Button (1)
+  m_Name: CreateMenuButton (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3432,10 +3433,10 @@ RectTransform:
   m_Father: {fileID: 1659630564}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -85}
+  m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &798603183
 MonoBehaviour:
@@ -3482,13 +3483,13 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1857619029}
         m_MethodName: OpenMenu
-        m_Mode: 2
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 1594969579}
-          m_ObjectArgumentAssemblyTypeName: Menu, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: CreateRoom
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -4797,14 +4798,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1857619029}
-        m_MethodName: CloseMenu
-        m_Mode: 2
+        m_MethodName: OpenMenu
+        m_Mode: 5
         m_Arguments:
-          m_ObjectArgument: {fileID: 937302941}
-          m_ObjectArgumentAssemblyTypeName: Menu, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Title
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -4862,7 +4863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &937302940
 Transform:
   m_ObjectHideFlags: 0
@@ -5114,7 +5115,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh190358
+  m_Name: pb_Mesh20398
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6685,10 +6686,10 @@ RectTransform:
   m_Father: {fileID: 1659630564}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 70}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 125, y: -215}
+  m_SizeDelta: {x: 250, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1109040926
 MonoBehaviour:
@@ -7901,8 +7902,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1857619031}
-        m_MethodName: SignInUserButton
+      - m_Target: {fileID: 1857619024}
+        m_MethodName: SaveUserName
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9076,7 +9077,8 @@ MonoBehaviour:
   m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4c471cae94f844d4f836915670ff0086, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -7243800852753485177, guid: 4c471cae94f844d4f836915670ff0086,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10029,8 +10031,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38403009c9ffe2a499eb7371625d88da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usernameInputField: {fileID: 0}
-  usernameSaveButton: {fileID: 0}
+  usernameInputField: {fileID: 1109040928}
+  usernameSaveButton: {fileID: 1444047811}
   roomNameIF: {fileID: 40630230}
   errorText: {fileID: 91121445}
   mapValueText: {fileID: 741459083}
@@ -10049,7 +10051,8 @@ MonoBehaviour:
   roomManagerPrefab: {fileID: 2933000141544262681, guid: 4f89afa3b8db5064796ac6b9717b30b3,
     type: 3}
   mainCamera: {fileID: 963194227}
-  roomItems: []
+  usernameText: {fileID: 0}
+  xpText: {fileID: 0}
   maps:
   - name: Bloc
     scene: 1
@@ -10157,6 +10160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715db1847b1b67642bf35201db2d0f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLoaded: 0
   menus:
   - {fileID: 909444451}
   - {fileID: 937302941}
@@ -11129,7 +11133,7 @@ PrefabInstance:
     - target: {fileID: 4847140219994905243, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 580
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4847140219994905243, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
@@ -11179,7 +11183,7 @@ PrefabInstance:
     - target: {fileID: 268602989311023986, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 148.46667
+      value: 145.41667
       objectReference: {fileID: 0}
     - target: {fileID: 268602989311023986, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
@@ -11189,7 +11193,7 @@ PrefabInstance:
     - target: {fileID: 268602989311023986, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 296.93335
+      value: 290.83334
       objectReference: {fileID: 0}
     - target: {fileID: 268602989311023986, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
@@ -11209,7 +11213,7 @@ PrefabInstance:
     - target: {fileID: 7640144798161237330, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 361.42
+      value: 357.11502
       objectReference: {fileID: 0}
     - target: {fileID: 7640144798161237330, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
@@ -11219,7 +11223,7 @@ PrefabInstance:
     - target: {fileID: 7640144798161237330, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 128.97333
+      value: 132.56334
       objectReference: {fileID: 0}
     - target: {fileID: 7640144798161237330, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
@@ -11239,7 +11243,7 @@ PrefabInstance:
     - target: {fileID: 2856716205836531630, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 502.95334
+      value: 501.69833
       objectReference: {fileID: 0}
     - target: {fileID: 2856716205836531630, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
@@ -11249,7 +11253,7 @@ PrefabInstance:
     - target: {fileID: 2856716205836531630, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 154.09334
+      value: 156.60333
       objectReference: {fileID: 0}
     - target: {fileID: 2856716205836531630, guid: c7500f95345be51448ee7f28393c6a8c,
         type: 3}

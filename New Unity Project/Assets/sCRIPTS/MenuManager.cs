@@ -5,16 +5,19 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager instance;
+    public bool isLoaded;
+    GameObject prev;
+    
+    [SerializeField]public Menu[] menus;
 
     private void Awake()
     {
         instance = this;
+        
+        isLoaded = true;
     }
-
-    [SerializeField]Menu[] menus;
-
     public void OpenMenu(string menuName)
-    {
+    {/*
         foreach(Menu m in menus)
         {
             if (m.menuName == menuName)
@@ -24,6 +27,20 @@ public class MenuManager : MonoBehaviour
             else if (m.open)
             {
                 CloseMenu(m);
+            }
+        }*/
+
+        for(int i=0;i<transform.childCount;i++)
+        {
+            var gO = transform.GetChild(i).gameObject;
+            if (gO.name == menuName + "Menu")
+            {
+                prev = gO;
+                gO.SetActive(true);
+            }
+            if(gO.name!=menuName+"Menu")
+            {
+                gO.SetActive(false);
             }
         }
     }
@@ -42,6 +59,10 @@ public class MenuManager : MonoBehaviour
     public void CloseMenu(Menu menu)
     {
         menu.Close();
+    }
+    public void CloseMenu(string menuName)
+    {
+
     }
 
 

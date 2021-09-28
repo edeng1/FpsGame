@@ -7,7 +7,8 @@ public class Menu : MonoBehaviour
     public string menuName;
     public bool open;
     public Camera mainCam;
-    
+   
+
 
     public void Open()
     {
@@ -17,12 +18,12 @@ public class Menu : MonoBehaviour
 
             if (menuName == "Room" || menuName == "Find")
             {
-                ZoomIn();
+                //ZoomIn();
 
             }
             if (menuName == "Title")
             {
-                ZoomOut();
+                //ZoomOut();
 
             }
 
@@ -40,7 +41,7 @@ public class Menu : MonoBehaviour
     public void ZoomIn()
     {
         Vector3 temp = transform.localScale;
-        LeanTween.moveZ(Launcher.instance.mainCamera.gameObject, 19.5f, .5f);
+        LeanTween.moveZ(mainCam.gameObject, 19.5f, .5f);
         temp = transform.localScale;
         transform.localScale = new Vector3(0, 0, 0);
         LeanTween.scale(gameObject, new Vector3(1, 1, 1), .5f);
