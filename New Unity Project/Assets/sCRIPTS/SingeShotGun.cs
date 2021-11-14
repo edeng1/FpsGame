@@ -139,7 +139,8 @@ public class SingeShotGun : Gun
     [PunRPC]
     void RPC_playSound()
     {
-        sfx.PlayOneShot(itemInfo.itemSound);
+        if(itemInfo.itemSound!=null)
+            sfx.PlayOneShot(itemInfo.itemSound);
     }
 
 

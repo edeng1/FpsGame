@@ -128,6 +128,7 @@ public class Flag : MonoBehaviour
     private void RPC_ScoreFlag()
     {
         atHomeBase = true;
+        playerHasFlag = false;
         transform.parent = FlagSpawn;
         transform.position = FlagSpawn.position;
         UIEventSystem.current.UIUpdateFlagReturn(gameObject.tag + " flag has been scored");

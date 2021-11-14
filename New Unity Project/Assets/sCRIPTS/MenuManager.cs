@@ -7,7 +7,7 @@ public class MenuManager : MonoBehaviour
     public static MenuManager instance;
     public bool isLoaded;
     GameObject prev;
-    
+    public Camera mainCam;
     [SerializeField]public Menu[] menus;
 
     private void Awake()
@@ -35,14 +35,32 @@ public class MenuManager : MonoBehaviour
             var gO = transform.GetChild(i).gameObject;
             if (gO.name == menuName + "Menu")
             {
-                prev = gO;
+                if (gO.name != "LoadingMenu")
+                {
+                    ZoomIn(gO);
+                }
+               
+               
+                if (gO.name == "RoomMenu" || gO.name == "FindRoomMenu")
+                {
+                    //ZoomIn(gO);
+
+                }
+                if (gO.name == "TitleMenu")
+                {
+                    LeanTween.moveZ(mainCam.gameObject, 16f, .5f);
+                }
                 gO.SetActive(true);
             }
             if(gO.name!=menuName+"Menu")
             {
+                
+                
                 gO.SetActive(false);
             }
         }
+       
+       
     }
 
     public void OpenMenu(Menu menu)
@@ -62,6 +80,25 @@ public class MenuManager : MonoBehaviour
     }
     public void CloseMenu(string menuName)
     {
+
+    }
+    public void ZoomIn(GameObject menu)
+    {
+        Vector3 temp = menu.transform.localScale;
+        LeanTween.moveZ(mainCam.gameObject, 19.5f, .5f);
+        temp = menu.transform.localScale;
+        menu.transform.localScale = new Vector3(0, 0, 0);
+        LeanTween.scale(menu, new Vector3(1, 1, 1), .5f);
+    }
+    public void ZoomOut()
+    {
+
+        if (mainCam != null)
+        {
+            //LeanTween.moveZ(Launcher.instance.mainCamera.gameObject, 16f, .5f);
+            LeanTween.moveZ(mainCam.gameObject, 16f, .5f);
+        }
+
 
     }
 

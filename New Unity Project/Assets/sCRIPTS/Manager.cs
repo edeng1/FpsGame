@@ -106,7 +106,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         //StartCoroutine(DisplayKillEvent(eventText));
     }
-    IEnumerator DisplayKillEvent(string eventText)
+    IEnumerator DisplayKillEvent(string eventText)//unnecessary, used in PlayerController
     {
         //string[] s = eventText.Split(' ');
         // eventKillUI.text = s[0] + " " + ((SingeShotGun)items[itemIndex]).itemInfo.itemName+" "+ s[1];

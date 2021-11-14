@@ -43,7 +43,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     const float fallSpeed = 7f;
     PhotonView PV;
     private int actorNumber;
-
+    public GameObject[] headColor;
+    public GameObject[] skinColor;
 
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
@@ -86,7 +87,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
         }
-            
+        ChooseSkinColor();
+
     }
     private void OnEnable()
     {
@@ -114,13 +116,14 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
         }
+        ChooseSkinColor();
         if (die)
         {
             Die();
             die = false;
         }
         bool pause = Input.GetKeyDown(KeyCode.Escape);
-
+        
         if(pause)
         {
            pauseM.TogglePause();
@@ -158,6 +161,30 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
 
     }
+    void ChooseSkinColor()
+    {
+        PV.RPC("RPC_ChooseSkinColor", RpcTarget.All, GameSettings.IsAwayTeam);
+    }
+    [PunRPC]
+    void RPC_ChooseSkinColor(bool awayTeam)
+    {
+      
+        if (awayTeam)
+        {
+            headColor[0].SetActive(false);
+            headColor[1].SetActive(true);
+            skinColor[0].SetActive(false);
+            skinColor[1].SetActive(true);
+        }
+        else
+        {
+            headColor[1].SetActive(false);
+            headColor[0].SetActive(true);
+            skinColor[1].SetActive(false);
+            skinColor[0].SetActive(true);
+        }
+    }
+    
     void Look()
     {
 
