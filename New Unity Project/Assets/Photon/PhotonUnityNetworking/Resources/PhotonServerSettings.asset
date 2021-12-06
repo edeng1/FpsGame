@@ -56,6 +56,8 @@ MonoBehaviour:
   - QuitGame
   - RPC_UpdatePlayerKilledUI
   - RPC_ChooseSkinColor
+  - OnDoorWayClose
+  - OnDoorWayOpen
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

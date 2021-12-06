@@ -1304,7 +1304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -616.6261, y: -127.53735}
+  m_AnchoredPosition: {x: -616.6261, y: -127.53723}
   m_SizeDelta: {x: -2168, y: -814}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &386010689
@@ -10129,12 +10129,16 @@ MonoBehaviour:
   maps:
   - name: Bloc
     scene: 1
-  - name: Plaza
+  - name: MintShip
     scene: 2
   - name: Storage
     scene: 3
   - name: Hinge
     scene: 4
+  - name: Presidio
+    scene: 5
+  - name: Research Lab
+    scene: 6
 --- !u!114 &1857619025
 MonoBehaviour:
   m_ObjectHideFlags: 0

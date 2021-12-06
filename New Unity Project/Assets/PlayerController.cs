@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     [SerializeField] TMP_Text ammoUI;
     [SerializeField] TMP_Text eventUI;
     [SerializeField] TMP_Text eventKillUI;
+    [SerializeField] GameObject KillFeedUI;
     public bool isDead;
     public float pointIncreasePerSecond = 5f;
     //Vector3 move;
@@ -169,14 +170,14 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     void RPC_ChooseSkinColor(bool awayTeam)
     {
       
-        if (awayTeam)
+        if (awayTeam)//white
         {
             headColor[0].SetActive(false);
             headColor[1].SetActive(true);
             skinColor[0].SetActive(false);
             skinColor[1].SetActive(true);
         }
-        else
+        else//black
         {
             headColor[1].SetActive(false);
             headColor[0].SetActive(true);
@@ -433,10 +434,19 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     }
     IEnumerator DisplayKillEvent(string eventText)
     {
-       
-        eventKillUI.text = eventText;
-        yield return new WaitForSeconds(1f);
-        eventKillUI.text = "";
+        
+        //eventKillUI.text = eventText;
+        TMP_Text newKill=Instantiate(eventKillUI,KillFeedUI.transform);
+        newKill.text = eventText;
+        newKill.transform.SetAsFirstSibling();
+        if (KillFeedUI.transform.childCount > 5)
+        {
+            if(KillFeedUI.transform.GetChild(5).gameObject)
+                Destroy(KillFeedUI.transform.GetChild(5).gameObject);
+        }
+        yield return new WaitForSeconds(5.5f);
+        if(newKill)
+            Destroy(newKill);
     }
 
     void AmmoUI()
