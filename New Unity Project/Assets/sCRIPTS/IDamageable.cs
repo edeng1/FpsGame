@@ -1,5 +1,5 @@
 ﻿public interface IDamageable
 {
     bool getAwayTeam();
-    void TakeDamage(float damage,int actorNumber);
+    void TakeDamage(float damage,int actorNumber,string gunName);
 }

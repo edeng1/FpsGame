@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     [SerializeField] Item[] items;
 
-    int itemIndex;
+    int itemIndex, enemyItemIndex;
     int previousItemIndex=-1;
 
     public CharacterController controller;
@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     private int actorNumber;
     public GameObject[] headColor;
     public GameObject[] skinColor;
+     
 
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         UIEventSystem.current.onFlagReturn += EventUI;
         UIEventSystem.current.onFlagCapture += EventUI;
         UIEventSystem.current.onPlayerKilled += EventKillUI;
+        base.OnEnable();
     }
     private void OnDisable()
     {
@@ -106,6 +108,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         UIEventSystem.current.onFlagReturn -= EventUI;
         UIEventSystem.current.onFlagCapture -= EventUI;
         UIEventSystem.current.onPlayerKilled -= EventKillUI;
+        base.OnDisable();
     }
     private void Update()
     {
@@ -302,6 +305,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             Hashtable hash = new Hashtable();
             hash.Add("itemIndex", itemIndex);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
         }
     }
 
@@ -339,10 +343,14 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if(!PV.IsMine && targetPlayer==PV.Owner)
+      
+        if (!PV.IsMine && targetPlayer==PV.Owner)
         {
+           
             EquipItem((int)changedProps["itemIndex"]); 
         }
+        
+        
     }
 
     public void SetGroundedState(bool _grounded)
@@ -365,14 +373,14 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     
 
-    public void TakeDamage(float damage, int actorNumber)
+    public void TakeDamage(float damage, int actorNumber, string gunName)
     {
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, actorNumber);
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, actorNumber,gunName);
     }
 
 
     [PunRPC]
-    void RPC_TakeDamage(float damage,int actorNumber)
+    void RPC_TakeDamage(float damage,int actorNumber, string gunName)
     {
         if (!PV.IsMine)
         {
@@ -384,7 +392,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         if(currentHealth<=0)
         {
             
-            Die(actorNumber);
+            Die(actorNumber, gunName);
         }
     }
 
@@ -468,7 +476,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             playerManager.StartCoroutine(playerManager.Die());
         }
     }
-    void Die(int actorNumber)
+    void Die(int actorNumber,string gunName)
     {
         if (!isDead)
         {
@@ -477,7 +485,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
             PV.RPC("ToggleDead", RpcTarget.All);
 
-            playerManager.StartCoroutine(playerManager.Die(actorNumber));
+            playerManager.StartCoroutine(playerManager.Die(actorNumber,gunName));
         }
     }
 
@@ -540,7 +548,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     public string GetGunName()
     {
-        return ((SingeShotGun)items[itemIndex]).itemInfo.itemName;
+        return ((SingeShotGun)items[enemyItemIndex]).itemInfo.itemName;
     }
 
 

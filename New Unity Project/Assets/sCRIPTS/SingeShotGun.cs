@@ -49,6 +49,7 @@ public class SingeShotGun : Gun
     public override void Use()
     {
         Shoot();
+        
     }
 
     void Shoot()
@@ -94,34 +95,34 @@ public class SingeShotGun : Gun
                     switch (hit.collider.gameObject.name)
                     {
                         case "upperArm.L":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "upperArm.R":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "lowerArm.L":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "lowerArm.R":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "spine":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageBody, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageBody, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "upperLeg.L":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "upperLeg.R":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "lowerLeg.L":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "lowerLeg.R":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "head":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead, PhotonNetwork.LocalPlayer.ActorNumber);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
 
                     }
