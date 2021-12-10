@@ -23,7 +23,11 @@ public class SingeShotGun : Gun
 
     private void Awake()
     {
-        
+        if (itemGameObject.name == "Primary")
+        {
+            
+            itemInfo=Resources.Load<GunInfo>("Items/Guns/"+ PlayerPrefs.GetString("Guns"));
+        }
         anim= transform.root.GetComponent<Animator>();
         player = transform.root.GetComponent<PlayerController>();
         PV = GetComponent<PhotonView>();

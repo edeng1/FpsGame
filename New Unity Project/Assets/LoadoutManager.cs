@@ -1,0 +1,22 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LoadoutManager : MonoBehaviour
+{
+    [SerializeField]Object[] guns;
+    [SerializeField] GameObject gunSelectPrefab;
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        guns = Resources.LoadAll("Items/Guns", typeof(GunInfo));
+        foreach (GunInfo g in guns)
+        {
+            Instantiate(gunSelectPrefab, transform.Find("ButtonContainer")).GetComponent<GunListItem>().SetUp(g);
+        }   
+    }
+
+
+   
+}

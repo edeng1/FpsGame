@@ -548,7 +548,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     public string GetGunName()
     {
-        return ((SingeShotGun)items[enemyItemIndex]).itemInfo.itemName;
+        return ((SingeShotGun)items[itemIndex]).itemInfo.itemName;
     }
 
 

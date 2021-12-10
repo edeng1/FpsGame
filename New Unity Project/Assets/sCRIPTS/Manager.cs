@@ -468,7 +468,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
         }
         UpdatePlayers_S((int)state,playerInfo);
-        
+        Debug.Log("Player quit");
     }
 
     public void UpdatePlayers_S(int state, List<PlayerInfo> info)
