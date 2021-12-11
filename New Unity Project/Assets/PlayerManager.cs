@@ -83,7 +83,7 @@ public class PlayerManager : MonoBehaviour
     private void RPC_UpdatePlayerKilledUI(string name1,string name2,string gun)
     {
         
-        UIEventSystem.current.UIUpdatePlayerKilled(name2 +" "+ gun +" "+ name1);
+        UIEventSystem.current.UIUpdatePlayerKilled(name2 +" ["+ gun +"] "+ name1);
         
         Debug.Log(name2 + " killed " + name1);
     }

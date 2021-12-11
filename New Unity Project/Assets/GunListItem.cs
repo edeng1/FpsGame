@@ -2,19 +2,32 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEditor;
+using UnityEngine.UI;
 
 public class GunListItem : MonoBehaviour
 {
+
+
     [SerializeField] TMP_Text text;
     GunInfo _info;
     public void SetUp(GunInfo info)
     {
         _info = info;
-        text.text = info.itemName;
+        //text.text = info.itemName;
+        Texture2D texture = AssetPreview.GetAssetPreview(info.itemModel);
+        if (texture != null)
+        {
+            Rect rect = new Rect(0, 0, texture.width, texture.height);
+            gameObject.GetComponent<Image>().sprite = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f)); ;
+        }
+       
         if (!PlayerPrefs.HasKey("Guns"))
         {
             PlayerPrefs.SetString("Guns","Ak47");
         }
+
+        
 
 
 

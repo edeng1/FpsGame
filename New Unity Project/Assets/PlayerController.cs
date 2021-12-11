@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         velocity.y += GRAVITY*fallSpeed * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
-
+        
     }
     private void FixedUpdate()
     {

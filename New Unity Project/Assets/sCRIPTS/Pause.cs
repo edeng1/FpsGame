@@ -12,11 +12,17 @@ public class Pause : MonoBehaviour
     public Slider volSlider;
     public Slider sensSlider;
     public GameObject settings;
-
+    public GameObject loadout;
+    float sensitivity;
     private void Start()
     {
-        if (PlayerPrefs.HasKey("sens")) { sensSlider.value = PlayerPrefs.GetFloat("sens"); }
-        Debug.Log(PlayerPrefs.GetFloat("sens"));
+        if (PlayerPrefs.HasKey("sens")) {
+            Debug.Log(PlayerPrefs.GetFloat("sens"));
+            sensitivity= PlayerPrefs.GetFloat("sens");
+            sensSlider.value = sensitivity;
+            
+        }
+       
         
     }
     public void TogglePause()
@@ -33,6 +39,10 @@ public class Pause : MonoBehaviour
         {
             ToggleSettings();
         }
+        if (loadout.activeSelf)
+        {
+            ToggleLoadout();
+        }
 
     }
     public void ToggleSettings()
@@ -44,10 +54,20 @@ public class Pause : MonoBehaviour
         }
         else { settings.SetActive(false); }
     }
-
+    public void ToggleLoadout()
+    {
+        if (!loadout.activeSelf && paused)
+        {
+            loadout.SetActive(true);
+        }
+        else { loadout.SetActive(false); }
+    }
     public void ChangeSensitivity(float sens)
     {
         PlayerPrefs.SetFloat("sens", sens);
+        PlayerPrefs.Save();
+        Debug.Log(PlayerPrefs.GetFloat("sens"));
+       
     }
 
     public void Quit()

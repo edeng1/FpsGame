@@ -212,8 +212,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         
         
         PhotonNetwork.Disconnect();
-        PlayerPrefs.SetFloat("sens", PlayerPrefs.GetFloat("sens"));
-        PlayerPrefs.Save();
+       
+       
     }
     [PunRPC]
     void QuitGame()

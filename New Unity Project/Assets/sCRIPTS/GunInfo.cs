@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu(menuName ="FPS/New Gun")]
 public class GunInfo : ItemInfo
@@ -14,12 +15,13 @@ public class GunInfo : ItemInfo
     public int totalAmmo;
     public int clipSize;
     public float reloadTime;
-   
-
+    
     
 
 
 
 
 
-}
+
+
+    }

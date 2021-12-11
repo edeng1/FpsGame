@@ -131,9 +131,12 @@ public class SingeShotGun : Gun
 
                     }
                 }
-            
+
             //hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
-            PV.RPC("RPC_Shoot", RpcTarget.All, hit.point,hit.normal);
+            if(hit.collider.transform.root.GetComponent<IDamageable>()!=null)
+                 PV.RPC("RPC_Shoot", RpcTarget.All, hit.point,hit.normal,true);
+            else
+                PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal,false);
         }    
     }
     void GenerateRecoil()
@@ -156,10 +159,12 @@ public class SingeShotGun : Gun
             muzzleFlash?.Play();
     }
     [PunRPC]
-    void RPC_Shoot(Vector3 hitPosition, Vector3 hitNormal)
+    void RPC_Shoot(Vector3 hitPosition, Vector3 hitNormal, bool applyDamage)
     {
-        Instantiate(bulletImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal,Vector3.up));
-        
+        if(!applyDamage)
+            Instantiate(bulletImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal,Vector3.up));
+        else
+            Instantiate(bloodImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal, Vector3.up));
 
     }
 
