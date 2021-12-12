@@ -9,13 +9,15 @@ public class SingeShotGun : Gun
     PhotonView PV;
     PlayerController player;
     Animator anim;
-    GunInfo gi;
+    public GunInfo gi { get; private set; }
     ParticleSystem muzzleFlash;
     private int clip;
     private int stash;
     private int ammoUsed;
     public bool canShoot;
     private bool isReloading;
+    public bool switchingGuns;
+    
     float time;
     
 
@@ -57,7 +59,8 @@ public class SingeShotGun : Gun
     }
 
     void Shoot()
-    {   
+    {
+        if (switchingGuns) { return; }
         if (isReloading) { return; }
         if (clip > 0)
         {
@@ -192,7 +195,6 @@ public class SingeShotGun : Gun
     {
         if (stash > 0&&clip<gi.clipSize)
         {
-
             isReloading = true;
             player.anim.SetBool("isReloading", isReloading);
             yield return new WaitForSeconds(gi.reloadTime - .25f);
@@ -208,6 +210,12 @@ public class SingeShotGun : Gun
 
     }
 
+    public void PlayReloadAnim()
+    {
+       isReloading = !isReloading; 
+       player.anim.SetBool("isReloading", isReloading);
+     
+    }
 
     void RPC_Reload()
     {

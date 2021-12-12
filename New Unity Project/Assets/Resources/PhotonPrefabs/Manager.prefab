@@ -1121,7 +1121,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6849652966057991000}
   - component: {fileID: 6849652966057991007}
-  - component: {fileID: 2743275673968965760}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1173,14 +1172,6 @@ MonoBehaviour:
   teamFlagCount: 10
   awayScore: 0
   homeScore: 0
---- !u!81 &2743275673968965760
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6849652966057991006}
-  m_Enabled: 1
 --- !u!1 &7044053552428383986
 GameObject:
   m_ObjectHideFlags: 0

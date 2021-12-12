@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using TMPro;
+using System;
+
 public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamageable
 {
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
@@ -284,21 +286,50 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
     }
 
-
+    bool animDone = false;
     void EquipItem(int _index)
     {
         if (_index == previousItemIndex)
             return;
 
+       
+                itemIndex = _index;
+                items[itemIndex].itemGameObject.SetActive(true);
+
+                if (previousItemIndex != -1)
+                {
+                    items[previousItemIndex].itemGameObject.SetActive(false);
+                }
+
+                previousItemIndex = itemIndex;
+
+                if (PV.IsMine)
+                {
+                    Hashtable hash = new Hashtable();
+                    hash.Add("itemIndex", itemIndex);
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
+                }
+
+
+                if (items[itemIndex].GetComponent<SingeShotGun>() != null)
+                    anim.SetBool("isPistol", items[itemIndex].GetComponent<SingeShotGun>().gi.isPistol);
+            
+          
+       
+    }
+    IEnumerator EquipAnim(int _index)
+    {
+
+        if (_index == previousItemIndex)
+            yield break;
+        bool hasGun = false;
         itemIndex = _index;
-        items[itemIndex].itemGameObject.SetActive(true);
-
-        if (previousItemIndex != -1)
-        {
-            items[previousItemIndex].itemGameObject.SetActive(false);
-        }
-
-        previousItemIndex = itemIndex;
+        
+        if (items[itemIndex].GetComponent<SingeShotGun>() != null)
+            hasGun = true;
+       
+       
 
         if (PV.IsMine)
         {
@@ -307,7 +338,32 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
 
         }
+
+        if (hasGun) { items[itemIndex].GetComponent<SingeShotGun>().switchingGuns=true; }
+        anim.SetBool("isReloading", true);
+       
+        yield return new WaitForSeconds(.5f);
+        if (previousItemIndex != -1)
+        {
+            items[previousItemIndex].itemGameObject.SetActive(false);
+        }
+
+        previousItemIndex = itemIndex;
+        items[itemIndex].itemGameObject.SetActive(true);
+
+        if (items[itemIndex].GetComponent<SingeShotGun>() != null)
+            anim.SetBool("isPistol", items[itemIndex].GetComponent<SingeShotGun>().gi.isPistol);
+
+        if (hasGun) { if (hasGun) { items[itemIndex].GetComponent<SingeShotGun>().switchingGuns =false; } }
+       
+        anim.SetBool("isReloading", false);
+        
+
+
+       
+        
     }
+
 
     void SwitchWeapon()
     {
@@ -315,7 +371,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             if (Input.GetKeyDown((i + 1).ToString()))
             {
-                EquipItem(i);
+                //EquipItem(i);
+                StartCoroutine(EquipAnim(i));
                 break;
             }
         }

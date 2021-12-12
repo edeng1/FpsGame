@@ -420,7 +420,7 @@ MonoBehaviour:
   controller: {fileID: 6742641482077892814}
   awayTeam: 0
   verticalLookRotation: 0
-  anim: {fileID: 0}
+  anim: {fileID: 8485975691113642527}
   pauseM: {fileID: 1093584865555770532}
   die: 0
   healthUI: {fileID: 5637820564500883503}
@@ -521,6 +521,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: isReloading
+  - Type: 4
+    SynchronizeType: 0
+    Name: isPistol
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -1596,6 +1599,7 @@ MonoBehaviour:
   bulletImpactPrefab: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
   bloodImpactPrefab: {fileID: 100002, guid: 3b1513bcb86426b4795879be6a128ed7, type: 3}
   canShoot: 0
+  switchingGuns: 0
   cam: {fileID: 2012835018220491044}
 --- !u!114 &5216892082200905331
 MonoBehaviour:
@@ -3902,6 +3906,7 @@ MonoBehaviour:
   bulletImpactPrefab: {fileID: 100002, guid: 99c73c92ac40473459640b165473206f, type: 3}
   bloodImpactPrefab: {fileID: 100002, guid: 3b1513bcb86426b4795879be6a128ed7, type: 3}
   canShoot: 0
+  switchingGuns: 0
   cam: {fileID: 2012835018220491044}
 --- !u!114 &3894559378058914570
 MonoBehaviour:

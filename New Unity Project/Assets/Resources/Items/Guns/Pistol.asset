@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9952b61b3e6b9af42bcd962aed94afdd, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Glock
   itemModel: {fileID: 100000, guid: b3248db90896a6f46a0cdb09d671a88f, type: 3}
   itemPosition: {x: 0.2, y: 0.37, z: 0.3}
   itemRotation: {x: 0, y: 90, z: 0}
   itemScale: {x: 1, y: 1, z: 1}
+  itemSound: {fileID: 0}
   damageBody: 15
   damageArm: 8
   damageHead: 35
@@ -27,3 +28,4 @@ MonoBehaviour:
   totalAmmo: 60
   clipSize: 18
   reloadTime: 1
+  isPistol: 1
