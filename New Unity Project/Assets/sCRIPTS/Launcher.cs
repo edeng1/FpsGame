@@ -31,6 +31,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text mapValueText_OptionsMenu;
     [SerializeField] TMP_Text modeValueText;
     [SerializeField] TMP_Text modeValueText_OptionsMenu;
+    [SerializeField] Slider maxPlayersSlider;
+    [SerializeField] TMP_Text maxPlayersValueText;
     [SerializeField] TMP_Text roomNameText;
     [SerializeField] Transform roomListContent;
     [SerializeField] Transform playerListContent;
@@ -67,7 +69,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log(roomItems);
         //Debug.Log(Data.idToken);
         if (PlayerPrefs.HasKey("NickName")) { PhotonNetwork.NickName = PlayerPrefs.GetString("NickName"); }
-         
+        maxPlayersSlider.value = 8;
 
            // if (Data.idToken == null)
            // {
@@ -76,7 +78,7 @@ public class Launcher : MonoBehaviourPunCallbacks
            // else
            // {
 
-           PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings();
             CreateRoomManager();
             mapValueText.text = "Map: " + maps[currentMap].name;
             modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
@@ -153,7 +155,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             return;
         }
         RoomOptions options = new RoomOptions();
-
+        options.MaxPlayers = (byte)maxPlayersSlider.value;
         options.CustomRoomPropertiesForLobby = new string[] { "map", "mode" };
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
         properties.Add("map", currentMap);
@@ -219,6 +221,11 @@ public class Launcher : MonoBehaviourPunCallbacks
         GameSettings.GameMode = (GameMode)newMode;
         modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode),newMode);
         modeValueText_OptionsMenu.text= "Mode: " + System.Enum.GetName(typeof(GameMode), newMode);
+    }
+
+    public void ChangeMaxPlayersSlider(float _value)
+    {
+        maxPlayersValueText.text = Mathf.RoundToInt(_value).ToString();
     }
 
     public override void OnJoinedRoom()

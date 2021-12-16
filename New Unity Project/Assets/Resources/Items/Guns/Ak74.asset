@@ -17,6 +17,7 @@ MonoBehaviour:
   itemPosition: {x: 0.25, y: 0.05, z: 0.15}
   itemRotation: {x: -1, y: 0, z: 0}
   itemScale: {x: 1.5, y: 1.5, z: 1.5}
+  itemSound: {fileID: 0}
   damageBody: 27
   damageArm: 15
   damageHead: 99
@@ -27,3 +28,5 @@ MonoBehaviour:
   totalAmmo: 90
   clipSize: 30
   reloadTime: 1
+  isPistol: 0
+  gunImage: {fileID: 2800000, guid: 95ff94dc781c9164fa380b232dd720d3, type: 3}

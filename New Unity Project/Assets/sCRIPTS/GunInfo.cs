@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+
 [CreateAssetMenu(menuName ="FPS/New Gun")]
 public class GunInfo : ItemInfo
 {
@@ -16,6 +18,7 @@ public class GunInfo : ItemInfo
     public int clipSize;
     public float reloadTime;
     public bool isPistol;// { get; private set; }
+    public Texture2D gunImage;
     
 
 

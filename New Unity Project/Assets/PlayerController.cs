@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using TMPro;
-using System;
+
 
 public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamageable
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEditor;
+
 using UnityEngine.UI;
 
 public class GunListItem : MonoBehaviour
@@ -15,7 +15,7 @@ public class GunListItem : MonoBehaviour
     {
         _info = info;
         //text.text = info.itemName;
-        Texture2D texture = AssetPreview.GetAssetPreview(info.itemModel);
+        Texture2D texture = info.gunImage;
         if (texture != null)
         {
             Rect rect = new Rect(0, 0, texture.width, texture.height);

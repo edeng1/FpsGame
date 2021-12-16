@@ -15,7 +15,7 @@ public class SingeShotGun : Gun
     private int stash;
     private int ammoUsed;
     public bool canShoot;
-    private bool isReloading;
+    public bool isReloading;
     public bool switchingGuns;
     
     float time;
@@ -30,7 +30,8 @@ public class SingeShotGun : Gun
             
             itemInfo=Resources.Load<GunInfo>("Items/Guns/"+ PlayerPrefs.GetString("Guns"));
         }
-        anim= transform.root.GetComponent<Animator>();
+        
+        anim = transform.root.GetComponent<Animator>();
         player = transform.root.GetComponent<PlayerController>();
         PV = GetComponent<PhotonView>();
         gi = (GunInfo)itemInfo;
@@ -43,6 +44,10 @@ public class SingeShotGun : Gun
             instantiateGunModel();
         }
        
+    }
+    private void OnEnable()
+    {
+        if (isReloading) { isReloading = false; }
     }
     void Update()
     {

@@ -13,7 +13,8 @@ public class LoadoutManager : MonoBehaviour
         guns = Resources.LoadAll("Items/Guns", typeof(GunInfo));
         foreach (GunInfo g in guns)
         {
-            Instantiate(gunSelectPrefab, transform.Find("ButtonContainer")).GetComponent<GunListItem>().SetUp(g);
+            if(!g.isPistol)
+                Instantiate(gunSelectPrefab, transform.Find("ButtonContainer")).GetComponent<GunListItem>().SetUp(g);
         }   
     }
 
