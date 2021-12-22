@@ -4,13 +4,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-
+using TMPro;
 public class Pause : MonoBehaviour
 {
     public bool paused = false;
     private bool disconnecting = false;
     public Slider volSlider;
     public Slider sensSlider;
+    public TMP_InputField sensInputField;
     public GameObject settings;
     public GameObject loadout;
     float sensitivity;
@@ -51,6 +52,7 @@ public class Pause : MonoBehaviour
         if (!settings.activeSelf&&paused)
         {
             settings.SetActive(true);
+            loadout.SetActive(false);
         }
         else { settings.SetActive(false); }
     }
@@ -59,13 +61,31 @@ public class Pause : MonoBehaviour
         if (!loadout.activeSelf && paused)
         {
             loadout.SetActive(true);
+            settings.SetActive(false);
         }
         else { loadout.SetActive(false); }
     }
+
+    public void InputChangeSens()
+    {
+        float result=0;
+        float.TryParse(sensInputField.text, out result);
+        Debug.Log(result);
+        
+        if (result < 0) { result = 0; sensInputField.text ="0"; }
+        if (result > 1) { result = 1; sensInputField.text = "1"; }
+        ChangeSensitivity(result);
+
+    }
+
     public void ChangeSensitivity(float sens)
     {
+        
         PlayerPrefs.SetFloat("sens", sens);
         PlayerPrefs.Save();
+        sensSlider.value= sens;
+        if(sensInputField!=null)
+            sensInputField.text = sens.ToString();
         Debug.Log(PlayerPrefs.GetFloat("sens"));
        
     }
@@ -76,8 +96,10 @@ public class Pause : MonoBehaviour
         //RoomManager.Instance.destroyPM();
         Manager.Instance.PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber);
         SceneManager.LoadScene(0);
+        if (PhotonNetwork.IsMasterClient) { PhotonNetwork.DestroyAll(); }
         if (!PhotonNetwork.IsMasterClient) // when master client quits, the other clients will return to the same menu.
         {
+            
             PhotonNetwork.LeaveRoom();
             //Cursor.lockState = CursorLockMode.None;
             //Cursor.visible = true;

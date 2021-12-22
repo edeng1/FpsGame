@@ -794,8 +794,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             
             PhotonNetwork.DestroyAll();
-            PhotonNetwork.CurrentRoom.IsVisible = false;
-            PhotonNetwork.CurrentRoom.IsOpen = false;
+            //PhotonNetwork.CurrentRoom.IsVisible = false;//why it doesnt show up 
+            //PhotonNetwork.CurrentRoom.IsOpen = false;
             
         }
       

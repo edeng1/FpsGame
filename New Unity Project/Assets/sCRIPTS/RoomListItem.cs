@@ -9,7 +9,8 @@ public class RoomListItem : MonoBehaviour
     [SerializeField] TMP_Text text;
     [SerializeField] TMP_Text mapText;
     [SerializeField] TMP_Text modeText;
-    
+    [SerializeField] TMP_Text playerCountText;
+
     public RoomInfo info;
 
    public void SetUp(RoomInfo _info)
@@ -28,7 +29,7 @@ public class RoomListItem : MonoBehaviour
         {
             Debug.Log("no custom property");
         }
-        
+        playerCountText.text = _info.PlayerCount.ToString()+"/" +_info.MaxPlayers.ToString();
     }
 
     public void OnClick()

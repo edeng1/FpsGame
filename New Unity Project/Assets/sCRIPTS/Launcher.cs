@@ -62,6 +62,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             
             return;
         }
+      
         instance = this;
     }
     void Start()
@@ -128,7 +129,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         //StartCoroutine(Wait(MenuManager.instance));
         
         if (roomItems != null) { createRoomList(roomItems); }
-        
+        PhotonNetwork.AutomaticallySyncScene = true;
         Debug.Log("Joined Lobby");
         if (PhotonNetwork.NickName =="")
         {
@@ -295,12 +296,13 @@ public class Launcher : MonoBehaviourPunCallbacks
         currentRoomInfo = info;
         
     }
-    
 
+    private static Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     public override void OnLeftRoom()
     {
         Debug.Log("OnLeftRoom");
-        PhotonNetwork.JoinLobby();
+        if(PhotonNetwork.IsConnectedAndReady)
+            PhotonNetwork.JoinLobby();
         //OnJoinedLobby();
         inRoom = false;
         GameSettings.GameMode = (GameMode)0;
@@ -308,18 +310,19 @@ public class Launcher : MonoBehaviourPunCallbacks
         mapValueText.text = "Map: " + maps[currentMap].name;
         modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), (int)GameSettings.GameMode);
         roomNameIF.text = "";
-
+        cachedRoomList.Clear();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         roomItems = roomList;
-        Debug.Log(roomItems);
+        //Debug.Log(roomItems[0].Name);
         createRoomList(roomList);
 
 
     }
-
+    
+    //public List<RoomInfo> _roomList;
     public void createRoomList(List<RoomInfo> roomList)
 
     {
@@ -327,15 +330,36 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Destroy(t.gameObject);
         }
-        foreach (RoomInfo r in roomList)
+        /*foreach (RoomInfo r in roomList)
         {
-            if (r.RemovedFromList)
-                continue;
+           if (r.RemovedFromList)
+               continue;
 
 
-
+           // _roomList.Add(r);
             Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(r);
 
+        }
+        */
+        
+
+    
+
+    for (int i = 0; i<roomList.Count; i++)
+        {
+            RoomInfo info = roomList[i];
+            if (info.RemovedFromList)
+            {
+                cachedRoomList.Remove(info.Name);
+            }
+            else
+            {
+                cachedRoomList[info.Name] = info;
+            }
+        }
+        foreach (KeyValuePair<string, RoomInfo> entry in cachedRoomList)
+        {
+            Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(cachedRoomList[entry.Key]);
         }
     }
 

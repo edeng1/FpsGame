@@ -111,6 +111,30 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
+      propertyPath: lengthInSec
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
+      propertyPath: useUnscaledTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800004, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 19800002, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
       propertyPath: playOnAwake
       value: 0
