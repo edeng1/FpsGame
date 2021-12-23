@@ -27,8 +27,10 @@ public class SingeShotGun : Gun
     {
         if (itemGameObject.name == "Primary")
         {
-            
-            itemInfo=Resources.Load<GunInfo>("Items/Guns/"+ PlayerPrefs.GetString("Guns"));
+            if(PlayerPrefs.HasKey("Guns"))
+                itemInfo=Resources.Load<GunInfo>("Items/Guns/"+ PlayerPrefs.GetString("Guns"));
+            else
+                itemInfo = Resources.Load<GunInfo>("Items/Guns/Ak47");
         }
         
         anim = transform.root.GetComponent<Animator>();

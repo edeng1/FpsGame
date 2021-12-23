@@ -661,8 +661,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (GameSettings.GameMode != GameMode.FFA)
         {
-            HomeScore.gameObject.SetActive(true);
-            AwayScore.gameObject.SetActive(true);
+            HomeScore.transform.parent.parent.gameObject.SetActive(true);
+            //AwayScore.transform.parent.gameObject.SetActive(true);
             HomeScore.text = $"Home {homeScore}";
             AwayScore.text = $"Away {awayScore}";
         }
@@ -794,8 +794,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             
             PhotonNetwork.DestroyAll();
-            //PhotonNetwork.CurrentRoom.IsVisible = false;//why it doesnt show up 
-            //PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             
         }
       

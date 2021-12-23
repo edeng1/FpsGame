@@ -109,7 +109,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             {
 
             }
-            PhotonNetwork.AutomaticallySyncScene = true;
+            
             Debug.Log("Im ready");
 
         }
@@ -120,7 +120,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Cursor.visible = true;
 
             Launcher.instance.OnLeftRoom();
-            PhotonNetwork.AutomaticallySyncScene = true;
+            
 
 
         }
@@ -273,7 +273,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             PhotonNetwork.AutomaticallySyncScene = true;
             if(PhotonNetwork.IsMasterClient)
             {
-                //SceneManager.LoadScene(0);
+                SceneManager.LoadScene(0);
             }
         }
     }

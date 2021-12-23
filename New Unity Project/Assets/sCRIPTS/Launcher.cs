@@ -129,7 +129,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         //StartCoroutine(Wait(MenuManager.instance));
         
         if (roomItems != null) { createRoomList(roomItems); }
-        PhotonNetwork.AutomaticallySyncScene = true;
+        
         Debug.Log("Joined Lobby");
         if (PhotonNetwork.NickName =="")
         {

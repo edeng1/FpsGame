@@ -12,8 +12,10 @@ public class Pause : MonoBehaviour
     public Slider volSlider;
     public Slider sensSlider;
     public TMP_InputField sensInputField;
+    public TMP_InputField volInputField;
     public GameObject settings;
     public GameObject loadout;
+    public AudioSource audioSrc;
     float sensitivity;
     private void Start()
     {
@@ -23,8 +25,17 @@ public class Pause : MonoBehaviour
             sensSlider.value = sensitivity;
             
         }
-       
-        
+        if (PlayerPrefs.HasKey("vol"))
+        {
+            
+            volSlider.value = PlayerPrefs.GetFloat("vol");
+            if (audioSrc != null)
+            {
+                audioSrc.volume = PlayerPrefs.GetFloat("vol");
+            }
+
+        }
+
     }
     public void TogglePause()
     {
@@ -75,6 +86,28 @@ public class Pause : MonoBehaviour
         if (result < 0) { result = 0; sensInputField.text ="0"; }
         if (result > 1) { result = 1; sensInputField.text = "1"; }
         ChangeSensitivity(result);
+
+    }
+    public void InputChangeVol()
+    {
+        float result = 0;
+        float.TryParse(volInputField.text, out result);
+        Debug.Log(result);
+
+        if (result < 0) { result = 0; volInputField.text = "0"; }
+        if (result > 1) { result = 1; volInputField.text = "1"; }
+        ChangeVolume(result);
+
+    }
+    public void ChangeVolume(float vol)
+    {
+        PlayerPrefs.SetFloat("vol", vol);
+        PlayerPrefs.Save();
+        volSlider.value = vol;
+        if (audioSrc != null)
+            audioSrc.volume = vol;
+        if (volInputField != null)
+            volInputField.text = vol.ToString();
 
     }
 

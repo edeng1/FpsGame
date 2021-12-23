@@ -90,6 +90,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
+            Destroy(healthUI.transform.parent.gameObject);
+            Destroy(ammoUI.transform.parent.gameObject);
         }
         ChooseSkinColor();
 
