@@ -11654,7 +11654,7 @@ MonoBehaviour:
   maps:
   - name: Bloc
     scene: 1
-  - name: MintShip
+  - name: Cargo
     scene: 2
   - name: Storage
     scene: 3
@@ -11664,6 +11664,8 @@ MonoBehaviour:
     scene: 5
   - name: Research Lab
     scene: 6
+  - name: Office
+    scene: 7
 --- !u!114 &1857619025
 MonoBehaviour:
   m_ObjectHideFlags: 0
