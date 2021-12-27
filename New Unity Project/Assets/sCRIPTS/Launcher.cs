@@ -23,6 +23,8 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public static RoomInfo currentRoomInfo;
 
+    [SerializeField] Image mapImage;
+    [SerializeField] TMP_Text modeValueText_InRoom;
     [SerializeField] TMP_InputField usernameInputField;
     [SerializeField] Button usernameSaveButton;
     [SerializeField] TMP_InputField roomNameIF;
@@ -82,12 +84,25 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
             CreateRoomManager();
             mapValueText.text = "Map: " + maps[currentMap].name;
+            SetMapImageAndModeInRoom();
             modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
             mapValueText_OptionsMenu.text = "Map: " + maps[currentMap].name;
             modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
        // }
 
 
+    }
+    public void SetMapImageAndModeInRoom()
+    {
+        Texture2D MapImage = Resources.Load<Texture2D>("Maps/Map" + currentMap.ToString());
+        if (MapImage == null) { Debug.Log("Map null"); }
+        if (MapImage != null)
+        {
+
+            Rect rect = new Rect(0, 0, MapImage.width, MapImage.height);
+            mapImage.GetComponent<Image>().sprite = Sprite.Create(MapImage, rect, new Vector2(0.5f, 0.5f));
+        }
+        modeValueText_InRoom.text= System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
     }
     public void StartAfterLogin()
     {
@@ -174,7 +189,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         RoomOptions options = new RoomOptions();
 
-       
+        
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
         properties.Add("map", currentMap);
         properties.Add("mode", (int)GameSettings.GameMode);
@@ -199,7 +214,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
 
         Debug.Log(propertiesThatChanged);
-
+        SetMapImageAndModeInRoom();
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
 

@@ -89,6 +89,7 @@ public class Flag : MonoBehaviour
         playerHasFlag = true;
         transform.parent = PhotonView.Find(vID).transform;
         transform.position = transform.parent.position;
+        transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));
         UIEventSystem.current.UIUpdateFlagPickUp(gameObject.tag+ " flag has been taken");
     }
 
