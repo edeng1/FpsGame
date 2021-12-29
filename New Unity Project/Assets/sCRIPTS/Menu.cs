@@ -7,7 +7,7 @@ public class Menu : MonoBehaviour
     public string menuName;
     public bool open;
     public Camera mainCam;
-   
+    
 
 
     public void Open()
