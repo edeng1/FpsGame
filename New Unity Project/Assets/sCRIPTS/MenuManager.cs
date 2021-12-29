@@ -49,7 +49,7 @@ public class MenuManager : MonoBehaviour
                 }
                 if (gO.name == "TitleMenu")
                 {
-                    LeanTween.moveZ(mainCam.gameObject, 16f, .5f);
+                    LeanTween.moveZ(mainCam.gameObject, 16f, .4f);
                 }
                 gO.SetActive(true);
             }
@@ -86,10 +86,10 @@ public class MenuManager : MonoBehaviour
     public bool ZoomIn(GameObject menu)
     {
         Vector3 temp = menu.transform.localScale;
-        LeanTween.moveZ(mainCam.gameObject, 19.5f, .5f);
+        LeanTween.moveZ(mainCam.gameObject, 19.5f, .4f);
         temp = menu.transform.localScale;
         menu.transform.localScale = new Vector3(0, 0, 0);
-        LeanTween.scale(menu, new Vector3(1, 1, 1), .5f);
+        LeanTween.scale(menu, new Vector3(1, 1, 1), .4f);
         return true;
     }
     public void ZoomOut()

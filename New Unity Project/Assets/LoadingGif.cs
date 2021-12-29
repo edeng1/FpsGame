@@ -14,12 +14,11 @@ public class LoadingGif : MonoBehaviour
     {
         gameObject.GetComponent<TMP_Text>().text = "Loading";
         yield return new WaitForSeconds(.5f);
-        gameObject.GetComponent<TMP_Text>().text = "Loading.";
-        yield return new WaitForSeconds(.5f);
-        gameObject.GetComponent<TMP_Text>().text = "Loading..";
-        yield return new WaitForSeconds(.5f);
-        gameObject.GetComponent<TMP_Text>().text = "Loading...";
-        yield return new WaitForSeconds(.5f);
+        for(int i = 0; i < 3; i++)
+        {
+            gameObject.GetComponent<TMP_Text>().text += ".";
+            yield return new WaitForSeconds(.5f);
+        }
 
         StartCoroutine(gif());
     }

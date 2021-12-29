@@ -127,7 +127,7 @@ public class Pause : MonoBehaviour
     {
         disconnecting = true;
         //RoomManager.Instance.destroyPM();
-        Manager.Instance.PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber);
+        Manager.Instance.PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber, PhotonNetwork.LocalPlayer.NickName);
         SceneManager.LoadScene(0);
         if (PhotonNetwork.IsMasterClient) { PhotonNetwork.DestroyAll(); }
         if (!PhotonNetwork.IsMasterClient) // when master client quits, the other clients will return to the same menu.

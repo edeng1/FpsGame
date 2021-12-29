@@ -52,6 +52,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     public Transform flag;
     public Transform ScoreBoardUI;
     public TMP_Text TimerUI;
+    public TMP_Text PlayerJoinedLeftUI;
     public Transform EndGameUI;
     public TMP_Text HomeScore;
     public TMP_Text AwayScore;
@@ -438,16 +439,17 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                     FlagManager.Instance.TrySync();
             }
         }
-       
 
-            UpdatePlayers_S((int)state,playerInfo);
+            
+            UpdatePlayers_S((int)state,playerInfo,"joined");
     }
 
-    public void PlayerLeft_S(int actorNumber)
+    public void PlayerLeft_S(int actorNumber,string name)
     {
-        object[] package = new object[1];
+        object[] package = new object[2];
 
-        package[0] = PhotonNetwork.LocalPlayer.ActorNumber;
+        package[0] = actorNumber;
+        package[1] = name;
         PhotonNetwork.RaiseEvent(
            (byte)EventCodes.PlayerLeft,
            package,
@@ -467,15 +469,17 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                 break;
             }
         }
-        UpdatePlayers_S((int)state,playerInfo);
+        
+        UpdatePlayers_S((int)state,playerInfo,"left");
         Debug.Log("Player quit");
     }
 
-    public void UpdatePlayers_S(int state, List<PlayerInfo> info)
+    public void UpdatePlayers_S(int state, List<PlayerInfo> info,string joinedleft="")
     {
-        object[] package = new object[info.Count+1];
+        object[] package = new object[info.Count+2];
 
         package[0] = state;
+        package[1] = joinedleft;
         for (int i = 0; i < info.Count; i++)
         {
             object[] piece = new object[6];
@@ -487,7 +491,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             piece[3] = info[i].flagCaps;
             piece[4] = info[i].name;
             piece[5] = info[i].awayTeam;
-            package[i+1] = piece;
+            package[i+2] = piece;
         }
 
         PhotonNetwork.RaiseEvent(
@@ -502,8 +506,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         state = (GameState)data[0];
         playerInfo = new List<PlayerInfo>();
-        
-        for (int i = 1; i < data.Length; i++)
+
+        for (int i = 2; i < data.Length; i++)
         {
             object[] extract = (object[])data[i];
 
@@ -520,7 +524,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             );
 
             playerInfo.Add(p);
-
+            StartCoroutine(OnPlayerJoinedLeft(p.name, (string)data[1]));
             if (PhotonNetwork.LocalPlayer.ActorNumber == p.actor)
             {
                 myind = i-1;
@@ -851,6 +855,17 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         }
 
     }
+    private IEnumerator OnPlayerJoinedLeft(string name,string status)
+    {
+        if (status == "")
+        {
+            yield break;
+        }
+
+        PlayerJoinedLeftUI.text = name + " " + status;
+        yield return new WaitForSeconds(2f);
+        PlayerJoinedLeftUI.text = "";
+    }
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
@@ -861,7 +876,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private void OnApplicationQuit()
     {
-        PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber);
+        PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber, PhotonNetwork.LocalPlayer.NickName);
         Debug.Log("I quit");
     }
 
