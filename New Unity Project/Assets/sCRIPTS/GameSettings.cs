@@ -15,12 +15,18 @@ public enum GameMode
 public enum GameMap
 {
     Bloc=0,
-    Plaza=1
+    Cargo=1,
+    Storage=2,
+    Hinge=3,
+    Presidio=4,
+    ResearchLab=5,
+    Office=6
 }
 
 
 public class GameSettings : MonoBehaviour
 {
     public static GameMode GameMode = GameMode.FFA;
+    public static GameMap GameMap=GameMap.Bloc;
     public static bool IsAwayTeam = false;
 }

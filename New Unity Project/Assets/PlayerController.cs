@@ -48,7 +48,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     private int actorNumber;
     public GameObject[] headColor;
     public GameObject[] skinColor;
-     
+    public GameObject[] headColorRag;
+    public GameObject[] skinColorRag;
 
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
@@ -183,6 +184,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             headColor[1].SetActive(true);
             skinColor[0].SetActive(false);
             skinColor[1].SetActive(true);
+
+            headColorRag[0].SetActive(false);
+            headColorRag[1].SetActive(true);
+            skinColorRag[0].SetActive(false);
+            skinColorRag[1].SetActive(true);
         }
         else//black
         {
@@ -190,6 +196,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             headColor[0].SetActive(true);
             skinColor[1].SetActive(false);
             skinColor[0].SetActive(true);
+
+            headColorRag[1].SetActive(false);
+            headColorRag[0].SetActive(true);
+            skinColorRag[1].SetActive(false);
+            skinColorRag[0].SetActive(true);
         }
     }
     

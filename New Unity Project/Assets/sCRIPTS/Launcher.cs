@@ -83,18 +83,31 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         PhotonNetwork.ConnectUsingSettings();
             CreateRoomManager();
-            mapValueText.text = "Map: " + maps[currentMap].name;
+            mapValueText.text = "Map: " + maps[(int)GameSettings.GameMap].name;
             SetMapImageAndModeInRoom();
             modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
-            mapValueText_OptionsMenu.text = "Map: " + maps[currentMap].name;
+            mapValueText_OptionsMenu.text = "Map: " + maps[(int)GameSettings.GameMap].name;
             modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
        // }
 
 
     }
-    public void SetMapImageAndModeInRoom()
+    public void SetMapImageAndModeInRoom(RoomInfo info=null)
     {
-        Texture2D MapImage = Resources.Load<Texture2D>("Maps/Map" + currentMap.ToString());
+        Texture2D MapImage;
+        if (info!=null)
+        {
+            MapImage = Resources.Load<Texture2D>("Maps/Map" + (info.CustomProperties["maps"]).ToString());
+            modeValueText_InRoom.text = System.Enum.GetName(typeof(GameMode), info.CustomProperties["modes"]); 
+        }
+        else
+        {
+            MapImage = Resources.Load<Texture2D>("Maps/Map" + ((int)GameSettings.GameMap).ToString());
+            modeValueText_InRoom.text = System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
+        }
+        
+        
+       
         if (MapImage == null) { Debug.Log("Map null"); }
         if (MapImage != null)
         {
@@ -102,7 +115,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             Rect rect = new Rect(0, 0, MapImage.width, MapImage.height);
             mapImage.GetComponent<Image>().sprite = Sprite.Create(MapImage, rect, new Vector2(0.5f, 0.5f));
         }
-        modeValueText_InRoom.text= System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
+        
     }
     public void StartAfterLogin()
     {
@@ -142,7 +155,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         MenuManager.instance.OpenMenu("Title");/////////////////////
         //StartCoroutine(Wait(MenuManager.instance));
-        
+       
         if (roomItems != null) { createRoomList(roomItems); }
         
         Debug.Log("Joined Lobby");
@@ -174,14 +187,14 @@ public class Launcher : MonoBehaviourPunCallbacks
         options.MaxPlayers = (byte)maxPlayersSlider.value;
         options.CustomRoomPropertiesForLobby = new string[] { "map", "mode" };
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
-        properties.Add("map", currentMap);
+        properties.Add("map", (int)GameSettings.GameMap);
         properties.Add("mode", (int)GameSettings.GameMode);
         options.CustomRoomProperties = properties;
 
         
 
         PhotonNetwork.CreateRoom(roomNameIF.text,options);
-        
+        //SetMapImageAndModeInRoom();
         MenuManager.instance.OpenMenu("Loading");/////////////////////////////////
     }
 
@@ -191,7 +204,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
-        properties.Add("map", currentMap);
+        properties.Add("map", (int)GameSettings.GameMap);
         properties.Add("mode", (int)GameSettings.GameMode);
        
 
@@ -206,6 +219,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
         if (propertiesThatChanged.ContainsKey("map")){
             currentMap = (int)propertiesThatChanged["map"];
+            GameSettings.GameMap = (GameMap)currentMap;
         }
         if (propertiesThatChanged.ContainsKey("mode"))
         {
@@ -222,9 +236,10 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void ChangeMap()
     {
-        currentMap++;
+        currentMap= (int)GameSettings.GameMap + 1; ;
         if (currentMap >= maps.Length)
         { currentMap = 0; }
+        GameSettings.GameMap = (GameMap)currentMap;
         mapValueText.text = "Map: " + maps[currentMap].name;
         mapValueText_OptionsMenu.text = "Map: " + maps[currentMap].name;
        
@@ -286,7 +301,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (RoomManager.Instance.AllPlayersReady()) {
             Debug.Log("All players ready");
            
-            PhotonNetwork.LoadLevel(maps[currentMap].scene);
+            PhotonNetwork.LoadLevel(maps[(int)GameSettings.GameMap].scene);
         }
             
        
@@ -307,6 +322,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(info.Name);
         MenuManager.instance.OpenMenu("Loading");////////////////////
         GameSettings.GameMode = (GameMode)info.CustomProperties["mode"];
+        GameSettings.GameMap = (GameMap)info.CustomProperties["map"];
+        SetMapImageAndModeInRoom();
         Debug.Log("Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode));
         currentRoomInfo = info;
         
@@ -322,7 +339,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         inRoom = false;
         GameSettings.GameMode = (GameMode)0;
         currentMap = 0;
-        mapValueText.text = "Map: " + maps[currentMap].name;
+        GameSettings.GameMap = (GameMap)0;
+        mapValueText.text = "Map: " + maps[(int)GameSettings.GameMap].name;
         modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), (int)GameSettings.GameMode);
         roomNameIF.text = "";
         cachedRoomList.Clear();
