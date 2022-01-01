@@ -798,8 +798,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             
             PhotonNetwork.DestroyAll();
-            PhotonNetwork.CurrentRoom.IsVisible = false;
-            PhotonNetwork.CurrentRoom.IsOpen = false;
+            //PhotonNetwork.CurrentRoom.IsVisible = false;
+            //PhotonNetwork.CurrentRoom.IsOpen = false;
             
         }
       
