@@ -14,18 +14,23 @@ public class PlayerData
     {
 
     }
-    public PlayerData(string _username, int _xp, int _level, string _localId, string _idToken)
+    public PlayerData(int _level, int _xp)
     {
-        this.username = _username;
+        //this.username = _username;
         this.xp = _xp;
         this.level = _level;
-        localId = _localId;
-        idToken = _idToken;
+        //localId = _localId;
+        //idToken = _idToken;
     }
     public PlayerData(bool firstTimeUser)
     {
         xp = 0;
         level = 0;
+    }
+    public PlayerData(PlayerData playerData)
+    {
+        xp = playerData.xp;
+        level = playerData.level;
     }
 
 }

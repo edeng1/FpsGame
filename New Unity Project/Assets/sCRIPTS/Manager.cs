@@ -572,6 +572,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                 {
                     case 0: //kills
                         playerInfo[i].kills += amt;
+                        
                         if (GameSettings.GameMode == GameMode.TDM)
                         {
                             if (playerInfo[i].awayTeam)
@@ -589,6 +590,18 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
                     case 1: //deaths
                         playerInfo[i].deaths += amt;
+                        if (PhotonNetwork.LocalPlayer.ActorNumber == actor)
+                        {
+
+                            RoomManager.playerData.xp += 5;
+                           bool levelUp= Data.Save(RoomManager.playerData);
+                            if (levelUp)
+                            {
+                                UIEventSystem.current.UIOnLevelUp("Level " + RoomManager.playerData.level.ToString() + " Reached!");
+                            }
+                           
+
+                        }
                         Debug.Log($"Player {playerInfo[i].name} : deaths = {playerInfo[i].deaths}");
                         break;
                     case 2: //flag caps

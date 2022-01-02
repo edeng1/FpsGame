@@ -13,8 +13,14 @@ public class LoadoutManager : MonoBehaviour
         guns = Resources.LoadAll("Items/Guns", typeof(GunInfo));
         foreach (GunInfo g in guns)
         {
-            if(!g.isPistol)
-                Instantiate(gunSelectPrefab, transform.Find("ButtonContainer")).GetComponent<GunListItem>().SetUp(g);
+            if (!g.isPistol)
+            {
+                if (g.levelToUnlock<=RoomManager.playerData.level)
+                {
+                    Instantiate(gunSelectPrefab, transform.Find("ButtonContainer")).GetComponent<GunListItem>().SetUp(g);
+                }
+            }
+               
         }   
     }
 

@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     [SerializeField] TMP_Text healthUI;
     [SerializeField] TMP_Text ammoUI;
     [SerializeField] TMP_Text eventUI;
+    [SerializeField] TMP_Text eventLevelUpUI;
     [SerializeField] TMP_Text eventKillUI;
     [SerializeField] GameObject KillFeedUI;
     public bool isDead;
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         UIEventSystem.current.onFlagReturn += EventUI;
         UIEventSystem.current.onFlagCapture += EventUI;
         UIEventSystem.current.onPlayerKilled += EventKillUI;
+        UIEventSystem.current.onLevelUp += EventLevelUpUI;
         base.OnEnable();
     }
     private void OnDisable()
@@ -113,6 +115,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         UIEventSystem.current.onFlagReturn -= EventUI;
         UIEventSystem.current.onFlagCapture -= EventUI;
         UIEventSystem.current.onPlayerKilled -= EventKillUI;
+        UIEventSystem.current.onLevelUp -= EventLevelUpUI;
         base.OnDisable();
     }
     private void Update()
@@ -525,6 +528,17 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         yield return new WaitForSeconds(5.5f);
         if(newKill)
             Destroy(newKill);
+    }
+    void EventLevelUpUI(string eventText)
+    {
+        StartCoroutine(DisplayLevelUpEvent(eventText));
+    }
+    IEnumerator DisplayLevelUpEvent(string eventText)
+    {
+
+        eventUI.text = eventText;
+        yield return new WaitForSeconds(3f);
+        eventUI.text = "";
     }
 
     void AmmoUI()

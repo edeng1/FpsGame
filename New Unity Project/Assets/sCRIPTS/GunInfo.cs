@@ -7,6 +7,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName ="FPS/New Gun")]
 public class GunInfo : ItemInfo
 {
+    public int levelToUnlock=0;
     public float damageBody;
     public float damageArm;
     public float damageHead;

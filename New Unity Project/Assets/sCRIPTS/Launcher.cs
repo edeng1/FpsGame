@@ -46,6 +46,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] public Camera mainCamera;
     [SerializeField] public TMP_Text usernameText;
     [SerializeField] public TMP_Text xpText;
+    [SerializeField] public TMP_Text levelText;
     private RoomOptions roomOptions;
     public static List<RoomInfo> roomItems;
     public MapData[] maps;
@@ -88,7 +89,17 @@ public class Launcher : MonoBehaviourPunCallbacks
             modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
             mapValueText_OptionsMenu.text = "Map: " + maps[(int)GameSettings.GameMap].name;
             modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
-       // }
+        if (RoomManager.playerData != null) {
+            levelText.text = "Level: " + RoomManager.playerData.level.ToString();
+            xpText.text = "XP: " + RoomManager.playerData.xp.ToString();
+        }
+        else
+        {
+            levelText.text = "Level: 0";
+            xpText.text = "XP: 0";
+        }
+
+        // }
 
 
     }
@@ -125,10 +136,10 @@ public class Launcher : MonoBehaviourPunCallbacks
         modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
         mapValueText_OptionsMenu.text = "Map: " + maps[currentMap].name;
         modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
-        //if(Data.playerData.username!=null)
-            //usernameText.text = Data.playerData.username;
-        //if (Data.playerData.xp != null)
-            //xpText.text = Data.playerData.xp.ToString();
+        
+            levelText.text = RoomManager.playerData.level.ToString();
+        
+            xpText.text = RoomManager.playerData.xp.ToString();
     }
     public void SaveUserName()
     {
@@ -294,18 +305,25 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.instance.OpenMenu("Error");//////////////////////////////
     }
 
+    bool gameStarting = false;
     public void StartGame()////////////////////////////////////////////
     {
-
-
-        if (RoomManager.Instance.AllPlayersReady()) {
-            Debug.Log("All players ready");
-           
-            PhotonNetwork.LoadLevel(maps[(int)GameSettings.GameMap].scene);
-        }
-            
        
-        
+
+        if (gameStarting == false)
+        {
+            gameStarting = true;
+            if (RoomManager.Instance.AllPlayersReady())
+            {
+                Debug.Log("All players ready");
+
+                PhotonNetwork.LoadLevel(maps[(int)GameSettings.GameMap].scene);
+            }
+            
+        }
+
+
+
     }
    
     
