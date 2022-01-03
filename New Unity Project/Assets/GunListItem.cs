@@ -36,7 +36,8 @@ public class GunListItem : MonoBehaviour
         }
         //Sets the customize text when choosing loadout to be same size as picture and right below it. Makes text as the name of the skin of the gun.
         myRectTransform = GetComponent<RectTransform>();
-        customizeText.text = _info.itemModel.transform.Find("Skin").GetChild(0).gameObject.name;//gets the skin of the gun.
+        if(_info.itemModel.transform.Find("Skin")!=null)
+            customizeText.text = _info.itemModel.transform.Find("Skin").GetChild(0).gameObject.name;//gets the skin of the gun.
         if (SceneManager.GetActiveScene().buildIndex == 0) {//if in menu or game scene
             customizeRectTransform.sizeDelta = new Vector2(myRectTransform.sizeDelta.x, myRectTransform.sizeDelta.y / 4);
             customize.transform.localPosition = new Vector3(0, -50);
@@ -65,7 +66,12 @@ public class GunListItem : MonoBehaviour
     }
     public void OnClickCustomize()
     {
-        if(_info.itemModel == _info.itemModels[1])
+        if (_info.itemModels.Length <= 1)
+        {
+            return;
+        }
+
+        if (_info.itemModel == _info.itemModels[1])
             _info.itemModel = _info.itemModels[0];
         else
         {
