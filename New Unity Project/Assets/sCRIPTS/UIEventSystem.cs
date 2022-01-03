@@ -19,6 +19,7 @@ public class UIEventSystem : MonoBehaviour
     public event Action<string> onFlagReturn;
     public event Action<string> onPlayerKilled;
     public event Action<string> onLevelUp;
+    public event Action<string> onWeaponUnlocked;
 
     public void UIUpdateFlagPickUp(string _tag)
     {
@@ -46,7 +47,11 @@ public class UIEventSystem : MonoBehaviour
         onLevelUp(_tag);
 
     }
+    public void UIOnWeaponUnlock(string _tag)
+    {
+        onWeaponUnlocked(_tag);
 
+    }
 
 
 

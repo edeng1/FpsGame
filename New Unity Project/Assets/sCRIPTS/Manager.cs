@@ -593,15 +593,25 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         if (PhotonNetwork.LocalPlayer.ActorNumber == actor)
                         {
 
+                            
                             RoomManager.playerData.xp += 5;
                            bool levelUp= Data.Save(RoomManager.playerData);
+                            int currentLevel = -1;
                             if (levelUp)
                             {
                                 UIEventSystem.current.UIOnLevelUp("Level " + RoomManager.playerData.level.ToString() + " Reached!");
+                                currentLevel = RoomManager.playerData.level;
+                                UnityEngine.Object[] guns = Resources.LoadAll("Items/Guns", typeof(GunInfo));
+                                foreach (GunInfo g in guns)
+                                {
+                                    if (g.levelToUnlock == currentLevel)
+                                    {
+                                        UIEventSystem.current.UIOnWeaponUnlock(g.name+" Unlocked!");
+                                    }
+                                }
                             }
-                           
-
-                        }
+                            
+                         }
                         Debug.Log($"Player {playerInfo[i].name} : deaths = {playerInfo[i].deaths}");
                         break;
                     case 2: //flag caps

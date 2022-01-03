@@ -43,4 +43,15 @@ public class GunListItem : MonoBehaviour
         }
 
     }
+    public void OnClickCustomize()
+    {
+        if(_info.itemModel == _info.itemModels[1])
+            _info.itemModel = _info.itemModels[0];
+        else
+        {
+            _info.itemModel = _info.itemModels[1];
+        }
+       
+
+    }
 }

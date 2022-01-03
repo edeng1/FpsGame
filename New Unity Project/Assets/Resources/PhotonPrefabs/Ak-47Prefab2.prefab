@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9049938920144453114}
   m_Layer: 0
-  m_Name: Ak-47Prefab
+  m_Name: Ak-47Prefab2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,7 +189,7 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 484464b8ff3440e40bae6737848b8e21, type: 2}
+      objectReference: {fileID: 2100000, guid: 9ae1c66a095df854682a72f088061f4a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
 --- !u!4 &9049938919719540384 stripped

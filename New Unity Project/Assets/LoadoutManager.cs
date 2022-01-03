@@ -18,6 +18,8 @@ public class LoadoutManager : MonoBehaviour
                 if (g.levelToUnlock<=RoomManager.playerData.level)
                 {
                     Instantiate(gunSelectPrefab, transform.Find("ButtonContainer")).GetComponent<GunListItem>().SetUp(g);
+
+                    
                 }
             }
                
