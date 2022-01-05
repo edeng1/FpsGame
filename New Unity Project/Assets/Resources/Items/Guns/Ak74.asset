@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Ak74
   m_EditorClassIdentifier: 
   itemName: Ak74
-  itemModel: {fileID: 1000010118919020, guid: a6d0754d440e3664fb2b639b2a7d08ca, type: 3}
+  itemModel: {fileID: 9049938920144453115, guid: 6947e1693aadf5742ae510596e33790d,
+    type: 3}
+  itemModels: []
   itemPosition: {x: 0.25, y: 0.05, z: 0.15}
   itemRotation: {x: -1, y: 0, z: 0}
   itemScale: {x: 1.5, y: 1.5, z: 1.5}
-  itemSound: {fileID: 0}
+  itemSound: {fileID: 8300000, guid: 34b439bf70b80a6409eadecc6be92d68, type: 3}
   levelToUnlock: 7
   damageBody: 27
   damageArm: 15

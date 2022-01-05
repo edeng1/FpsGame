@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9952b61b3e6b9af42bcd962aed94afdd, type: 3}
+  m_Name: Scar
+  m_EditorClassIdentifier: 
+  itemName: Scar
+  itemModel: {fileID: 9049938920144453115, guid: 1aed6d9c3e926bf49b917db1cd1a535e,
+    type: 3}
+  itemModels: []
+  itemPosition: {x: 0.23, y: 0.4, z: 0.4}
+  itemRotation: {x: -2, y: 180, z: 0}
+  itemScale: {x: 1, y: 1, z: 1}
+  itemSound: {fileID: 8300000, guid: a764377339b869e459f5e53fb9258f73, type: 3}
+  levelToUnlock: 5
+  damageBody: 31
+  damageArm: 18
+  damageHead: 100
+  fullyAuto: 1
+  fireRate: 11
+  verticalRecoil: 0.7
+  duration: 0.01
+  totalAmmo: 90
+  clipSize: 30
+  reloadTime: 1
+  isPistol: 1
+  gunImage: {fileID: 2800000, guid: 562e68be021860c4ca1580a94f1f2532, type: 3}

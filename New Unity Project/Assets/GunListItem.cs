@@ -66,7 +66,7 @@ public class GunListItem : MonoBehaviour
     }
     public void OnClickCustomize()
     {
-        if (_info.itemModels.Length <= 1)
+        if (_info.itemModels==null||_info.itemModels.Length <= 1)
         {
             return;
         }

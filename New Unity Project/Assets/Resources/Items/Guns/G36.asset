@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9952b61b3e6b9af42bcd962aed94afdd, type: 3}
+  m_Name: G36
+  m_EditorClassIdentifier: 
+  itemName: G36
+  itemModel: {fileID: 9049938920144453115, guid: 814f6b241560b4b469d175413285f1ca,
+    type: 3}
+  itemModels: []
+  itemPosition: {x: 0.23, y: 0.35, z: 0.25}
+  itemRotation: {x: 0, y: 0, z: 0}
+  itemScale: {x: 1, y: 1, z: 1}
+  itemSound: {fileID: 8300000, guid: a764377339b869e459f5e53fb9258f73, type: 3}
+  levelToUnlock: 5
+  damageBody: 24
+  damageArm: 18
+  damageHead: 97
+  fullyAuto: 1
+  fireRate: 12
+  verticalRecoil: 0.4
+  duration: 0.01
+  totalAmmo: 90
+  clipSize: 30
+  reloadTime: 1
+  isPistol: 0
+  gunImage: {fileID: 2800000, guid: cc67b62fafc7d7a428a16b0336842426, type: 3}
