@@ -28,13 +28,7 @@ public static class Data
             //++_playerData.level;
         }
         return false;
-        /*
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/player.data";
-        FileStream stream = new FileStream(path, FileMode.Create);
-        PlayerData data = new PlayerData(_playerData);
-        formatter.Serialize(stream, data);
-        stream.Close();*/
+     
 
     }
 
@@ -50,24 +44,7 @@ public static class Data
         return new PlayerData(PlayerPrefs.GetInt("level"),PlayerPrefs.GetInt("xp"));
 
 
-        /*string path = Application.persistentDataPath + "/player.data";
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-            PlayerData data=formatter.Deserialize(stream) as PlayerData;
-            stream.Close();
-
-           
-
-            return data;
-            
-        }
-        else
-        {
-            Debug.Log("Save file not found. Creating new user.");
-            return null;
-        }*/
+      
 
     }
 
@@ -77,6 +54,60 @@ public static class Data
     }
 
 
+    public static bool Save2(PlayerData _playerData)
+    {
+        bool levelUp = false;
+        if (_playerData.xp >= GetExperienceToNextLevel(_playerData.level, _playerData.xp))
+        {
+
+            levelUp =true;
+            ++_playerData.level;
+        }
+
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/player.data";
+        FileStream stream = new FileStream(path, FileMode.Create);
+        PlayerData data = new PlayerData(_playerData);
+        formatter.Serialize(stream, data);
+        stream.Close();
+        return levelUp;
+    }
+
+    public static PlayerData Load2()
+    {
+
+       
+        string path = Application.persistentDataPath + "/player.data";
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+            stream.Position = 0;
+            PlayerData data;
+            try
+            {
+                 data = (PlayerData)formatter.Deserialize(stream);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
+                return new PlayerData(0, 0);
+            }
+            
+            stream.Close();
+
+            
+
+            return data;
+            
+        }
+        else
+        {
+            Debug.Log("Save file not found. Creating new user.");
+            return new PlayerData(0, 0);
+        }
+
+    }
 
 
     public static void SaveToDatabase(PlayerData _playerData)

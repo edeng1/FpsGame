@@ -595,7 +595,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
                             
                             RoomManager.playerData.xp += 5;
-                           bool levelUp= Data.Save(RoomManager.playerData);
+                           bool levelUp= Data.Save2(RoomManager.playerData);
                             int currentLevel = -1;
                             if (levelUp)
                             {

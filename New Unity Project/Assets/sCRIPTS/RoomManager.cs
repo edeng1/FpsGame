@@ -32,11 +32,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         
         DontDestroyOnLoad(gameObject);
-        //Data.SaveToDatabase(new PlayerData());
-        //if (Data.Load() != null)
-        playerData = Data.Load();
-        //else
-            //playerData = new PlayerData();
+        //Data.Save2(new PlayerData(true));
+        playerData = Data.Load2();
+            
 
         Instance = this;
         PV = GetComponent<PhotonView>();
