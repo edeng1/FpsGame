@@ -293,8 +293,9 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     {
         if(Input.GetKey(KeyCode.R))
         {
-            items[itemIndex].StartCoroutine(((SingeShotGun)items[itemIndex]).Reload());
            
+            items[itemIndex].StartCoroutine(((SingeShotGun)items[itemIndex]).Reload());
+            
         }
     }
     void Jump()

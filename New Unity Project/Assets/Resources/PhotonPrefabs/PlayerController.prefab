@@ -1609,6 +1609,7 @@ MonoBehaviour:
   canShoot: 0
   isReloading: 0
   switchingGuns: 0
+  reloadSound: {fileID: 8300000, guid: cef0fa03af5b747f0abe82cde0b2bccc, type: 3}
   cam: {fileID: 2012835018220491044}
 --- !u!114 &5216892082200905331
 MonoBehaviour:
@@ -4374,6 +4375,7 @@ MonoBehaviour:
   canShoot: 0
   isReloading: 0
   switchingGuns: 0
+  reloadSound: {fileID: 0}
   cam: {fileID: 2012835018220491044}
 --- !u!114 &3894559378058914570
 MonoBehaviour:

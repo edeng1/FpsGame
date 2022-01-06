@@ -17,6 +17,7 @@ public class SingeShotGun : Gun
     public bool canShoot;
     public bool isReloading;
     public bool switchingGuns;
+    public AudioClip reloadSound;
     
     float time;
     
@@ -198,11 +199,13 @@ public class SingeShotGun : Gun
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
     }
 
+   
     public IEnumerator Reload()
     {
         if (stash > 0&&clip<gi.clipSize)
         {
             isReloading = true;
+           
             player.anim.SetBool("isReloading", isReloading);
             yield return new WaitForSeconds(gi.reloadTime - .25f);
             stash += clip;
