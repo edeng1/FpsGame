@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 870Shotgun
   itemModel: {fileID: 100000, guid: 621a34edc52ed564691a1e478641944a, type: 3}
+  itemModelsUnlocked: []
   itemPosition: {x: 0.2, y: 0.35, z: 0.15}
   itemRotation: {x: 0, y: 90, z: 0}
   itemScale: {x: 1, y: 1, z: 1}
   itemSound: {fileID: 0}
-  levelToUnlock: 12
+  levelToUnlock: 40
   damageBody: 44
   damageArm: 23
   damageHead: 111

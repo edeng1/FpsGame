@@ -15,7 +15,7 @@ public class Pause : MonoBehaviour
     public TMP_InputField volInputField;
     public GameObject settings;
     public GameObject loadout;
-    public AudioSource audioSrc;
+    public AudioSource[] audioSrc;
     float sensitivity;
     private void Start()
     {
@@ -31,7 +31,10 @@ public class Pause : MonoBehaviour
             volSlider.value = PlayerPrefs.GetFloat("vol");
             if (audioSrc != null)
             {
-                audioSrc.volume = PlayerPrefs.GetFloat("vol");
+                foreach (AudioSource a in audioSrc)
+                {
+                    a.volume = PlayerPrefs.GetFloat("vol");
+                }
             }
 
         }
@@ -105,7 +108,10 @@ public class Pause : MonoBehaviour
         PlayerPrefs.Save();
         volSlider.value = vol;
         if (audioSrc != null)
-            audioSrc.volume = vol;
+            foreach(AudioSource a in audioSrc)
+            {
+                a.volume = vol;
+            }
         if (volInputField != null)
             volInputField.text = vol.ToString();
 

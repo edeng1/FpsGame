@@ -66,16 +66,19 @@ public class GunListItem : MonoBehaviour
     }
     public void OnClickCustomize()
     {
-        if (_info.itemModels==null||_info.itemModels.Length <= 1)
+        if (_info.itemModelsUnlocked==null||_info.itemModelsUnlocked.Count <= 1)
         {
+            //_info.itemModelsUnlocked.Add(Resources.Load<GameObject>("PhotonPrefabs/Ak-47Prefab2"));
+           
             return;
         }
-
-        if (_info.itemModel == _info.itemModels[1])
-            _info.itemModel = _info.itemModels[0];
+       
+        if (_info.itemModel == _info.itemModelsUnlocked[0]&& _info.itemModelsUnlocked[1]!=null)
+           
+                _info.itemModel = _info.itemModelsUnlocked[1];
         else
         {
-            _info.itemModel = _info.itemModels[1];
+            _info.itemModel = _info.itemModelsUnlocked[0];
         }
         customizeText.text = _info.itemModel.transform.Find("Skin").GetChild(0).gameObject.name;
 

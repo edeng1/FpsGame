@@ -572,7 +572,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                 {
                     case 0: //kills
                         playerInfo[i].kills += amt;
-                        
+                        GainXP(actor,5);
                         if (GameSettings.GameMode == GameMode.TDM)
                         {
                             if (playerInfo[i].awayTeam)
@@ -590,32 +590,12 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
                     case 1: //deaths
                         playerInfo[i].deaths += amt;
-                        if (PhotonNetwork.LocalPlayer.ActorNumber == actor)
-                        {
-
-                            
-                            RoomManager.playerData.xp += 5;
-                           bool levelUp= Data.Save2(RoomManager.playerData);
-                            int currentLevel = -1;
-                            if (levelUp)
-                            {
-                                UIEventSystem.current.UIOnLevelUp("Level " + RoomManager.playerData.level.ToString() + " Reached!");
-                                currentLevel = RoomManager.playerData.level;
-                                UnityEngine.Object[] guns = Resources.LoadAll("Items/Guns", typeof(GunInfo));
-                                foreach (GunInfo g in guns)
-                                {
-                                    if (g.levelToUnlock == currentLevel)
-                                    {
-                                        UIEventSystem.current.UIOnWeaponUnlock(g.name+" Unlocked!");
-                                    }
-                                }
-                            }
-                            
-                         }
+                        
                         Debug.Log($"Player {playerInfo[i].name} : deaths = {playerInfo[i].deaths}");
                         break;
                     case 2: //flag caps
                         playerInfo[i].flagCaps += amt;
+                        GainXP(actor, 10);
                         if (GameSettings.GameMode == GameMode.CTF)
                         {
                             
@@ -642,6 +622,32 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         }
         ScoreCheck();
        
+    }
+
+    private void GainXP(int actor,int xp)
+    {
+        if (PhotonNetwork.LocalPlayer.ActorNumber == actor)
+        {
+
+
+            RoomManager.playerData.xp += xp;
+            bool levelUp = Data.Save2(RoomManager.playerData);
+            int currentLevel = -1;
+            if (levelUp)
+            {
+                UIEventSystem.current.UIOnLevelUp("Level " + RoomManager.playerData.level.ToString() + " Reached!");
+                currentLevel = RoomManager.playerData.level;
+                UnityEngine.Object[] guns = Resources.LoadAll("Items/Guns", typeof(GunInfo));
+                foreach (GunInfo g in guns)
+                {
+                    if (g.levelToUnlock == currentLevel)
+                    {
+                        UIEventSystem.current.UIOnWeaponUnlock(g.name + " Unlocked!");
+                    }
+                }
+            }
+
+        }
     }
 
     public void RefreshTimer_S()
@@ -810,7 +816,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     private void EndGame()
     {
         state = GameState.Ending;
-        //Destroy(RoomManager.Instance.gameObject);
+        GainXP(PhotonNetwork.LocalPlayer.ActorNumber, 15);
         if (timerCoroutine != null) StopCoroutine(timerCoroutine);
         currentMatchTime = 0;
         RefreshTimerUI();

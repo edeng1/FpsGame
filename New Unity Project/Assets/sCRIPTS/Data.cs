@@ -50,7 +50,7 @@ public static class Data
 
     private static int GetExperienceToNextLevel(int level,int xp)
     {
-        return level *(int)Math.Sqrt(1000+xp);
+        return level *(int)Math.Sqrt(7500+xp);
     }
 
 

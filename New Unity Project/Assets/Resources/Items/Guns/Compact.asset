@@ -15,12 +15,12 @@ MonoBehaviour:
   itemName: Compact
   itemModel: {fileID: 9049938920144453115, guid: 489517fbf226d854dab4a22d9b55d1cc,
     type: 3}
-  itemModels: []
+  itemModelsUnlocked: []
   itemPosition: {x: 0.23, y: 0.3, z: 0.25}
   itemRotation: {x: 0, y: 180, z: 0}
   itemScale: {x: 1, y: 1, z: 1}
   itemSound: {fileID: 8300000, guid: a764377339b869e459f5e53fb9258f73, type: 3}
-  levelToUnlock: 5
+  levelToUnlock: 24
   damageBody: 24
   damageArm: 18
   damageHead: 97

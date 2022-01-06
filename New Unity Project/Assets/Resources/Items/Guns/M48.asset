@@ -15,12 +15,12 @@ MonoBehaviour:
   itemName: M48
   itemModel: {fileID: 9049938920144453115, guid: 4612d153a6277e84fb10e49b16f20e73,
     type: 3}
-  itemModels: []
+  itemModelsUnlocked: []
   itemPosition: {x: 0.23, y: 0.3, z: 0.25}
   itemRotation: {x: -2, y: 180, z: 0}
   itemScale: {x: 1.5, y: 1.5, z: 1.5}
   itemSound: {fileID: 8300000, guid: a764377339b869e459f5e53fb9258f73, type: 3}
-  levelToUnlock: 5
+  levelToUnlock: 16
   damageBody: 31
   damageArm: 18
   damageHead: 100

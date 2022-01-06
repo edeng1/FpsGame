@@ -7,13 +7,15 @@ using TMPro;
 
 public class PlayerListItem : MonoBehaviourPunCallbacks
 {
-    [SerializeField] TMP_Text text;
+    [SerializeField] TMP_Text nameText;
+    [SerializeField] TMP_Text levelText;
     public Player player;
 
     public void SetUp(Player _player)
     {
         player = _player;
-        text.text = _player.NickName;
+        nameText.text = _player.NickName;
+        levelText.text = RoomManager.playerData.level.ToString();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
