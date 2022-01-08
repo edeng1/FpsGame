@@ -92,6 +92,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (RoomManager.playerData != null) {
             levelText.text = "Level: " + RoomManager.playerData.level.ToString();
             xpText.text = "XP: " + RoomManager.playerData.xp.ToString();
+            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+            properties.Add("level", RoomManager.playerData.level.ToString());
+            PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         }
         else
         {
@@ -285,7 +288,15 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
         for (int i = 0; i < players.Count(); i++)
         {
+            /*
+            if (players[i] == PhotonNetwork.LocalPlayer)
+            {
+                ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+                properties.Add("level", RoomManager.playerData.level.ToString());
+                players[i].SetCustomProperties(properties);
+            }*/
             Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
+            
         }
         Debug.Log(roomItems);
         gameOptionsButton.SetActive(PhotonNetwork.IsMasterClient);
@@ -420,6 +431,13 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        /*
+        if (newPlayer == PhotonNetwork.LocalPlayer)
+        {
+            ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+            properties.Add("level", RoomManager.playerData.level.ToString());
+            newPlayer.SetCustomProperties(properties);
+        }*/
         Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
 

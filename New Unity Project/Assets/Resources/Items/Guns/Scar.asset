@@ -15,12 +15,12 @@ MonoBehaviour:
   itemName: Scar
   itemModel: {fileID: 9049938920144453115, guid: 1aed6d9c3e926bf49b917db1cd1a535e,
     type: 3}
-  itemModels: []
+  itemModelsUnlocked: []
   itemPosition: {x: 0.23, y: 0.4, z: 0.4}
   itemRotation: {x: -2, y: 180, z: 0}
   itemScale: {x: 1, y: 1, z: 1}
   itemSound: {fileID: 8300000, guid: a764377339b869e459f5e53fb9258f73, type: 3}
-  levelToUnlock: 5
+  levelToUnlock: 55
   damageBody: 31
   damageArm: 18
   damageHead: 100

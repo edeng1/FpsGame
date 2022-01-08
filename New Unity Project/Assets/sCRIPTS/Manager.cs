@@ -67,6 +67,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     public int teamFlagCount = 4;
     public int awayScore=0;
     public int homeScore=0;
+    UnityEngine.Object[] guns;
     int actNum;
     private bool playerAdded;
 
@@ -124,6 +125,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     // Start is called before the first frame update
     void Start()
     {
+        CacheAllGunInfos();
         actNum = PhotonNetwork.LocalPlayer.ActorNumber;
         EndGameUI = ScoreBoardUI;
         if (PhotonNetwork.IsMasterClient)
@@ -595,7 +597,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         break;
                     case 2: //flag caps
                         playerInfo[i].flagCaps += amt;
-                        GainXP(actor, 10);
+                        GainXP(actor, 100);
                         if (GameSettings.GameMode == GameMode.CTF)
                         {
                             
@@ -623,7 +625,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         ScoreCheck();
        
     }
-
+    private void CacheAllGunInfos()
+    {
+        guns = Resources.LoadAll("Items/Guns", typeof(GunInfo));
+    }
     private void GainXP(int actor,int xp)
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber == actor)
@@ -637,7 +642,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 UIEventSystem.current.UIOnLevelUp("Level " + RoomManager.playerData.level.ToString() + " Reached!");
                 currentLevel = RoomManager.playerData.level;
-                UnityEngine.Object[] guns = Resources.LoadAll("Items/Guns", typeof(GunInfo));
+                
                 foreach (GunInfo g in guns)
                 {
                     if (g.levelToUnlock == currentLevel)
@@ -645,6 +650,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         UIEventSystem.current.UIOnWeaponUnlock(g.name + " Unlocked!");
                     }
                 }
+                
             }
 
         }

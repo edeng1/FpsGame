@@ -4020,7 +4020,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 3, y: -9, z: 3, w: 1.3e-44}
+  m_BoundingSphereOverride: {x: 2.938736e-39, y: 0, z: 0, w: 1.83672e-40}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -9429,7 +9429,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23244
+  m_Name: pb_Mesh594074
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10930,6 +10930,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.5647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174628395001901167, guid: 57ac51ecd1ce19447af0b8ee2866eb85,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 299487440329687660, guid: 57ac51ecd1ce19447af0b8ee2866eb85, type: 3}

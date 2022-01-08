@@ -10,13 +10,26 @@ public class PlayerListItem : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text nameText;
     [SerializeField] TMP_Text levelText;
     public Player player;
-
+    PhotonView PV;
     public void SetUp(Player _player)
     {
+        PV = GetComponent<PhotonView>();
         player = _player;
         nameText.text = _player.NickName;
-        levelText.text = RoomManager.playerData.level.ToString();
+        if(_player.CustomProperties.ContainsKey("level"))
+            levelText.text = _player.CustomProperties["level"].ToString();
+        
     }
+    private void Update()
+    {
+        if (player != null)
+        {
+            if (player.CustomProperties.ContainsKey("level"))
+                levelText.text = player.CustomProperties["level"].ToString();
+        }
+       
+    }
+
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {

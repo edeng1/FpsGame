@@ -102,6 +102,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
             {
                 Hashtable hash = new Hashtable();
                 hash.Add("PlayerReady", true);
+                hash.Add("level", playerData.level.ToString());
+                hash.Add("itemIndex", 0);
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                 
             }
