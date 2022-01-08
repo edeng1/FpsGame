@@ -701,7 +701,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         }
         else
         {
-            FFAScore.gameObject.SetActive(true);
+            FFAScore.transform.parent.parent.gameObject.SetActive(true);
             if (playerInfo.Count > myind)
             {
                 
