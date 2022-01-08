@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
+            
             Destroy(healthUI.transform.parent.gameObject);
             Destroy(ammoUI.transform.parent.gameObject);
         }
@@ -257,10 +258,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
         anim.SetFloat("PosY", y);
         anim.SetFloat("PosX", x);
-        controller.Move(move * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed) * Time.deltaTime);
+        if(controller!=null)
+            controller.Move(move * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed) * Time.deltaTime);
         velocity.y += GRAVITY*fallSpeed * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
+        if (controller != null)
+            controller.Move(velocity * Time.deltaTime);
         
     }
     private void FixedUpdate()
@@ -571,7 +573,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             isDead = true;
             //GetComponentInChildren<Camera>().gameObject.SetActive(false);
             PV.RPC("ToggleDead", RpcTarget.All);
-
+           
             playerManager.StartCoroutine(playerManager.Die());
         }
     }
@@ -582,18 +584,20 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
             isDead = true;
 
-            PV.RPC("ToggleDead", RpcTarget.All);
+            PV.RPC("ToggleDead", RpcTarget.All,GetComponent<PhotonView>().ViewID);
 
             playerManager.StartCoroutine(playerManager.Die(actorNumber,gunName));
         }
     }
 
     [PunRPC]
-    public void ToggleDead()
+    public void ToggleDead(int vID)
     {
         CopyTransformData(sourceTransform: normalModel.transform, destinationTransform: ragdollModel.transform);
         normalModel.gameObject.SetActive(false);
         ragdollModel.gameObject.SetActive(true);
+        Destroy(PhotonView.Find(vID).GetComponent<PlayerController>().controller);
+
         
     }
 

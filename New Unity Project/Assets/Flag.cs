@@ -35,7 +35,7 @@ public class Flag : MonoBehaviour
 
         if (playerController != null)
         {
-            if (playerController.isDead && transform.parent != null)
+            if (playerController.isDead && transform.parent != null && transform.parent != FlagSpawn)
             {
                 PV.RPC("RPC_DropFlag", RpcTarget.All);
             }

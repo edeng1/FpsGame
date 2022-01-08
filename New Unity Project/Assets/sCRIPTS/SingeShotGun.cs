@@ -81,7 +81,7 @@ public class SingeShotGun : Gun
             return;
         }
         GenerateRecoil();
-        PV.RPC("RPC_playSound",RpcTarget.All);
+        PV.RPC("RPC_playSound",RpcTarget.All,itemInfo.name);
         PV.RPC("RPC_muzzleFlash", RpcTarget.All);
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
         ray.origin = cam.transform.position;
@@ -156,10 +156,11 @@ public class SingeShotGun : Gun
     }
 
     [PunRPC]
-    void RPC_playSound()
+    void RPC_playSound(string gunName)
     {
-        if(itemInfo.itemSound!=null)
-            sfx.PlayOneShot(itemInfo.itemSound);
+        UnityEngine.Object gun = Resources.Load("Items/Guns/" + gunName, typeof(GunInfo));// This will get the gun of the player whos shooting and play their gun sound
+        if (((GunInfo)gun).itemSound!=null)
+            sfx.PlayOneShot(((GunInfo)gun).itemSound);
     }
 
 
@@ -181,14 +182,16 @@ public class SingeShotGun : Gun
 
     public void instantiateGunModel()
     {
-        PV.RPC("RPC_instantiateGunModel", RpcTarget.All);
+        PV.RPC("RPC_instantiateGunModel", RpcTarget.All, itemInfo.name);
     }
 
     [PunRPC]
-    private void RPC_instantiateGunModel()
+    private void RPC_instantiateGunModel(string gunName)
     {
-       
-            GameObject gunM=Instantiate(itemInfo.itemModel, new Vector3(.2f,.35f, .15f), transform.localRotation*Quaternion.Euler(0, 90, 0), transform.GetChild(0));
+        UnityEngine.Object guns = Resources.Load("Items/Guns/"+gunName, typeof(GunInfo));// will get the 
+        
+
+            GameObject gunM=Instantiate(((GunInfo)guns).itemModel, new Vector3(.2f,.35f, .15f), transform.localRotation*Quaternion.Euler(0, 90, 0), transform.GetChild(0));
         
        
         gunM.transform.localPosition = itemInfo.itemPosition; //.2f .35f .15f

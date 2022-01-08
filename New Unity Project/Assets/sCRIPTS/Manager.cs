@@ -527,7 +527,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             StartCoroutine(OnPlayerJoinedLeft(p.name, (string)data[1]));
             if (PhotonNetwork.LocalPlayer.ActorNumber == p.actor)
             {
-                myind = i-1;
+                myind = i-2;
 
                 if(!playerAdded)
                 {
