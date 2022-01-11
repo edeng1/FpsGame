@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         sprintSpeed *= transform.localScale.x;
         walkSpeed *=transform.localScale.x;
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
-        awayTeam = playerManager.awayTeam;
+        awayTeam = (bool)PV.InstantiationData[1];
 
     }
     private void Start()
@@ -626,6 +626,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
         destinationTransform.position = sourceTransform.position;
         destinationTransform.rotation = sourceTransform.rotation;
+    }
+
+    public void TrySync()
+    {
+        PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
     }
 
     [PunRPC]

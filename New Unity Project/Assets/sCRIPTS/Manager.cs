@@ -432,8 +432,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         playerInfo.Add(p);
 
-        RoomManager.Instance.getPlayerManager().TrySync();
-        if (GameSettings.GameMode == GameMode.CTF) {
+        RoomManager.Instance.getPlayerManager().getController().TrySync();
+        if (GameSettings.GameMode == GameMode.CTF) {//
             if (PhotonNetwork.IsMasterClient)
             {
 
@@ -506,7 +506,9 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void UpdatePlayers_R(object[]data)
     {
+
         state = (GameState)data[0];
+        int previousPlayerinfoCount = playerInfo.Count;
         playerInfo = new List<PlayerInfo>();
 
         for (int i = 2; i < data.Length; i++)
@@ -539,7 +541,12 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                       RoomManager.Instance.Spawn();
                       RoomManager.Instance.getPlayerManager().TrySync();
                 }
+                
             }
+        }
+        if (previousPlayerinfoCount < data.Length - 2)//if new player joinedffdd
+        {
+            RoomManager.Instance.getPlayerManager().TrySync();
         }
         StateCheck();
         if (homeScore > awayScore)
