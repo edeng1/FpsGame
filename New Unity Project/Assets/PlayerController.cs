@@ -231,8 +231,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
         Vector3 moveDir = new Vector3(x, 0, y).normalized;
         
-        anim.SetFloat("PosY", y);
-        anim.SetFloat("PosX", x);
+        //anim.SetFloat("PosY", y);
+        //anim.SetFloat("PosX", x);
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
         
 

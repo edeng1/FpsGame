@@ -188,14 +188,14 @@ public class SingeShotGun : Gun
     [PunRPC]
     private void RPC_instantiateGunModel(string gunName)
     {
-        UnityEngine.Object guns = Resources.Load("Items/Guns/"+gunName, typeof(GunInfo));// will get the 
-        
+        UnityEngine.Object guns = Resources.Load("Items/Guns/"+gunName, typeof(GunInfo));// will get the other player
 
-            GameObject gunM=Instantiate(((GunInfo)guns).itemModel, new Vector3(.2f,.35f, .15f), transform.localRotation*Quaternion.Euler(0, 90, 0), transform.GetChild(0));
+
+        GameObject gunM=Instantiate(((GunInfo)guns).itemModel, new Vector3(.2f,.35f, .15f), transform.localRotation*Quaternion.Euler(0, 90, 0), transform.GetChild(0));
         
        
-        gunM.transform.localPosition = itemInfo.itemPosition; //.2f .35f .15f
-        gunM.transform.localRotation = transform.localRotation * Quaternion.Euler(itemInfo.itemRotation);// 0 90 0
+        gunM.transform.localPosition = ((GunInfo)guns).itemPosition; //.2f .35f .15f
+        gunM.transform.localRotation = transform.localRotation * Quaternion.Euler(((GunInfo)guns).itemRotation);// 0 90 0
         //gunM.transform.localRotation = transform.localRotation * Quaternion.Euler(0, 90, 0);
         gunM.transform.localScale = itemInfo.itemScale;
 

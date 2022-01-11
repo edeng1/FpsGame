@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class SteamManager : MonoBehaviour
 {
     public uint appID;
     public static SteamManager Instance;
-
+    Steamworks.InventoryResult? r;
     void Start()
     {
         if (Instance)
@@ -20,6 +21,10 @@ public class SteamManager : MonoBehaviour
         {
             Steamworks.SteamClient.Init(appID);
             
+            
+            Photon.Pun.PhotonNetwork.NickName= Steamworks.SteamClient.Name;
+            Steamworks.SteamInventory.OnInventoryUpdated += GiveItem;
+           
         }
         catch (System.Exception e)
         {
@@ -33,11 +38,40 @@ public class SteamManager : MonoBehaviour
         }
         
     }
+    public async Task GetItems()
+    {
+        r =await Steamworks.SteamInventory.GetAllItemsAsync();
+        Debug.Log(r);
+    }
+
+    void GiveItem(Steamworks.InventoryResult r)
+    {
+       Steamworks.InventoryItem[] items= r.GetItems();
+        foreach(Steamworks.InventoryItem i in items)
+        {
+            Debug.Log(i.ToString());
+        }
+    }
+    void ListItems()
+    {
+        Steamworks.InventoryItem[] items = Steamworks.SteamInventory.Items;
+        foreach (Steamworks.InventoryItem i in items)
+        {
+            Debug.Log(i);
+        }
+    }
+
+    public void OpenShop()
+    {
+        Steamworks.SteamFriends.OpenWebOverlay("https://store.steampowered.com/itemstore/1863860/browse/?filter=all");
+    }
 
     // Update is called once per frame
     void Update()
     {
         Steamworks.SteamClient.RunCallbacks();
+   
+       
     }
 
     private void OnDisable()
