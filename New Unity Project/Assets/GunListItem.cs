@@ -94,28 +94,34 @@ public class GunListItem : MonoBehaviour
     
     public void OnClickCustomize()
     {
-        index++;
+        Debug.Log(itemDefs.Length + " Length");
         if (itemDefs.Length==0){ return; }
         
-        if (index >= itemDefs.Length)
-        {
-            index = -1;
-            _info.itemModel = _info.itemModelsUnlocked[0];//default skin
-        }
-
-        
-        if( index != -1){
-            Debug.Log(itemDefs[index].Description + itemDefs[index].Id + " Index: " + index);
-            Debug.Log(itemDefs[index].Description.ToString().Contains(_info.name.ToString()));
+       
+        while (index < itemDefs.Length) {
+            index++;
+            
+            if (index >= itemDefs.Length)
+            {
+                index = -1;
+                _info.itemModel = _info.itemModelsUnlocked[0];//default skin
+                break;
+            }
             if (itemDefs[index].Description.ToString().Contains(_info.name.ToString()))
             {
+                Debug.Log(itemDefs[1].Description.ToString());
                 _info.itemModel = Resources.Load<GameObject>("Skins/" + itemDefs[index].Description + itemDefs[index].Id);
+               
+                break;
             }
+            
+            
+
         }
-      
-        
-        
-        
+
+
+
+        Debug.Log(index);
         customizeText.text = _info.itemModel.transform.Find("Skin").GetChild(0).gameObject.name;
         
     }
