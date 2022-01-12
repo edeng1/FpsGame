@@ -8,8 +8,10 @@ public class SteamManager : MonoBehaviour
     public uint appID;
     public static SteamManager Instance;
     Steamworks.InventoryResult? r;
+    
     void Start()
     {
+        
         if (Instance)
         {
             Destroy(gameObject);
@@ -20,11 +22,15 @@ public class SteamManager : MonoBehaviour
         try
         {
             Steamworks.SteamClient.Init(appID);
-            
+
             
             Photon.Pun.PhotonNetwork.NickName= Steamworks.SteamClient.Name;
             Steamworks.SteamInventory.OnInventoryUpdated += GiveItem;
-           
+            Steamworks.SteamInventory.OnDefinitionsUpdated+=GetDefinitions;
+            Steamworks.SteamInventory.GenerateItemAsync(Steamworks.SteamInventory.FindDefinition(100),1);
+            //Steamworks.SteamInventory.GetAllItems();
+            Steamworks.SteamInventory.LoadItemDefinitions();
+
         }
         catch (System.Exception e)
         {
@@ -43,13 +49,26 @@ public class SteamManager : MonoBehaviour
         r =await Steamworks.SteamInventory.GetAllItemsAsync();
         Debug.Log(r);
     }
+    void GetDefinitions()
+    {
+        Steamworks.InventoryDef[] itemDefs=Steamworks.SteamInventory.Definitions;
+
+        foreach (Steamworks.InventoryDef i in itemDefs)
+        {
+            Debug.Log(i.Id);
+
+        }
+    }
 
     void GiveItem(Steamworks.InventoryResult r)
     {
+        Debug.Log(r.BelongsTo(Steamworks.SteamClient.SteamId));
+        
        Steamworks.InventoryItem[] items= r.GetItems();
         foreach(Steamworks.InventoryItem i in items)
         {
-            Debug.Log(i.ToString());
+            Debug.Log(i);
+            
         }
     }
     void ListItems()

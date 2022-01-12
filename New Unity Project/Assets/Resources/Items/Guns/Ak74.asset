@@ -15,7 +15,8 @@ MonoBehaviour:
   itemName: Ak74
   itemModel: {fileID: 9049938920144453115, guid: 6947e1693aadf5742ae510596e33790d,
     type: 3}
-  itemModelsUnlocked: []
+  itemModelsUnlocked:
+  - {fileID: 9049938920144453115, guid: 6947e1693aadf5742ae510596e33790d, type: 3}
   itemPosition: {x: 0.25, y: 0.05, z: 0.15}
   itemRotation: {x: -1, y: 0, z: 0}
   itemScale: {x: 1.5, y: 1.5, z: 1.5}

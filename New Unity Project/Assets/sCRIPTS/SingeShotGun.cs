@@ -241,4 +241,6 @@ public class SingeShotGun : Gun
     }
     public int GetStash() { return stash; }
     public int GetClip() { return clip; }
+
+
 }

@@ -53,6 +53,16 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     public GameObject[] headColorRag;
     public GameObject[] skinColorRag;
 
+    //Values that will be synced over network
+    Vector3 latestPos;
+    Quaternion latestRot;
+    //Lag compensation
+    float currentTime = 0;
+    double currentPacketTime = 0;
+    double lastPacketTime = 0;
+    Vector3 positionAtLastPacket = Vector3.zero;
+    Quaternion rotationAtLastPacket = Quaternion.identity;
+
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
 
@@ -126,54 +136,62 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     {
         if (!PV.IsMine)
         {
-            return;
+            LagComp();
+               
+           
         }
-        if (awayTeam != playerManager.awayTeam)
+        if (PV.IsMine)
         {
-            PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
-        }
-        ChooseSkinColor();
-        if (die)
-        {
-            Die();
-            die = false;
-        }
-        bool pause = Input.GetKeyDown(KeyCode.Escape);
-        
-        if(pause)
-        {
-           pauseM.TogglePause();
-        }
-        if(pauseM){
-            if (!pauseM.paused)
+
+
+            if (awayTeam != playerManager.awayTeam)
             {
-                Look();
-                //Move();
-                Jump();
-                Reload();
-                Sprint();
-                SwitchWeapon();
-                Shoot();
+                //PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
             }
-        }
+            ChooseSkinColor();
+            if (die)
+            {
+                Die();
+                die = false;
+            }
+            bool pause = Input.GetKeyDown(KeyCode.Escape);
 
-        if(mouseSensitivity!=PlayerPrefs.GetFloat("sens"))
-        {
-            mouseSensitivity = PlayerPrefs.GetFloat("sens");
-        }
+            if (pause)
+            {
+                pauseM.TogglePause();
+            }
+            if (pauseM)
+            {
+                if (!pauseM.paused)
+                {
+                    Look();
+                    //Move();
+                    Jump();
+                    Reload();
+                    Sprint();
+                    SwitchWeapon();
+                    Shoot();
+                }
+            }
 
-        HealthUI(currentHealth);
-        AmmoUI();
-        
-        
+            if (mouseSensitivity != PlayerPrefs.GetFloat("sens"))
+            {
+                mouseSensitivity = PlayerPrefs.GetFloat("sens");
+            }
 
-        
+            HealthUI(currentHealth);
+            AmmoUI();
 
 
 
-        if (transform.position.y < -40f)
-        {
-            Die();
+
+
+
+
+            if (transform.position.y < -40f)
+            {
+                Die();
+            }
         }
 
     }
@@ -231,8 +249,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
         Vector3 moveDir = new Vector3(x, 0, y).normalized;
         
-        //anim.SetFloat("PosY", y);
-        //anim.SetFloat("PosX", x);
+        anim.SetFloat("PosY", y);
+        anim.SetFloat("PosX", x);
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
         
 
@@ -273,6 +291,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             return;
         }
         MoveController();
+        //Move();
         //rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
 
 
@@ -438,8 +457,20 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     }
 
     
-     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
      {
+
+        //SerializeNormalComp(stream);
+        SerializeLagComp(stream, info);
+
+
+
+
+
+
+    }
+    private void SerializeNormalComp(PhotonStream stream)
+    {
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
@@ -448,7 +479,41 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             realPosition = (Vector3)stream.ReceiveNext();
         }
-     }
+    }
+    private void SerializeLagComp(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            latestPos = (Vector3)stream.ReceiveNext();
+            latestRot = (Quaternion)stream.ReceiveNext();
+
+            //Lag compensation
+            currentTime = 0.0f;
+            lastPacketTime = currentPacketTime;
+            currentPacketTime = info.SentServerTime;
+            positionAtLastPacket = transform.position;
+            rotationAtLastPacket = transform.rotation;
+        }
+    }
+
+    private void LagComp()
+    {
+        //Lag compensation
+        double timeToReachGoal = currentPacketTime - lastPacketTime;
+        currentTime += Time.deltaTime;
+
+        //Update remote player
+        transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
+        transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
+        Debug.Log((float)(currentTime / timeToReachGoal));
+    }
 
     
 

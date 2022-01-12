@@ -432,7 +432,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         playerInfo.Add(p);
 
-        RoomManager.Instance.getPlayerManager().getController().TrySync();
+        //RoomManager.Instance.getPlayerManager().getController().TrySync();
         if (GameSettings.GameMode == GameMode.CTF) {//
             if (PhotonNetwork.IsMasterClient)
             {
@@ -539,15 +539,15 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                     GameSettings.IsAwayTeam = p.awayTeam;
                   
                       RoomManager.Instance.Spawn();
-                      RoomManager.Instance.getPlayerManager().TrySync();
+                      //RoomManager.Instance.getPlayerManager().TrySync();
                 }
                 
             }
         }
-        if (previousPlayerinfoCount < data.Length - 2)//if new player joinedffdd
+        /*if (previousPlayerinfoCount < data.Length - 2)//if new player joinedffdd
         {
             RoomManager.Instance.getPlayerManager().TrySync();
-        }
+        }*/
         StateCheck();
         if (homeScore > awayScore)
             EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
