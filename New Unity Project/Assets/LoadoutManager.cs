@@ -6,6 +6,18 @@ public class LoadoutManager : MonoBehaviour
 {
     [SerializeField]Object[] guns;
     [SerializeField] GameObject gunSelectPrefab;
+   
+    public static LoadoutManager Instance;
+    
+    private void Awake()
+    {
+        if (Instance)
+        {
+            return;
+        }
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +37,7 @@ public class LoadoutManager : MonoBehaviour
                
         }   
     }
+    
 
 
-   
 }

@@ -17,6 +17,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public static RoomManager Instance;
     public static PlayerData playerData;
+    public int matchLength;
     GameObject PM;
     public List<PlayerManager> playerManagers;
     PhotonView PV;
@@ -24,6 +25,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     
     private void Awake()
     {
+        
         playerManagers = new List<PlayerManager>();
         if(Instance)
         {
@@ -33,7 +35,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         
         DontDestroyOnLoad(gameObject);
         //Data.Save2(new PlayerData(true));
-        playerData = Data.Load2();
+        playerData = Data.Load();
             
 
         Instance = this;
@@ -60,7 +62,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     void Start()
     {
         launcher = Launcher.instance.gameObject;
-        
+        Debug.Log("Match Length: " + matchLength);
     }
 
    public override void OnEnable()
@@ -90,7 +92,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 hash.Add("PlayerReady", false);
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
             }
-           
+            
         }
         if (scene.buildIndex == 0&& PhotonNetwork.InRoom)
         {
@@ -113,7 +115,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
             
             Debug.Log("Im ready");
-
+            
         }
         if (scene.buildIndex == 0 && !PhotonNetwork.InRoom)
         {

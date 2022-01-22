@@ -28,5 +28,9 @@ public class GameSettings : MonoBehaviour
 {
     public static GameMode GameMode = GameMode.FFA;
     public static GameMap GameMap=GameMap.Bloc;
+    public static int MatchLength = 300;
+    public static int FFAMaxKills=25;
+    public static int TDMMaxKills=50;
+    public static int CTFMaxCaps=10;
     public static bool IsAwayTeam = false;
 }

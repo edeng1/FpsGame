@@ -66,13 +66,13 @@ public class PlayerManager : MonoBehaviour
         CreateController();
     }
     Tuple<string,string> names;
-    public IEnumerator Die(int actorNumber,string gunName)
+    public IEnumerator Die(int actorNumber,string gunName, bool headshot)
     {
-        Manager.Instance.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1); //ActorNumber is player who is killed
+        Manager.Instance.ChangeStat_S(PhotonNetwork.LocalPlayer.ActorNumber, 1, 1); //ActorNumber is player who is killed updates their deaths
         Manager.Instance.ChangeStat_S(actorNumber, 0, 1); //actorNumber is of player who does the killing
         names = Manager.Instance.GetPlayerNames(PhotonNetwork.LocalPlayer.ActorNumber, actorNumber);
         //" + controller.GetComponent<PlayerController>().GetGunName() +"
-        PV.RPC("RPC_UpdatePlayerKilledUI", RpcTarget.All, names.Item1,names.Item2, gunName);
+        PV.RPC("RPC_UpdatePlayerKilledUI", RpcTarget.All, names.Item1,names.Item2, gunName, headshot);
        
         yield return new WaitForSeconds(3f);
         PhotonNetwork.Destroy(controller);
@@ -80,11 +80,11 @@ public class PlayerManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPC_UpdatePlayerKilledUI(string name1,string name2,string gun)
+    private void RPC_UpdatePlayerKilledUI(string name1,string name2,string gun, bool headshot)
     {
-        
-        UIEventSystem.current.UIUpdatePlayerKilled(name2 +" ["+ gun +"] "+ name1);
-        
+       
+            UIEventSystem.current.UIUpdatePlayerKilled(name2 + " [" + gun + "] " + name1,headshot);
+      
         Debug.Log(name2 + " killed " + name1);
     }
 

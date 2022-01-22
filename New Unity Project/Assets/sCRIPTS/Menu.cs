@@ -18,12 +18,12 @@ public class Menu : MonoBehaviour
 
             if (gameObject.name == "RoomMenu" || gameObject.name == "FindRoomMenu")
             {
-                ZoomIn();
+                //ZoomIn();
 
             }
             if (gameObject.name == "TitleMenu")
             {
-                ZoomOut();
+                //ZoomOut();
 
             }
 

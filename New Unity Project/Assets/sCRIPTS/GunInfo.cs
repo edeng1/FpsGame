@@ -20,7 +20,9 @@ public class GunInfo : ItemInfo
     public float reloadTime;
     public bool isPistol;// { get; private set; }
     public Texture2D gunImage;
-    
+    public Vector3 playerPoseitemPosition;
+    public Vector3 playerPoseitemRotation;
+    public Vector3 playerPoseitemScale;
 
 
 
@@ -28,4 +30,5 @@ public class GunInfo : ItemInfo
 
 
 
-    }
+
+}

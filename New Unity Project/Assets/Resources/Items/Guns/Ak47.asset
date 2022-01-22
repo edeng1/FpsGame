@@ -29,8 +29,11 @@ MonoBehaviour:
   fireRate: 10
   verticalRecoil: 0.5
   duration: 0.01
-  totalAmmo: 90
+  totalAmmo: 999
   clipSize: 30
   reloadTime: 1
   isPistol: 0
   gunImage: {fileID: 2800000, guid: d5800c900b407fe409e6a88ec5e480c2, type: 3}
+  playerPoseitemPosition: {x: -0.012, y: 0.32, z: 0.035}
+  playerPoseitemRotation: {x: 0, y: 18.264, z: 31.545}
+  playerPoseitemScale: {x: 1.5, y: 1.5, z: 1.5}

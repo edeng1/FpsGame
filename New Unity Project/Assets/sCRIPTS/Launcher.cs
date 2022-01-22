@@ -35,6 +35,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text modeValueText_OptionsMenu;
     [SerializeField] Slider maxPlayersSlider;
     [SerializeField] TMP_Text maxPlayersValueText;
+    [SerializeField] Slider matchLengthSlider;
+    [SerializeField] TMP_Text matchLengthValueText;
+    [SerializeField] TMP_Text maxScoreTitleText;
+    [SerializeField] Slider maxScoreSlider;
+    [SerializeField] TMP_Text maxScoreValueText;
     [SerializeField] TMP_Text roomNameText;
     [SerializeField] Transform roomListContent;
     [SerializeField] Transform playerListContent;
@@ -70,6 +75,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     void Start()
     {
+        
         Debug.Log(roomItems);
         //Debug.Log(Data.idToken);
         if (PlayerPrefs.HasKey("NickName")) { PhotonNetwork.NickName = PlayerPrefs.GetString("NickName"); }
@@ -84,16 +90,21 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         PhotonNetwork.ConnectUsingSettings();
             CreateRoomManager();
+            RoomManager.Instance.matchLength = 300;
             mapValueText.text = "Map: " + maps[(int)GameSettings.GameMap].name;
             SetMapImageAndModeInRoom();
             modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
             mapValueText_OptionsMenu.text = "Map: " + maps[(int)GameSettings.GameMap].name;
             modeValueText_OptionsMenu.text = "Mode: " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode);
+            matchLengthSlider.value = GameSettings.MatchLength / 60;
+            matchLengthValueText.text = (GameSettings.MatchLength / 60).ToString()+" Min";
+            ChangeMaxScoreText();
         if (RoomManager.playerData != null) {
             levelText.text = "Level: " + RoomManager.playerData.level.ToString();
             xpText.text = "XP: " + RoomManager.playerData.xp.ToString();
             ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
             properties.Add("level", RoomManager.playerData.level.ToString());
+            properties.Add("itemIndex", 0);
             PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         }
         else
@@ -227,10 +238,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)//When Gamemode or Map is changed in game options, this sends it to all the clients.
     {
-        foreach(var p in propertiesThatChanged)
-        {
-            Debug.Log(p.Key);
-        }
+        
         if (propertiesThatChanged.ContainsKey("map")){
             currentMap = (int)propertiesThatChanged["map"];
             GameSettings.GameMap = (GameMap)currentMap;
@@ -241,7 +249,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             GameSettings.GameMode = (GameMode)modeNum;
         }
 
-        Debug.Log(propertiesThatChanged);
+        
         SetMapImageAndModeInRoom();
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
     }
@@ -266,11 +274,97 @@ public class Launcher : MonoBehaviourPunCallbacks
         GameSettings.GameMode = (GameMode)newMode;
         modeValueText.text = "Mode: " + System.Enum.GetName(typeof(GameMode),newMode);
         modeValueText_OptionsMenu.text= "Mode: " + System.Enum.GetName(typeof(GameMode), newMode);
+        ChangeMaxScoreText();
+
     }
+    public void ChangeMaxScoreText()
+    {
+        int MAX_VALUE= System.Int32.MaxValue;
+        maxScoreTitleText.text = "Max " + System.Enum.GetName(typeof(GameMode), GameSettings.GameMode) + " score";
+        if (GameSettings.GameMode == GameMode.FFA)
+        {
+            
+            maxScoreSlider.maxValue = 36;
+            maxScoreSlider.value = GameSettings.FFAMaxKills;
+            if (GameSettings.FFAMaxKills == maxScoreSlider.maxValue || GameSettings.FFAMaxKills == MAX_VALUE)
+            {
+                GameSettings.FFAMaxKills = MAX_VALUE;
+                maxScoreValueText.text = "Unlimited";
+            }   
+            else
+            {
+                maxScoreValueText.text = GameSettings.FFAMaxKills.ToString() + " Kills";
+            }
+        }
+        else if (GameSettings.GameMode == GameMode.TDM)
+        {
+            
+            maxScoreSlider.maxValue = 76;
+            maxScoreSlider.value = GameSettings.TDMMaxKills;
+
+            if (GameSettings.TDMMaxKills == maxScoreSlider.maxValue||GameSettings.TDMMaxKills == MAX_VALUE)
+            {
+                GameSettings.TDMMaxKills = MAX_VALUE;
+                maxScoreValueText.text = "Unlimited";
+            }
+                
+            else
+            {
+                
+                maxScoreValueText.text = GameSettings.TDMMaxKills.ToString() + " Kills";
+            }
+               
+
+        }
+        else if (GameSettings.GameMode == GameMode.CTF)
+        {
+            
+            maxScoreSlider.value = GameSettings.CTFMaxCaps;
+            maxScoreSlider.maxValue = 26;
+            if (GameSettings.CTFMaxCaps == maxScoreSlider.maxValue || GameSettings.CTFMaxCaps == MAX_VALUE)
+            {
+                GameSettings.CTFMaxCaps = MAX_VALUE;
+                maxScoreValueText.text = "Unlimited";
+            }
+
+            else
+            {
+
+                maxScoreValueText.text = GameSettings.CTFMaxCaps.ToString() + " Caps";
+            }
+        }
+
+    }
+    
 
     public void ChangeMaxPlayersSlider(float _value)
     {
         maxPlayersValueText.text = Mathf.RoundToInt(_value).ToString();
+    }
+    public void ChangeMaxScoreSlider(float _value)
+    {
+
+        if (GameSettings.GameMode == GameMode.FFA)
+        {
+            
+            GameSettings.FFAMaxKills = Mathf.RoundToInt(_value);
+        }   
+        else if (GameSettings.GameMode == GameMode.TDM)
+        {
+            GameSettings.TDMMaxKills = Mathf.RoundToInt(_value);
+        }   
+        else if (GameSettings.GameMode == GameMode.CTF)
+        {
+            GameSettings.CTFMaxCaps = Mathf.RoundToInt(_value);
+
+        }
+            
+        ChangeMaxScoreText();
+    }
+    public void ChangeMatchLengthSlider(float _value)
+    {
+        matchLengthValueText.text = Mathf.RoundToInt(_value).ToString() +" Min";
+        GameSettings.MatchLength = Mathf.RoundToInt(_value)*60;
     }
 
     public override void OnJoinedRoom()

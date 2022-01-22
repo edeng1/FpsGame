@@ -62,8 +62,8 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     private Coroutine timerCoroutine;
     private int currentMatchTime;
     public int mainMenuScene = 0;
-    public int killCount = 3;
-    public int teamKillCount=4;
+    public int killCount = 3;//kills until match ends
+    public int teamKillCount=4;//
     public int teamFlagCount = 4;
     public int awayScore=0;
     public int homeScore=0;
@@ -100,7 +100,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     IEnumerator AddEvent()//unnecessary, used in PlayerController
     {
         yield return new WaitForSeconds(3f);
-        UIEventSystem.current.onPlayerKilled += EventKillUI;
+        //UIEventSystem.current.onPlayerKilled += EventKillUI;
 
     }
    
@@ -130,6 +130,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         EndGameUI = ScoreBoardUI;
         if (PhotonNetwork.IsMasterClient)
         {
+            matchLength = GameSettings.MatchLength;
+            killCount = GameSettings.FFAMaxKills;
+            teamKillCount = GameSettings.TDMMaxKills;
+            teamFlagCount = GameSettings.CTFMaxCaps;
             playerAdded = true;
             GameSettings.IsAwayTeam = CalculateTeam();
             RoomManager.Instance.Spawn();
@@ -604,7 +608,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                         break;
                     case 2: //flag caps
                         playerInfo[i].flagCaps += amt;
-                        GainXP(actor, 100);
+                        GainXP(actor, 10);
                         if (GameSettings.GameMode == GameMode.CTF)
                         {
                             
@@ -643,7 +647,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
 
             RoomManager.playerData.xp += xp;
-            bool levelUp = Data.Save2(RoomManager.playerData);
+            bool levelUp = Data.Save(RoomManager.playerData);
             int currentLevel = -1;
             if (levelUp)
             {

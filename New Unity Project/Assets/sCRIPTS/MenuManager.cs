@@ -38,7 +38,7 @@ public class MenuManager : MonoBehaviour
             {
                 if (gO.name != "LoadingMenu")
                 {
-                    isLoaded=ZoomIn(gO);
+                    //isLoaded=ZoomIn(gO);
                 }
                
                
@@ -49,7 +49,7 @@ public class MenuManager : MonoBehaviour
                 }
                 if (gO.name == "TitleMenu")
                 {
-                    LeanTween.moveZ(mainCam.gameObject, 16f, .4f);
+                    //LeanTween.moveZ(mainCam.gameObject, 16f, .4f);
                 }
                 gO.SetActive(true);
             }

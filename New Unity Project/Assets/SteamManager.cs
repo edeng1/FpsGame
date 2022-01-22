@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
-
+/*
 public class SteamManager : MonoBehaviour
 {
     public uint appID;
@@ -104,3 +104,4 @@ public class SteamManager : MonoBehaviour
     }
 }
 
+    */

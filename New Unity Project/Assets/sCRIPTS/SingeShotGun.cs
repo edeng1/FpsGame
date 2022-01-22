@@ -31,7 +31,7 @@ public class SingeShotGun : Gun
             if(PlayerPrefs.HasKey("Guns"))
                 itemInfo=Resources.Load<GunInfo>("Items/Guns/"+ PlayerPrefs.GetString("Guns"));
             else
-                itemInfo = Resources.Load<GunInfo>("Items/Guns/Ak47");
+                itemInfo = Resources.Load<GunInfo>("Items/Guns/AK47");
         }
         
         anim = transform.root.GetComponent<Animator>();
@@ -83,6 +83,7 @@ public class SingeShotGun : Gun
         GenerateRecoil();
         PV.RPC("RPC_playSound",RpcTarget.All,itemInfo.name);
         PV.RPC("RPC_muzzleFlash", RpcTarget.All);
+        
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
         ray.origin = cam.transform.position;
 
@@ -137,7 +138,7 @@ public class SingeShotGun : Gun
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
                             break;
                         case "head":
-                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName,true);
                             break;
 
                     }
@@ -148,6 +149,8 @@ public class SingeShotGun : Gun
                  PV.RPC("RPC_Shoot", RpcTarget.All, hit.point,hit.normal,true);
             else
                 PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal,false);
+
+            
         }    
     }
     void GenerateRecoil()

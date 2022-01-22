@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using TMPro;
-
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamageable
 {
@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     [SerializeField] TMP_Text eventLevelUpUI;
     [SerializeField] TMP_Text eventWeaponUnlockUI;
     [SerializeField] TMP_Text eventKillUI;
+
+    [SerializeField] GameObject eventHeadshotUI;
     [SerializeField] GameObject KillFeedUI;
     public bool isDead;
     public float pointIncreasePerSecond = 5f;
@@ -70,7 +72,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     const float maxHealth = 100f;
     float currentHealth = maxHealth;
-
+    bool isShooting = false;
     private void Awake()
     {
         actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
@@ -102,10 +104,12 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         else
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(ragdollModel.transform.GetChild(7).GetChild(0).gameObject);
             Destroy(rb);
             
-            Destroy(healthUI.transform.parent.gameObject);
-            Destroy(ammoUI.transform.parent.gameObject);
+            //Destroy(healthUI.transform.parent.gameObject);
+            //Destroy(ammoUI.transform.parent.gameObject);
+            Destroy(transform.GetChild(5).gameObject);
         }
         ChooseSkinColor();
 
@@ -136,7 +140,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     {
         if (!PV.IsMine)
         {
-            LagComp();
+            //LagComp();
                
            
         }
@@ -171,6 +175,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
                     Sprint();
                     SwitchWeapon();
                     Shoot();
+                    anim.SetBool("isShooting", isShooting);
                 }
             }
 
@@ -421,22 +426,35 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     void Shoot()
     {
+        
         var gunInfo = ((GunInfo)items[itemIndex].itemInfo);
         if (gunInfo.fullyAuto == false)
         {
-            if (Input.GetMouseButtonDown(0) && !isSprinting)
+            if (Input.GetMouseButtonDown(0) && !isSprinting && !isDead)
             {
                 items[itemIndex].Use();
             }
         }
         else
         {
-            if (Input.GetMouseButton(0) && Time.time >= nextTimeToFire && !isSprinting)
+            if (Input.GetMouseButton(0) &&  !isSprinting && !isDead)
             {
-                nextTimeToFire = Time.time + 1f / gunInfo.fireRate;
-                items[itemIndex].Use();
+                if (Time.time >= nextTimeToFire)
+                {
+                    nextTimeToFire = Time.time + 1f / gunInfo.fireRate;
+                    items[itemIndex].Use();
+                }
+                if(items[itemIndex].GetComponent<SingeShotGun>().GetClip()>0)
+                    isShooting = true;
+                
+               
+            }
+            else
+            {
+                isShooting = false;
             }
         }
+       
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -460,8 +478,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
      {
 
-        //SerializeNormalComp(stream);
-        SerializeLagComp(stream, info);
+        SerializeNormalComp(stream);
+        //SerializeLagComp(stream, info);
 
 
 
@@ -517,14 +535,14 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     
 
-    public void TakeDamage(float damage, int actorNumber, string gunName)
+    public void TakeDamage(float damage, int actorNumber, string gunName, bool headshot=false)
     {
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, actorNumber,gunName);
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage, actorNumber,gunName,headshot);
     }
 
 
     [PunRPC]
-    void RPC_TakeDamage(float damage,int actorNumber, string gunName)
+    void RPC_TakeDamage(float damage,int actorNumber, string gunName,bool headshot)
     {
         if (!PV.IsMine)
         {
@@ -536,7 +554,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         if(currentHealth<=0)
         {
             
-            Die(actorNumber, gunName);
+            Die(actorNumber, gunName,headshot);
         }
     }
 
@@ -551,18 +569,28 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             currentHealth = maxHealth;
         }
-        if (health<=40)
+        if (healthUI!= null)
         {
-            healthUI.color = Color.red;
+            if (health <= 40)
+            {
+
+                healthUI.color = Color.red;
+                healthUI.transform.parent.GetComponentInChildren<RawImage>().color = Color.red;
+            }
+            else
+            {
+                healthUI.color = Color.green;
+                healthUI.transform.parent.GetComponentInChildren<RawImage>().color = Color.green;
+            }
         }
-        else
-            healthUI.color = Color.green;
+          
 
     }
 
     void EventUI(string eventText)
     {
-        StartCoroutine(DisplayEvent(eventText));
+        if (PV.IsMine)
+            StartCoroutine(DisplayEvent(eventText));
     }
 
     IEnumerator DisplayEvent(string eventText)
@@ -580,17 +608,29 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         eventUI.text = "";
     }
 
-    void EventKillUI(string eventText)
+    void EventKillUI(string eventText,bool headshot)
     {
-        StartCoroutine(DisplayKillEvent(eventText));
+        if(PV.IsMine)
+            StartCoroutine(DisplayKillEvent(eventText,headshot));
     }
-    IEnumerator DisplayKillEvent(string eventText)
+    IEnumerator DisplayKillEvent(string eventText,bool headshot)
     {
+
+        TMP_Text newKill=null;
+        GameObject newHeadShot = null;
+        if (!headshot)
+        {
+            newKill = Instantiate(eventKillUI, KillFeedUI.transform);
+            newKill.text = eventText;
+            newKill.transform.SetAsFirstSibling();
+        }
+        else
+        {
+            newHeadShot = Instantiate(eventHeadshotUI, KillFeedUI.transform);
+            newHeadShot.transform.GetChild(1).GetComponent<TMP_Text>().text = eventText;
+            newHeadShot.transform.SetAsFirstSibling();
+        }
         
-        //eventKillUI.text = eventText;
-        TMP_Text newKill=Instantiate(eventKillUI,KillFeedUI.transform);
-        newKill.text = eventText;
-        newKill.transform.SetAsFirstSibling();
         if (KillFeedUI.transform.childCount > 5)
         {
             if(KillFeedUI.transform.GetChild(5).gameObject)
@@ -599,10 +639,13 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         yield return new WaitForSeconds(5.5f);
         if(newKill)
             Destroy(newKill);
+        if (newHeadShot)
+            Destroy(newHeadShot);
     }
     void EventLevelUpUI(string eventText)
     {
-        StartCoroutine(DisplayLevelUpEvent(eventText));
+        if (PV.IsMine)
+            StartCoroutine(DisplayLevelUpEvent(eventText));
     }
     IEnumerator DisplayLevelUpEvent(string eventText)
     {
@@ -613,7 +656,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     }
     void EventWeaponUnlockUI(string eventText)
     {
-        StartCoroutine(DisplayWeaponUnlockEvent(eventText));
+        if (PV.IsMine)
+            StartCoroutine(DisplayWeaponUnlockEvent(eventText));
     }
     IEnumerator DisplayWeaponUnlockEvent(string eventText)
     {
@@ -636,22 +680,27 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             
             isDead = true;
-            //GetComponentInChildren<Camera>().gameObject.SetActive(false);
-            PV.RPC("ToggleDead", RpcTarget.All);
+            Destroy(transform.GetChild(5).GetChild(0).gameObject);
+            Destroy(transform.GetChild(5).GetChild(1).gameObject);
+            Destroy(transform.GetChild(5).GetChild(2).gameObject);
+            PV.RPC("ToggleDead", RpcTarget.All, GetComponent<PhotonView>().ViewID);
            
             playerManager.StartCoroutine(playerManager.Die());
         }
     }
-    void Die(int actorNumber,string gunName)
+    void Die(int actorNumber,string gunName,bool headshot)
     {
         if (!isDead)
         {
 
             isDead = true;
-
+            Destroy(transform.GetChild(5).GetChild(0).gameObject);
+            Destroy(transform.GetChild(5).GetChild(1).gameObject);
+            Destroy(transform.GetChild(5).GetChild(2).gameObject);
             PV.RPC("ToggleDead", RpcTarget.All,GetComponent<PhotonView>().ViewID);
-
-            playerManager.StartCoroutine(playerManager.Die(actorNumber,gunName));
+           
+            
+            playerManager.StartCoroutine(playerManager.Die(actorNumber,gunName,headshot));
         }
     }
 

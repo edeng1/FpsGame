@@ -15,7 +15,7 @@ public class GunListItem : MonoBehaviour
     [SerializeField] TMP_Text customizeText;
     RectTransform myRectTransform;
     RectTransform customizeRectTransform;
-    Steamworks.InventoryDef[] itemDefs;
+    //Steamworks.InventoryDef[] itemDefs;
     [SerializeField] int index = -1;//default skin
 
     public void SetUp(GunInfo info)
@@ -34,10 +34,11 @@ public class GunListItem : MonoBehaviour
         
         if (!PlayerPrefs.HasKey("Guns"))
         {
-            PlayerPrefs.SetString("Guns","Ak47");
+            PlayerPrefs.SetString("Guns","AK47");
         }
         //Sets the customize text when choosing loadout to be same size as picture and right below it. Makes text as the name of the skin of the gun.
         myRectTransform = GetComponent<RectTransform>();
+        /*
         if (_info.itemModel == null) { _info.itemModel = _info.itemModelsUnlocked[0]; }
         try
         {
@@ -53,12 +54,13 @@ public class GunListItem : MonoBehaviour
             }
         }
         catch { }
-        
+        */
         if(_info.itemModel.transform.Find("Skin")!=null)
             customizeText.text = _info.itemModel.transform.Find("Skin").GetChild(0).gameObject.name;//gets the skin of the gun.
         if (SceneManager.GetActiveScene().buildIndex == 0) {//if in menu or game scene
             customizeRectTransform.sizeDelta = new Vector2(myRectTransform.sizeDelta.x, myRectTransform.sizeDelta.y / 4);
             customize.transform.localPosition = new Vector3(0, -50);
+
         }
             
         else
@@ -68,7 +70,7 @@ public class GunListItem : MonoBehaviour
             customize.transform.localPosition = new Vector3(0, -30);
         }
 
-
+        /*
         try
         {
             itemDefs = Steamworks.SteamInventory.Definitions;
@@ -77,7 +79,7 @@ public class GunListItem : MonoBehaviour
         {
 
         }
-
+        */
 
     }
 
@@ -89,40 +91,51 @@ public class GunListItem : MonoBehaviour
             PlayerPrefs.SetString("Guns", _info.itemName);
             Debug.Log(PlayerPrefs.GetString("Guns"));
         }
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {//if in menu 
+            PlayerPoseGunChange.Instance.InstantiateGun();
+        }
 
     }
     
     public void OnClickCustomize()
     {
-        Debug.Log(itemDefs.Length + " Length");
-        if (itemDefs.Length==0){ return; }
-        
-       
-        while (index < itemDefs.Length) {
-            index++;
-            
-            if (index >= itemDefs.Length)
+        return;
+        /*
+        try
+        {
+            Debug.Log(itemDefs.Length + " Length");
+            if (itemDefs.Length == 0) { return; }
+
+
+            while (index < itemDefs.Length)
             {
-                index = -1;
-                _info.itemModel = _info.itemModelsUnlocked[0];//default skin
-                break;
+                index++;
+
+                if (index >= itemDefs.Length)
+                {
+                    index = -1;
+                    _info.itemModel = _info.itemModelsUnlocked[0];//default skin
+                    break;
+                }
+                if (itemDefs[index].Description.ToString().Contains(_info.name.ToString()))
+                {
+
+                    _info.itemModel = Resources.Load<GameObject>("Skins/" + itemDefs[index].Description + itemDefs[index].Id);
+
+                    break;
+                }
+
+
+
             }
-            if (itemDefs[index].Description.ToString().Contains(_info.name.ToString()))
-            {
-                Debug.Log(itemDefs[1].Description.ToString());
-                _info.itemModel = Resources.Load<GameObject>("Skins/" + itemDefs[index].Description + itemDefs[index].Id);
-               
-                break;
-            }
-            
-            
 
         }
-
-
+        catch { }
 
         Debug.Log(index);
         customizeText.text = _info.itemModel.transform.Find("Skin").GetChild(0).gameObject.name;
+        */
         
     }
 }

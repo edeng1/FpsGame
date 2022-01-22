@@ -17,7 +17,7 @@ public class UIEventSystem : MonoBehaviour
     public event Action<string> onFlagCapture;
     public event Action<string> onFlagDrop;
     public event Action<string> onFlagReturn;
-    public event Action<string> onPlayerKilled;
+    public event Action<string,bool> onPlayerKilled;
     public event Action<string> onLevelUp;
     public event Action<string> onWeaponUnlocked;
 
@@ -37,14 +37,15 @@ public class UIEventSystem : MonoBehaviour
     {
         onFlagReturn(_tag);
     }
-    public void UIUpdatePlayerKilled(string _tag)
+    public void UIUpdatePlayerKilled(string _tag,bool headshot)
     {
-        onPlayerKilled(_tag);
+        onPlayerKilled(_tag,headshot);
 
     }
     public void UIOnLevelUp(string _tag)
     {
-        onLevelUp(_tag);
+        
+        onLevelUp?.Invoke(_tag);
 
     }
     public void UIOnWeaponUnlock(string _tag)
