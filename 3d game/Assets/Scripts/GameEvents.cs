@@ -37,5 +37,6 @@ public class GameEvents : MonoBehaviour
         {
             onComputerEnable(id);//invokes it 
         }
+        Debug.Log(onComputerEnable.GetInvocationList().Length+" Computerenabled action events");
     }
 }

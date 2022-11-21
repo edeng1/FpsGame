@@ -22,7 +22,7 @@ public class MouseLook : MonoBehaviour //PunCallbacks
     void Update()
     {
         
-        //if (!photonView.IsMine) return;
+        
         if (Cursor.visible == false)
         {
 

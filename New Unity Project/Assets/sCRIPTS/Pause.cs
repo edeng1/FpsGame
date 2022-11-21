@@ -19,6 +19,7 @@ public class Pause : MonoBehaviour
     float sensitivity;
     private void Start()
     {
+        
         if (PlayerPrefs.HasKey("sens")) {
             Debug.Log(PlayerPrefs.GetFloat("sens"));
             sensitivity= PlayerPrefs.GetFloat("sens");
@@ -87,7 +88,7 @@ public class Pause : MonoBehaviour
         Debug.Log(result);
         
         if (result < 0) { result = 0; sensInputField.text ="0"; }
-        if (result > 1) { result = 1; sensInputField.text = "1"; }
+        if (result > 2) { result = 2; sensInputField.text = "2"; }
         ChangeSensitivity(result);
 
     }
@@ -98,7 +99,7 @@ public class Pause : MonoBehaviour
         Debug.Log(result);
 
         if (result < 0) { result = 0; volInputField.text = "0"; }
-        if (result > 1) { result = 1; volInputField.text = "1"; }
+        if (result > 2) { result = 2; volInputField.text = "2"; }
         ChangeVolume(result);
 
     }

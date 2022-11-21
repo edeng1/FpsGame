@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5039202049821725103}
   - component: {fileID: 4050264673083628516}
   - component: {fileID: 8384578891406909120}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Customize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 9056167935952454570}
   - component: {fileID: 8207511172929850715}
   - component: {fileID: 2481782993993232460}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: CustomizeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 2856716205836531630}
   - component: {fileID: 6493416769834254429}
   - component: {fileID: 531844857790441681}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: GunText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 2958010939845714572}
   - component: {fileID: 3439050532534461747}
   - component: {fileID: -6663500772472086431}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: GunListItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -800,6 +800,7 @@ MonoBehaviour:
   text: {fileID: 531844857790441681}
   customize: {fileID: 2616373240651390675}
   customizeText: {fileID: 2481782993993232460}
+  index: -1
 --- !u!82 &-6663500772472086431
 AudioSource:
   m_ObjectHideFlags: 0

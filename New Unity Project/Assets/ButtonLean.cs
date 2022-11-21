@@ -27,7 +27,7 @@ public class ButtonLean : MonoBehaviour
     }
     public void OnHighlight2()
     {
-        LeanTween.moveLocalX(gameObject, 343f, .2f);
+        LeanTween.moveLocalX(gameObject, 500f, .2f);
     }
     public void OffHighlight()
     {

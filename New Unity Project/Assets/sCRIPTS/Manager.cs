@@ -127,7 +127,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         CacheAllGunInfos();
         actNum = PhotonNetwork.LocalPlayer.ActorNumber;
-        EndGameUI = ScoreBoardUI;
+        EndGameUI = ScoreBoardUI.Find("TieText");
         if (PhotonNetwork.IsMasterClient)
         {
             matchLength = GameSettings.MatchLength;
@@ -184,13 +184,13 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
   
 
 
-    private void ScoreBoard(Transform scoreBoard)
+    private void ScoreBoard(Transform scoreBoard,bool gameEnded=false)
     {
 
         //specify gamemode
-        if (GameSettings.GameMode == GameMode.FFA) { scoreBoard = scoreBoard.GetChild(3); }//FFA
-        if (GameSettings.GameMode == GameMode.TDM) { scoreBoard = scoreBoard.GetChild(4); }//TDM
-        if (GameSettings.GameMode == GameMode.CTF) { scoreBoard = scoreBoard.GetChild(5); }//CTF
+        if (GameSettings.GameMode == GameMode.FFA) { scoreBoard = scoreBoard.Find("FFA"); }//FFA
+        if (GameSettings.GameMode == GameMode.TDM) { scoreBoard = scoreBoard.Find("TDM"); }//TDM
+        if (GameSettings.GameMode == GameMode.CTF) { scoreBoard = scoreBoard.Find("CTF"); }//CTF
         for (int i=2; i<scoreBoard.childCount;i++)
         {
             Destroy(scoreBoard.GetChild(i).gameObject);
@@ -255,7 +255,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         scoreBoard.gameObject.SetActive(true);
         scoreBoard.parent.gameObject.SetActive(true);
-
+        if (gameEnded)
+        {
+            EndGameUI.gameObject.SetActive(true);
+        }
 
     }        
     private void RefreshTimerUI()
@@ -553,11 +556,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             RoomManager.Instance.getPlayerManager().TrySync();
         }*/
         StateCheck();
-        if (homeScore > awayScore)
-            EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
-        if (awayScore > homeScore)
-            EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
-        else { EndGameUI = gameObject.transform.GetChild(0).Find("ScoreBoard"); }
+        
     }
 
     public void ChangeStat_S(int actor, byte stat, byte amt)
@@ -780,17 +779,19 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         bool detectWin = false;
         if(homeScore>=teamKillCount)
         {
-            EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
+            EndGameUI = ScoreBoardUI.Find("HomeWinText");
+            //EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
             detectWin = true;
         }
-        if(awayScore >= teamKillCount)
+        else if (awayScore >= teamKillCount)
         {
-            EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
+            EndGameUI = ScoreBoardUI.Find("AwayWinText");
+            //EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
             detectWin = true;
         }
         else
         {
-            EndGameUI = gameObject.transform.GetChild(0).GetChild(0);
+            EndGameUI = ScoreBoardUI.Find("TieText");
         }
         
         return detectWin;
@@ -800,17 +801,19 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         bool detectWin = false;
         if (homeScore >= teamFlagCount)
         {
-            EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
+            EndGameUI = ScoreBoardUI.Find("HomeWinText");
+            //EndGameUI = gameObject.transform.GetChild(0).Find("HomeEndScoreBoard");
             detectWin = true;
         }
-        if (awayScore >= teamFlagCount)
+        else if (awayScore >= teamFlagCount)
         {
-            EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
+            EndGameUI = ScoreBoardUI.Find("AwayWinText");
+            //EndGameUI = gameObject.transform.GetChild(0).Find("AwayEndScoreBoard");
             detectWin = true;
         }
         else
         {
-            EndGameUI = gameObject.transform.GetChild(0).GetChild(0);
+            EndGameUI = ScoreBoardUI.Find("Tie");
         }
 
         return detectWin;
@@ -833,6 +836,11 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     private void EndGame()
     {
         state = GameState.Ending;
+        if (homeScore > awayScore)
+            EndGameUI = ScoreBoardUI.Find("HomeWinText");
+        else if (awayScore > homeScore)
+            EndGameUI = ScoreBoardUI.Find("AwayWinText");
+        else { EndGameUI = ScoreBoardUI.Find("TieText"); }
         GainXP(PhotonNetwork.LocalPlayer.ActorNumber, 15);
         if (timerCoroutine != null) StopCoroutine(timerCoroutine);
         currentMatchTime = 0;
@@ -859,7 +867,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         if (GameSettings.GameMode != GameMode.FFA)
         {
             ScoreBoardUI.gameObject.SetActive(true);
-            ScoreBoard(EndGameUI);
+            ScoreBoard(ScoreBoardUI,true);
             //EndGameUI.gameObject.SetActive(true);
         }
         Cursor.lockState = CursorLockMode.None;

@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
                 {
                     Look();
                     //Move();
-                    Jump();
+                    //Jump();
                     Reload();
                     Sprint();
                     SwitchWeapon();
@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     
     void Look()
     {
-
+        if (isDead) { return; }
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
         transform.Rotate(Vector3.up * mouseX);
@@ -286,6 +286,16 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         velocity.y += GRAVITY*fallSpeed * Time.deltaTime;
         if (controller != null)
             controller.Move(velocity * Time.deltaTime);
+        int currentY = 0;
+        if (x != 0 || y != 0)
+        {
+            anim.SetBool("Forward",true);
+        }
+        else
+        {
+            anim.SetBool("Forward", false);
+            //anim.SetBool("Backward", false);
+        }
         
     }
     private void FixedUpdate()
@@ -317,7 +327,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     }
     void Reload()
     {
-        if(Input.GetKey(KeyCode.R))
+        if(Input.GetKey(KeyCode.R)&&!isDead)
         {
            
             items[itemIndex].StartCoroutine(((SingeShotGun)items[itemIndex]).Reload());

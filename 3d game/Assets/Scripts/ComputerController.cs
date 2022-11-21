@@ -12,33 +12,22 @@ public class ComputerController : MonoBehaviour
 
     [SerializeField] UnityEvent OnCompletedEvent;
 
-    
-
     [SerializeField] Text t;
-
-
-
 
     // Start is called before the first frame update
     void Start()
     {
         computersRemaining = new List<ComputerTriggerArea>(computers);
-        foreach(var computer in computersRemaining)
-        {
+        //foreach(var computer in computersRemaining)
+        //{
             GameEvents.current.onComputerEnable += HandleComputerEnabled;
-        }
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        //}
+       
         
     }
 
     void HandleComputerEnabled(ComputerTriggerArea id)
     {
-       
             computersRemaining.Remove(id);
         if (computersRemaining.Count == computersRemaining.Count)
         {

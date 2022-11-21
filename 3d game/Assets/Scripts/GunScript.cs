@@ -72,7 +72,7 @@ public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
     void Update()
     {
        
-        //if (!photonView.IsMine) return;
+        
         if (isReloading)
             return;
 
@@ -104,7 +104,7 @@ public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
             {
 
                 nextTimeToFire = Time.time + 1f / fireRate;
-                //photonView.RPC("Shoot", RpcTarget.All);
+               
                 Shoot();
             }
         }
@@ -173,12 +173,14 @@ public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
             }
             
     }
-    //[PunRPC]
+  
     void Shoot()
     {
+            
             SoundManager.PlaySound("fire");
             
             muzzleFlash.Play();
+        if(recoil!=null)
             recoil.GenerateRecoil();
             
             
@@ -191,37 +193,19 @@ public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
                 
                 Target target = hit.collider.GetComponent<Target>();
                 Debug.Log(hit.collider.name);
-                //if (photonView.IsMine)
-               // {
-                    //shooting another player
+               
                     if (hit.collider.gameObject.layer == 12)
                     {
-                        //RPC to damage player
+                      
                         if (target != null)
                         {
-                            /*
-                            switch (target.damageType)
-                            {
-                                case Target.collisionType.head:
-                                    target.TakeDamage(headDamage);
-                                    Debug.Log("Hit Head");
-                                    break;
-                                case Target.collisionType.body:
-                                    target.TakeDamage(bodyDamage);
-                                    Debug.Log("Hit body");
-                                    break;
-                                case Target.collisionType.extremity:
-                                    target.TakeDamage(extremityDamage);
-                                    break;
-                            }
-                            */
-
+                         
 
                             target.TakeDamage(bodyDamage);
                         }
                     }
                 
-            //}
+           
             
         }
                 if (hit.rigidbody != null)
@@ -234,5 +218,21 @@ public class GunScript : MonoBehaviour //MonoBehaviourPunCallbacks
                 Destroy(impactGO, 2f);
             }
         }
-    
 
+
+/*
+                         switch (target.damageType)
+                         {
+                             case Target.collisionType.head:
+                                 target.TakeDamage(headDamage);
+                                 Debug.Log("Hit Head");
+                                 break;
+                             case Target.collisionType.body:
+                                 target.TakeDamage(bodyDamage);
+                                 Debug.Log("Hit body");
+                                 break;
+                             case Target.collisionType.extremity:
+                                 target.TakeDamage(extremityDamage);
+                                 break;
+                         }
+                         */

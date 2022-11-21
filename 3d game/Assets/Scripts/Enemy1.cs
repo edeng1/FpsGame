@@ -40,19 +40,31 @@ public class Enemy1 : MonoBehaviour
         {
             man.addKill();
         }
+        if (rag != null)
+        {
+           rag.ToggleDead();
+            Destroy(gameObject, 5f);
+            //Destroy(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         
-        rag.ToggleDead();
-        
-        
-        Destroy(gameObject,5f);
         Invoke("instantiateWeapon", 3f);
         
     }
     public void instantiateWeapon()
     {
-        Transform v = gameObject.transform.GetChild(1).GetChild(3).transform;
-        GameObject m4=(GameObject)Instantiate(variablePrefab, v.position, v.rotation);
-        m4.name = "M4";
+        Transform v=null;
+        if (gameObject.transform.GetChild(1).childCount > 3)
+        {
+            v = gameObject.transform.GetChild(1).GetChild(3).transform;
+
+
+            GameObject m4 = (GameObject)Instantiate(variablePrefab, v.position, v.rotation);
+            m4.name = "M4";
+        }
     }
    
     

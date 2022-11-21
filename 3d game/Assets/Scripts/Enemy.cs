@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     public Transform wallDetect;
     public float timeUntilMove = 5f;
     public float HP = 100f;
-    bool chaseFlag = true;
+    bool chaseFlag = false;
 
     Vector3 lastPos;
     public Animator anim;
@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        chaseFlag = false;
 
         //player = GameObject.Find("First Person Player").transform;
         anim = GetComponent<Animator>();
@@ -64,7 +65,7 @@ public class Enemy : MonoBehaviour
 
        
         if (_navMeshAgent == null)
-        {
+        {   
             Debug.LogError("Nav mesh agent not attached to" + gameObject.name);
         }
         if (chaseFlag)
