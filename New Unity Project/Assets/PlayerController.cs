@@ -443,6 +443,13 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             if (Input.GetMouseButtonDown(0) && !isSprinting && !isDead)
             {
                 items[itemIndex].Use();
+                isShooting = true;
+                
+                //anim.Play("PistolShoot");
+            }
+            else
+            {
+                isShooting = false;
             }
         }
         else
@@ -464,6 +471,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
                 isShooting = false;
             }
         }
+        
        
     }
 

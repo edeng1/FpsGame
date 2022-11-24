@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using MilkShake;
 public class SingeShotGun : Gun
 {
 
@@ -18,7 +18,8 @@ public class SingeShotGun : Gun
     public bool isReloading;
     public bool switchingGuns;
     public AudioClip reloadSound;
-    
+    public Shaker myShaker;
+    public ShakePreset myShakePreset;
     float time;
     
 
@@ -81,6 +82,7 @@ public class SingeShotGun : Gun
             return;
         }
         GenerateRecoil();
+        myShaker.Shake(myShakePreset);
         PV.RPC("RPC_playSound",RpcTarget.All,itemInfo.name);
         PV.RPC("RPC_muzzleFlash", RpcTarget.All);
         
