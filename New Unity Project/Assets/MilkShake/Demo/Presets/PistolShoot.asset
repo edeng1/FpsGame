@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PistolShoot
   m_EditorClassIdentifier: 
   shakeType: 0
-  strength: 0
-  roughness: 0
-  fadeIn: 0
-  fadeOut: 0
+  strength: 5
+  roughness: 2
+  fadeIn: 0.1
+  fadeOut: 0.1
   positionInfluence: {x: 0, y: 0, z: 0}
-  rotationInfluence: {x: 0, y: 0, z: 0}
+  rotationInfluence: {x: 0.1, y: 0.1, z: 0.1}
