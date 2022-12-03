@@ -274,7 +274,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        Vector3 move = (transform.right * x + transform.forward * y);
+      
+            Vector3 move = (transform.right * x + transform.forward * y);
         if (move.magnitude > 1)
         {
             move /= move.magnitude;
