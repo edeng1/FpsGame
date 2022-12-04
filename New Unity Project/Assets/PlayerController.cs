@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamageable
 {
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
+    float initialWalkSpeed;
     [SerializeField] GameObject cameraHolder;
 
     [SerializeField] Item[] items;
@@ -73,6 +74,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     const float maxHealth = 100f;
     float currentHealth = maxHealth;
     bool isShooting = false;
+    bool isCrouched = false;
     private void Awake()
     {
         actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
@@ -112,7 +114,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             Destroy(transform.GetChild(5).gameObject);
         }
         ChooseSkinColor();
-
+        initialWalkSpeed = walkSpeed;
     }
     private void OnEnable()
     {
@@ -164,15 +166,17 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             {
                 pauseM.TogglePause();
             }
-            if (pauseM)
+            if (pauseM) //if instance of pause manager exists
             {
-                if (!pauseM.paused)
+                if (!pauseM.paused) //if not paused
                 {
                     Look();
                     //Move();
                     //Jump();
                     Reload();
                     Sprint();
+                    OnStateChange();
+                    Crouch();
                     SwitchWeapon();
                     Shoot();
                     anim.SetBool("isShooting", isShooting);
@@ -314,11 +318,40 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         //rb.MovePosition(Vector3.Lerp(transform.position, realPosition, Time.fixedDeltaTime / (1 / 30)));
 
     }
+    void OnStateChange()
+    {
+        if (isCrouched)
+        {
+            walkSpeed = initialWalkSpeed / (float)1.5;
+        }
+        else
+        {
+            walkSpeed = initialWalkSpeed;
+        }
+    }
+    void Crouch()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            isCrouched = true;
+            isSprinting = false;
+            
+        }
+        else
+        {
+            isCrouched = false;
+            
+        }
+        
+        anim.SetBool("isCrouched", isCrouched);
+    }
+
     void Sprint()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isSprinting = true;
+           
         }
         else
         {

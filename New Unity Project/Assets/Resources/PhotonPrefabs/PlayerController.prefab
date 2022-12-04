@@ -550,6 +550,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Right
+  - Type: 4
+    SynchronizeType: 0
+    Name: isCrouched
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -557,6 +560,8 @@ MonoBehaviour:
     LayerIndex: 1
   - SynchronizeType: 0
     LayerIndex: 2
+  - SynchronizeType: 0
+    LayerIndex: 3
 --- !u!143 &6742641482077892814
 CharacterController:
   m_ObjectHideFlags: 0
@@ -8174,6 +8179,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5539810627387584092, guid: 6a4320f60bd10da4f84af4ca94817994,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4696322765960192617, guid: 6a4320f60bd10da4f84af4ca94817994,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -8208,11 +8218,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: 0.0001026604
-      objectReference: {fileID: 0}
-    - target: {fileID: 5539810627387584092, guid: 6a4320f60bd10da4f84af4ca94817994,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a4320f60bd10da4f84af4ca94817994, type: 3}
