@@ -11,6 +11,8 @@ public class SingeShotGun : Gun
     Animator anim;
     public GunInfo gi { get; private set; }
     ParticleSystem muzzleFlash;
+    public Dictionary<string, GunInfo> gunsDictionairy;
+    UnityEngine.Object[] gunsArray;
     private int clip;
     private int stash;
     private int ammoUsed;
@@ -21,7 +23,7 @@ public class SingeShotGun : Gun
     public Shaker myShaker;
     public ShakePreset myShakePreset;
     float time;
-    
+
 
     [SerializeField] Camera cam;
 
@@ -29,25 +31,33 @@ public class SingeShotGun : Gun
     {
         if (itemGameObject.name == "Primary")
         {
-            if(PlayerPrefs.HasKey("Guns"))
-                itemInfo=Resources.Load<GunInfo>("Items/Guns/"+ PlayerPrefs.GetString("Guns"));
+            if (PlayerPrefs.HasKey("Guns")) //Check current gun that's equipped by player.
+                itemInfo = Resources.Load<GunInfo>("Items/Guns/" + PlayerPrefs.GetString("Guns"));
             else
                 itemInfo = Resources.Load<GunInfo>("Items/Guns/AK47");
         }
-        
+
+        gunsArray = Resources.LoadAll("Items/Guns", typeof(GunInfo));
+        foreach(GunInfo g in gunsArray)
+        {
+            Debug.Log(g.itemName+ "guns in Singeshotgun");
+        }
+        gunsDictionairy = new Dictionary<string, GunInfo>();
+        SetGunDictionairy(gunsArray);
+
         anim = transform.root.GetComponent<Animator>();
         player = transform.root.GetComponent<PlayerController>();
         PV = GetComponent<PhotonView>();
         gi = (GunInfo)itemInfo;
         clip = gi.clipSize;
         stash = gi.totalAmmo;
-        
-        
+        reloadSound = (AudioClip)Resources.Load("Items/Guns/reload1", typeof(AudioClip));
+
         if (PV.IsMine)
         {
             instantiateGunModel();
         }
-       
+
     }
     private void OnEnable()
     {
@@ -59,6 +69,17 @@ public class SingeShotGun : Gun
         {
             player.verticalLookRotation += (gi.verticalRecoil * Time.deltaTime) / gi.duration;
             time -= Time.deltaTime;
+        }
+    }
+    private void SetGunDictionairy(UnityEngine.Object[] gunsArr){
+        //Dictionary<string, GunInfo> gunsDict=new Dictionary<string, GunInfo>();
+        foreach (GunInfo g in gunsArr)
+        {
+            gunsDictionairy.Add(g.itemName, g);
+        }
+        foreach (string g in gunsDictionairy.Keys)
+        {
+            Debug.Log(g + " dict");
         }
     }
     public override void Use()
@@ -163,7 +184,8 @@ public class SingeShotGun : Gun
     [PunRPC]
     void RPC_playSound(string gunName)
     {
-        UnityEngine.Object gun = Resources.Load("Items/Guns/" + gunName, typeof(GunInfo));// This will get the gun of the player whos shooting and play their gun sound
+        // UnityEngine.Object gun = Resources.Load("Items/Guns/" + gunName, typeof(GunInfo));// This will get the gun of the player whos shooting and play their gun sound
+        UnityEngine.Object gun = gunsDictionairy[gunName]; // delete this and uncomment ^ if stops working
         if (((GunInfo)gun).itemSound!=null)
             sfx.PlayOneShot(((GunInfo)gun).itemSound);
     }
@@ -193,8 +215,8 @@ public class SingeShotGun : Gun
     [PunRPC]
     private void RPC_instantiateGunModel(string gunName)
     {
-        UnityEngine.Object guns = Resources.Load("Items/Guns/"+gunName, typeof(GunInfo));// will get the other player
-
+        //UnityEngine.Object guns = Resources.Load("Items/Guns/"+gunName, typeof(GunInfo));// will get the other player
+        UnityEngine.Object guns = gunsDictionairy[gunName]; // delete this and uncomment ^ if stops working
 
         GameObject gunM=Instantiate(((GunInfo)guns).itemModel, new Vector3(.2f,.35f, .15f), transform.localRotation*Quaternion.Euler(0, 90, 0), transform.GetChild(0));
         
@@ -213,13 +235,13 @@ public class SingeShotGun : Gun
         if (stash > 0&&clip<gi.clipSize)
         {
             isReloading = true;
-           
+            sfx.PlayOneShot(reloadSound);
             player.anim.SetBool("isReloading", isReloading);
             yield return new WaitForSeconds(gi.reloadTime - .25f);
             stash += clip;
             clip = Mathf.Min(gi.clipSize, stash);
             stash -= clip;
-
+           
 
             yield return new WaitForSeconds(.25f);
             isReloading = false;

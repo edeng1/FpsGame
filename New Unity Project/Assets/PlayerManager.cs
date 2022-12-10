@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviour
         }
         
         controller=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnPoint.position, spawnPoint.rotation, 0,new object[] { PV.ViewID,GameSettings.IsAwayTeam});
-        controller.GetComponent<PhotonView>().Owner.TagObject = controller;
+        controller.GetComponent<PhotonView>().Owner.TagObject = controller; //Stores this controller into TagObject, is used in Flag script
         controller.GetComponent<PlayerController>().isDead = false;
         
        

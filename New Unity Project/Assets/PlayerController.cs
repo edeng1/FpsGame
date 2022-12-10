@@ -75,8 +75,10 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     float currentHealth = maxHealth;
     bool isShooting = false;
     bool isCrouched = false;
+    
     private void Awake()
     {
+       
         actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         isDead = false;
         isSprinting = false;
@@ -361,9 +363,9 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     }
     void Reload()
     {
-        if(Input.GetKey(KeyCode.R)&&!isDead)
+        if(Input.GetKeyDown(KeyCode.R)&&!isDead)
         {
-           
+        
             items[itemIndex].StartCoroutine(((SingeShotGun)items[itemIndex]).Reload());
             
         }
@@ -539,7 +541,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
 
     }
-    private void SerializeNormalComp(PhotonStream stream)
+    private void SerializeNormalComp(PhotonStream stream)//Not used
     {
         if (stream.IsWriting)
         {
@@ -550,7 +552,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             realPosition = (Vector3)stream.ReceiveNext();
         }
     }
-    private void SerializeLagComp(PhotonStream stream, PhotonMessageInfo info)
+    private void SerializeLagComp(PhotonStream stream, PhotonMessageInfo info)//Not used
     {
         if (stream.IsWriting)
         {
@@ -573,7 +575,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
     }
 
-    private void LagComp()
+    private void LagComp()//Not used
     {
         //Lag compensation
         double timeToReachGoal = currentPacketTime - lastPacketTime;
@@ -726,7 +728,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
        
     }
 
-    void Die()
+    void Die() //committed suicide
     {
         if (!isDead)
         {
@@ -740,7 +742,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             playerManager.StartCoroutine(playerManager.Die());
         }
     }
-    void Die(int actorNumber,string gunName,bool headshot)
+    void Die(int actorNumber,string gunName,bool headshot) //killed by player
     {
         if (!isDead)
         {

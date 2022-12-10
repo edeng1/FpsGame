@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9952b61b3e6b9af42bcd962aed94afdd, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  itemName: Glock
+  itemName: Pistol
   itemModel: {fileID: 9049938920144453115, guid: ea8c8d10280658244947575ac4866652,
     type: 3}
   itemModelsUnlocked: []
-  itemPosition: {x: 0.2, y: 0.37, z: 0.3}
+  itemPosition: {x: 0, y: 0, z: 0}
   itemRotation: {x: 0, y: 90, z: 0}
   itemScale: {x: 1, y: 1, z: 1}
   itemSound: {fileID: 8300000, guid: 6739c01659ad96d47987f4ddee226b36, type: 3}
@@ -33,3 +33,6 @@ MonoBehaviour:
   reloadTime: 1
   isPistol: 1
   gunImage: {fileID: 0}
+  playerPoseitemPosition: {x: 0, y: 0, z: 0}
+  playerPoseitemRotation: {x: 0, y: 0, z: 0}
+  playerPoseitemScale: {x: 0, y: 0, z: 0}

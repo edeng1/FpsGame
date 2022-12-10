@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.692275, g: 0.78025293, b: 0.86572224, a: 1}
+  m_IndirectSpecularColor: {r: 0.46602172, g: 0.5960813, b: 0.7371453, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9262,7 +9262,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -66.24185, y: -16.794067}
+  m_AnchoredPosition: {x: -66.24182, y: -16.794128}
   m_SizeDelta: {x: -2168, y: -814}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &943249994
@@ -18106,9 +18106,9 @@ MonoBehaviour:
   - name: Research Lab
     scene: 6
   - name: Office
-    scene: 8
+    scene: 7
   - name: Test
-    scene: 9
+    scene: 8
 --- !u!114 &1857619025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25459,6 +25459,8 @@ MonoBehaviour:
   isReloading: 0
   switchingGuns: 0
   reloadSound: {fileID: 0}
+  myShaker: {fileID: 0}
+  myShakePreset: {fileID: 0}
   cam: {fileID: 6399746229296346181}
 --- !u!222 &6014745559453449998
 CanvasRenderer:

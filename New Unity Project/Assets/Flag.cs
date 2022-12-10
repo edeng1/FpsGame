@@ -45,7 +45,7 @@ public class Flag : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player"))//Player touched this flag
         {
             Debug.Log(awayFlag + " " + other.GetComponent<PlayerController>().awayTeam);
 
@@ -55,11 +55,11 @@ public class Flag : MonoBehaviour
 
                 Player player = other.GetComponent<PhotonView>().Owner;
                 playerController = other.GetComponent<PlayerController>();
-                go = player.TagObject as GameObject;
+                go = player.TagObject as GameObject; //I might not use this tbh
 
 
                 if(playerHasFlag==false)// changed 
-                    PV.RPC("RPC_PickUpFlag", RpcTarget.All, other.GetComponent<PhotonView>().ViewID);
+                    PV.RPC("RPC_PickUpFlag", RpcTarget.All, other.GetComponent<PhotonView>().ViewID); //ViewID is of the player that touches the flag
 
 
 
@@ -83,26 +83,37 @@ public class Flag : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPC_PickUpFlag(int vID)
+    private void RPC_PickUpFlag(int vID) //When a flag is picked up, info is sent to all players
     {
         atHomeBase = false;
         playerHasFlag = true;
-        transform.parent = PhotonView.Find(vID).transform;
-        transform.position = transform.parent.position;
-        transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));
-        UIEventSystem.current.UIUpdateFlagPickUp(gameObject.tag+ " flag has been taken");
+        transform.parent = PhotonView.Find(vID).transform; //Finds ViewID of the player that touches the flag and sets them as the flags parent. Flag sticks to player.
+        transform.position = transform.parent.position; //Sets position of flag to player.
+        transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//Rotates it
+        UIEventSystem.current.UIUpdateFlagPickUp(gameObject.tag+ " flag has been taken!"); //Displays what teams flag is taken to all players.
     }
 
     [PunRPC]
     private void RPC_DropFlag()
     {
-        atHomeBase = false;
-        playerHasFlag = false;
-        flagPos = transform.parent.position;
-        transform.parent = null;
-        transform.position = flagPos;
-        UIEventSystem.current.UIUpdateFlagDrop(gameObject.tag + " flag has been dropped");
-    }
+        if (transform.position.y < -40f) //if flag falls off the map
+        {
+            atHomeBase = true;
+            playerHasFlag = false;
+            transform.parent = FlagSpawn;
+            transform.position = FlagSpawn.position;
+            UIEventSystem.current.UIUpdateFlagReturn(gameObject.tag + " flag fell off the map!");
+        }
+        else
+        {
+            atHomeBase = false;
+            playerHasFlag = false;
+            flagPos = transform.parent.position;
+            transform.parent = null;
+            transform.position = flagPos;
+            UIEventSystem.current.UIUpdateFlagDrop(gameObject.tag + " flag has been dropped!");
+        }
+       }
 
     [PunRPC]
     private void RPC_ReturnFlag()
@@ -110,7 +121,7 @@ public class Flag : MonoBehaviour
         atHomeBase = true;
         transform.parent = FlagSpawn;
         transform.position = FlagSpawn.position;
-        UIEventSystem.current.UIUpdateFlagReturn(gameObject.tag + " flag has been returned");
+        UIEventSystem.current.UIUpdateFlagReturn(gameObject.tag + " flag has been returned!");
     }
 
     public void ScoreFlag()
@@ -132,7 +143,7 @@ public class Flag : MonoBehaviour
         playerHasFlag = false;
         transform.parent = FlagSpawn;
         transform.position = FlagSpawn.position;
-        UIEventSystem.current.UIUpdateFlagReturn(gameObject.tag + " flag has been scored");
+        UIEventSystem.current.UIUpdateFlagReturn(gameObject.tag + " flag has been scored!");
 
     }
 
