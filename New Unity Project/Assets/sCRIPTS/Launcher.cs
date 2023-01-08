@@ -458,6 +458,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("OnLeftRoom");
         if(PhotonNetwork.IsConnectedAndReady)
             PhotonNetwork.JoinLobby();
+
         //OnJoinedLobby();
         inRoom = false;
         GameSettings.GameMode = (GameMode)0;

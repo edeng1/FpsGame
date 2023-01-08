@@ -4617,6 +4617,8 @@ MonoBehaviour:
   isReloading: 0
   switchingGuns: 0
   reloadSound: {fileID: 8300000, guid: cef0fa03af5b747f0abe82cde0b2bccc, type: 3}
+  myShaker: {fileID: 0}
+  myShakePreset: {fileID: 0}
   cam: {fileID: 2112966068909002682}
 --- !u!114 &5682375101351958765
 MonoBehaviour:
@@ -4636,7 +4638,8 @@ MonoBehaviour:
   Synchronization: 0
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5189,6 +5192,8 @@ MonoBehaviour:
   isReloading: 0
   switchingGuns: 0
   reloadSound: {fileID: 0}
+  myShaker: {fileID: 0}
+  myShakePreset: {fileID: 0}
   cam: {fileID: 2112966068909002682}
 --- !u!114 &3508731440552981908
 MonoBehaviour:

@@ -52,7 +52,7 @@ public class SingeShotGun : Gun
         clip = gi.clipSize;
         stash = gi.totalAmmo;
         reloadSound = (AudioClip)Resources.Load("Items/Guns/reload1", typeof(AudioClip));
-
+        //RoomManager.Instance.guns.Add(this.GetComponent<SingeShotGun>());
         if (PV.IsMine)
         {
             instantiateGunModel();
@@ -232,7 +232,7 @@ public class SingeShotGun : Gun
    
     public IEnumerator Reload()
     {
-        if (stash > 0&&clip<gi.clipSize)
+        if (stash > 0&&clip<gi.clipSize&&isReloading==false)
         {
             isReloading = true;
             sfx.PlayOneShot(reloadSound);

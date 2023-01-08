@@ -22,7 +22,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public List<PlayerManager> playerManagers;
     PhotonView PV;
     public GameObject launcher;
-    
+    //public List<SingeShotGun> guns;
     private void Awake()
     {
         
