@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     public GameObject[] skinColor;
     public GameObject[] headColorRag;
     public GameObject[] skinColorRag;
+    public Texture2D[] crosshairs;
+    public RawImage crosshair;
 
     //Values that will be synced over network
     Vector3 latestPos;
@@ -94,13 +96,23 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     {
         if (PV.IsMine)
         {
+            crosshairs = new Texture2D[30];
+            for(int i = 0; i < 30; i++)
+            {
+                crosshairs[i]=Resources.Load<Texture2D>("CrosshairPack/" + (i+1)) as Texture2D;
+            }
+            //crosshairs = Resources.LoadAll("CrosshairPack", typeof(Texture2D));
             EquipItem(0);
 
             if (!PlayerPrefs.HasKey("sens"))
             {
                 PlayerPrefs.SetFloat("sens", mouseSensitivity);
             }
-            
+            if (PlayerPrefs.HasKey("Crosshair"))
+            {
+               crosshair.texture= (Texture2D)crosshairs[PlayerPrefs.GetInt("Crosshair") - 1] as Texture2D;
+            }
+
             anim = GetComponent<Animator>();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

@@ -15,6 +15,7 @@ public class Pause : MonoBehaviour
     public TMP_InputField volInputField;
     public GameObject settings;
     public GameObject loadout;
+    public GameObject crosshairs;
     public AudioSource[] audioSrc;
     float sensitivity;
     private void Start()
@@ -59,6 +60,10 @@ public class Pause : MonoBehaviour
         {
             ToggleLoadout();
         }
+        if (crosshairs.activeSelf)
+        {
+            ToggleCrosshairs();
+        }
 
     }
     public void ToggleSettings()
@@ -68,6 +73,7 @@ public class Pause : MonoBehaviour
         {
             settings.SetActive(true);
             loadout.SetActive(false);
+            crosshairs.SetActive(false);
         }
         else { settings.SetActive(false); }
     }
@@ -77,8 +83,20 @@ public class Pause : MonoBehaviour
         {
             loadout.SetActive(true);
             settings.SetActive(false);
+            crosshairs.SetActive(false);
         }
         else { loadout.SetActive(false); }
+    }
+    public void ToggleCrosshairs()
+    {
+
+        if (!crosshairs.activeSelf && paused)
+        {
+            crosshairs.SetActive(true);
+            loadout.SetActive(false);
+            settings.SetActive(false);
+        }
+        else { crosshairs.SetActive(false); }
     }
 
     public void InputChangeSens()

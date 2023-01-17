@@ -552,10 +552,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                 }
                 
             }
-            SingeShotGun[]guns =RoomManager.Instance.getPlayerManager().getController().GetComponentsInChildren<SingeShotGun>();//instantiates gun model of other players for the new player that joins.
-            foreach(SingeShotGun g in guns){
-                g.instantiateGunModel();
-            }
+            //SingeShotGun[]guns =RoomManager.Instance.getPlayerManager().getController().GetComponentsInChildren<SingeShotGun>();//instantiates gun model of other players for the new player that joins.
+            //foreach(SingeShotGun g in guns){
+            //    g.instantiateGunModel();
+            //}
         }
         /*if (previousPlayerinfoCount < data.Length - 2)//if new player joinedffdd
         {
