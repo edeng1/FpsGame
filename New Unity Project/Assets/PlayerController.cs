@@ -96,8 +96,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     {
         if (PV.IsMine)
         {
-            crosshairs = new Texture2D[30];
-            for(int i = 0; i < 30; i++)
+            crosshairs = new Texture2D[35];
+            for(int i = 0; i < 35; i++)
             {
                 crosshairs[i]=Resources.Load<Texture2D>("CrosshairPack/" + (i+1)) as Texture2D;
             }

@@ -9,6 +9,7 @@ public class CrosshairListItem : MonoBehaviour
     RectTransform myRectTransform;
     
     Texture crosshair;
+    Sprite crosshair2;
     bool setup = false;
     public void SetUp(Texture2D texture)
     {
@@ -16,7 +17,7 @@ public class CrosshairListItem : MonoBehaviour
         {
             crosshair = texture;
             Rect rect = new Rect(0, 0, texture.width, texture.height);
-          
+            crosshair2= Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f));
             gameObject.GetComponent<Image>().sprite = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f));
         }
         myRectTransform = GetComponent<RectTransform>();
@@ -31,7 +32,8 @@ public class CrosshairListItem : MonoBehaviour
         if (setup&&crosshair!=null&&crosshairOnPlayer!=null)
         {
             crosshairOnPlayer.gameObject.GetComponent<RawImage>().texture = crosshair;
-            if(System.Int32.TryParse(crosshair.name, out int j))
+            //crosshairOnPlayer.gameObject.GetComponent<Image>().sprite = crosshair2;
+            if (System.Int32.TryParse(crosshair.name, out int j))
             {
                 PlayerPrefs.SetInt("Crosshair",j);
             }

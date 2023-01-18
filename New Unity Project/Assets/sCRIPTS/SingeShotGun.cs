@@ -20,8 +20,11 @@ public class SingeShotGun : Gun
     public bool isReloading;
     public bool switchingGuns;
     public AudioClip reloadSound;
+    public AudioClip hitmarkerSound;
+    public AudioClip headshotSound;
     public Shaker myShaker;
     public ShakePreset myShakePreset;
+    public TrailRenderer bulletTrail;
     float time;
 
 
@@ -52,6 +55,7 @@ public class SingeShotGun : Gun
         clip = gi.clipSize;
         stash = gi.totalAmmo;
         reloadSound = (AudioClip)Resources.Load("Items/Guns/reload1", typeof(AudioClip));
+        
         //RoomManager.Instance.guns.Add(this.GetComponent<SingeShotGun>());
         if (PV.IsMine)
         {
@@ -130,38 +134,48 @@ public class SingeShotGun : Gun
                 if (applyDamage)
                 {
 
-
-                    switch (hit.collider.gameObject.name)
+                
+                switch (hit.collider.gameObject.name)
                     {
                         case "upperArm.L":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "upperArm.R":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "lowerArm.L":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "lowerArm.R":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "spine":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageBody, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "upperLeg.L":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "upperLeg.R":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "lowerLeg.L":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "lowerLeg.R":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageArm, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName);
+                            sfx.PlayOneShot(hitmarkerSound);
                             break;
                         case "head":
                             hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damageHead, PhotonNetwork.LocalPlayer.ActorNumber, itemInfo.itemName,true);
+                            sfx.PlayOneShot(headshotSound);
                             break;
 
                     }
@@ -201,9 +215,28 @@ public class SingeShotGun : Gun
     void RPC_Shoot(Vector3 hitPosition, Vector3 hitNormal, bool applyDamage)
     {
         if(!applyDamage)
-            Instantiate(bulletImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal,Vector3.up));
+            Instantiate(bulletImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal,Vector3.up)); //blood if hit player
         else
-            Instantiate(bloodImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal, Vector3.up));
+            Instantiate(bloodImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal, Vector3.up)); //bullet impact if not
+
+        TrailRenderer trail = Instantiate(bulletTrail, muzzleFlash.transform.position, Quaternion.LookRotation(hitNormal, Vector3.up)); //bullet trail
+        StartCoroutine(SpawnTrail(trail, hitPosition));
+
+    }
+
+    IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitPosition)
+    {
+        float time = 0;
+        Vector3 startPosition = trail.transform.position;
+        while (time < 1)
+        {
+            trail.transform.position = Vector3.Lerp(startPosition, hitPosition, time);
+            time += Time.deltaTime / trail.time;
+
+            yield return null;
+        }
+        trail.transform.position = hitPosition;
+        Destroy(trail.gameObject,trail.time);
 
     }
 
