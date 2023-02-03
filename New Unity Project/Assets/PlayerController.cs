@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
                 Die();
                 die = false;
             }
-            bool pause = Input.GetKeyDown(KeyCode.Escape);
+            bool pause = Input.GetKeyDown(KeyCode.Escape)||Input.GetKeyDown(KeyCode.P);
 
             if (pause)
             {
@@ -282,6 +282,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         
 
     }
+    float xAnim = 0;
+    float yAnim = 0;
     void MoveController()
     {
         
@@ -292,12 +294,16 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-      
-            Vector3 move = (transform.right * x + transform.forward * y);
+        //xAnim = Mathf.MoveTowards(xAnim, x, 1f*Time.deltaTime);
+        //yAnim = Mathf.MoveTowards(yAnim, y, 1f * Time.deltaTime);
+
+        Vector3 move = (transform.right * x + transform.forward * y);
         if (move.magnitude > 1)
         {
             move /= move.magnitude;
         }
+       
+
         anim.SetFloat("PosY", y);
         anim.SetFloat("PosX", x);
         if(controller!=null)
@@ -345,7 +351,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     }
     void Crouch()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl)|| Input.GetKey(KeyCode.C))
         {
             isCrouched = true;
             isSprinting = false;
@@ -783,29 +789,35 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     private void CopyTransformData(Transform sourceTransform, Transform destinationTransform)
     {
-        /*
+        
         if (sourceTransform.childCount != destinationTransform.childCount)
         {
             Debug.LogWarning("Invalid transform copy");
         }
         for (int i = 0; i < sourceTransform.childCount; i++)
         {
-            var source = sourceTransform.GetChild(i);
-            var destination = destinationTransform.GetChild(i);
-            destination.position = source.position;
-            destination.rotation = source.rotation;
-            var rb = destination.GetComponent<Rigidbody>();
-            if (rb != null)
+            if (sourceTransform.childCount == destinationTransform.childCount)
             {
-                rb.velocity =new Vector3(0,0,0);
+                var source = sourceTransform.GetChild(i);
+                var destination = destinationTransform.GetChild(i);
+
+
+                destination.position = source.position;
+                destination.rotation = source.rotation;
+                var rb = destination.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.velocity = new Vector3(-5, -5, -5);
+                }
+
+                CopyTransformData(source, destination);
             }
-
-            CopyTransformData(source, destination);
+           
         }
-        */
+        
 
-        destinationTransform.position = sourceTransform.position;
-        destinationTransform.rotation = sourceTransform.rotation;
+        //destinationTransform.position = sourceTransform.position;
+        //destinationTransform.rotation = sourceTransform.rotation;
     }
 
     public void TrySync()

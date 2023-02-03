@@ -61,6 +61,8 @@ MonoBehaviour:
   - RpcClearBuffer
   - RpcNonServerOwnedTeleportFromServer
   - RpcTeleport
+  - RPC_SpawnInUse
+  - SyncSpawnDictionary
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

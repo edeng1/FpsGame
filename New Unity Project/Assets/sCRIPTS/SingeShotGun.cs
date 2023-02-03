@@ -219,7 +219,7 @@ public class SingeShotGun : Gun
         else
             Instantiate(bloodImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal, Vector3.up)); //bullet impact if not
 
-        TrailRenderer trail = Instantiate(bulletTrail, muzzleFlash.transform.position, Quaternion.LookRotation(hitNormal, Vector3.up)); //bullet trail
+        TrailRenderer trail = Instantiate(bulletTrail, muzzleFlash.transform.position, Quaternion.identity); //bullet trail Quaternion.LookRotation(hitNormal, Vector3.up)
         StartCoroutine(SpawnTrail(trail, hitPosition));
 
     }

@@ -12,22 +12,29 @@ public class PlayerManager : MonoBehaviour
    
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
+    int usedSpawnIndex=-1;
+    Dictionary<int, bool> usedSpawns;
 
    public bool die = false;
    public bool awayTeam;
+    public float spawnRadius = 5f;
 
     GameObject controller;
     private void Awake()
     {
       
         PV = GetComponent<PhotonView>();
-        
+        usedSpawns = new Dictionary<int, bool>();
 
 
     }
     void Start()
     {
-
+       for(int i=0; i < SpawnManager.Instance.transform.childCount; i++)//initializes used spawn dictionary to false
+       {
+            usedSpawns.Add(i, false);
+          
+       }
 
         if (PV.IsMine)
         {
@@ -35,6 +42,7 @@ public class PlayerManager : MonoBehaviour
             {
                 PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
             }
+
             CreateController();
         }
         
@@ -49,12 +57,37 @@ public class PlayerManager : MonoBehaviour
         {
             spawnPoint = SpawnManager.Instance.GetSpawnPoint();
         }
-        
-        controller=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnPoint.position, spawnPoint.rotation, 0,new object[] { PV.ViewID,GameSettings.IsAwayTeam});
+        int spawnIndex= spawnPoint.GetSiblingIndex();
+
+
+        float angle = UnityEngine.Random.Range(0f, 360f);
+        float x = spawnRadius * Mathf.Cos(angle * Mathf.Deg2Rad);
+        float y = spawnRadius * Mathf.Sin(angle * Mathf.Deg2Rad);
+
+        if (usedSpawns[spawnIndex] == true)//check if spawn is in use, gets new random spawn
+        {
+            CreateController();
+        }
+        controller =PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), new Vector3(x, 0, y) + spawnPoint.position, spawnPoint.rotation, 0,new object[] { PV.ViewID,GameSettings.IsAwayTeam});
+        PV.RPC("RPC_SpawnInUse", RpcTarget.All, spawnIndex); 
         controller.GetComponent<PhotonView>().Owner.TagObject = controller; //Stores this controller into TagObject, is used in Flag script
         controller.GetComponent<PlayerController>().isDead = false;
         
        
+    }
+
+    [PunRPC]
+    void RPC_SpawnInUse(int index) //spawn is in use
+    {
+        usedSpawnIndex = index;
+        usedSpawns[index] = true;
+        StartCoroutine(SpawnInUse(index));
+    }
+    IEnumerator SpawnInUse(int index) //waits 3 seconds for spawn not in use
+    {
+        yield return new WaitForSeconds(3f);
+        usedSpawns[index] = false;
+        usedSpawnIndex = -1;
     }
 
     public IEnumerator Die()
@@ -109,6 +142,7 @@ public class PlayerManager : MonoBehaviour
 
         }
     }
+  
 
     public PlayerController getController()
     {

@@ -90,12 +90,14 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         
         PhotonNetwork.AddCallbackTarget(this);
+        
         //StartCoroutine(AddEvent());
     }
     private void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
-       // UIEventSystem.current.onPlayerKilled -= EventKillUI;
+        
+        // UIEventSystem.current.onPlayerKilled -= EventKillUI;
     }
     IEnumerator AddEvent()//unnecessary, used in PlayerController
     {
@@ -121,6 +123,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
            
         Instance = this;
+        Application.wantsToQuit += CloseBrowser;
     }
     // Start is called before the first frame update
     void Start()
@@ -179,6 +182,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             }
             
         }
+        
     }
 
   
@@ -938,6 +942,11 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber, PhotonNetwork.LocalPlayer.NickName);
         Debug.Log("I quit");
+    }
+    private bool CloseBrowser()
+    {
+        PlayerLeft_S(PhotonNetwork.LocalPlayer.ActorNumber, PhotonNetwork.LocalPlayer.NickName);
+        return true;
     }
 
 
