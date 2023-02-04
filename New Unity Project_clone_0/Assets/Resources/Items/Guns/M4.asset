@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9952b61b3e6b9af42bcd962aed94afdd, type: 3}
+  m_Name: M4
+  m_EditorClassIdentifier: 
+  itemName: M4
+  itemModel: {fileID: 9049938920144453115, guid: 4b55356e6e4f1b54bb8f178a057ba25b,
+    type: 3}
+  itemModelsUnlocked:
+  - {fileID: 9049938920144453115, guid: 4b55356e6e4f1b54bb8f178a057ba25b, type: 3}
+  itemPosition: {x: 0.2, y: 0.35, z: 0.15}
+  itemRotation: {x: 0, y: 90, z: 0}
+  itemScale: {x: 1, y: 1, z: 1}
+  itemSound: {fileID: 8300000, guid: 58aa3bd1fef7672468c36cca82ac75b5, type: 3}
+  levelToUnlock: 2
+  damageBody: 24
+  damageArm: 15
+  damageHead: 98
+  fullyAuto: 1
+  fireRate: 11
+  verticalRecoil: 0.4
+  duration: 0.01
+  totalAmmo: 999
+  clipSize: 30
+  reloadTime: 1
+  isPistol: 0
+  gunImage: {fileID: 2800000, guid: 49d94993c81f5284586db0fd92ddd8be, type: 3}
+  playerPoseitemPosition: {x: -0.012, y: 0.32, z: 0.035}
+  playerPoseitemRotation: {x: 0, y: 18.264, z: 31.545}
+  playerPoseitemScale: {x: 1.5, y: 1.5, z: 1.5}
