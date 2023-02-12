@@ -30,18 +30,18 @@ public class PlayerManager : MonoBehaviour
     }
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
+        
+            
+        
+       
+
+        if (PV.IsMine)
         {
             for (int i = 0; i < SpawnManager.Instance.transform.childCount; i++)//initializes used spawn dictionary to false
             {
                 usedSpawns.Add(i, false);
 
             }
-        }
-       
-
-        if (PV.IsMine)
-        {
             if (GameSettings.GameMode != GameMode.FFA)
             {
                 PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
