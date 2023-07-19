@@ -15,22 +15,37 @@ public class Pause : MonoBehaviour
     public TMP_InputField volInputField;
     public GameObject settings;
     public GameObject loadout;
+    public Toggle PostProcessing;
+    public GameObject PostProcessingMainMenu;
     public GameObject crosshairs;
     public AudioSource[] audioSrc;
     float sensitivity;
+    float volume;
+    float defaultSens = 1f;
+    float defaultVol = .1f;
+    float maxSens = 10f;
+    float maxVol = 2f;
     private void Start()
     {
         
         if (PlayerPrefs.HasKey("sens")) {
             Debug.Log(PlayerPrefs.GetFloat("sens"));
             sensitivity= PlayerPrefs.GetFloat("sens");
-            sensSlider.value = sensitivity;
+            
             
         }
+        else
+        {
+            sensitivity = defaultSens;
+            
+            sensInputField.text = sensitivity.ToString();
+        }
+        sensSlider.value = sensitivity;
+
         if (PlayerPrefs.HasKey("vol"))
         {
+            volume = PlayerPrefs.GetFloat("vol");
             
-            volSlider.value = PlayerPrefs.GetFloat("vol");
             if (audioSrc != null)
             {
                 foreach (AudioSource a in audioSrc)
@@ -40,6 +55,37 @@ public class Pause : MonoBehaviour
             }
 
         }
+        else
+        {
+            volume = defaultVol;
+            
+            volInputField.text = volume.ToString();
+            if (audioSrc != null)
+            {
+                foreach (AudioSource a in audioSrc)
+                {
+                    a.volume = defaultVol;
+                }
+            }
+
+        }
+        volSlider.value = volume;
+
+        if (PlayerPrefs.HasKey("postp"))
+        {
+            int pp = PlayerPrefs.GetInt("postp");
+            if (pp == 0)
+            {
+                PostProcessing.isOn = false;
+                TogglePostProcessing(false);
+            }
+            else if(pp==1)
+            {
+                PostProcessing.isOn = true;
+                TogglePostProcessing(true);
+            }
+        }
+
 
     }
     public void TogglePause()
@@ -106,7 +152,7 @@ public class Pause : MonoBehaviour
         Debug.Log(result);
         
         if (result < 0) { result = 0; sensInputField.text ="0"; }
-        if (result > 2) { result = 2; sensInputField.text = "2"; }
+        if (result > maxSens) { result = maxSens; sensInputField.text = maxSens.ToString(); }
         ChangeSensitivity(result);
 
     }
@@ -117,7 +163,7 @@ public class Pause : MonoBehaviour
         Debug.Log(result);
 
         if (result < 0) { result = 0; volInputField.text = "0"; }
-        if (result > 2) { result = 2; volInputField.text = "2"; }
+        if (result > maxVol) { result = maxVol; volInputField.text = maxVol.ToString(); }
         ChangeVolume(result);
 
     }
@@ -164,6 +210,25 @@ public class Pause : MonoBehaviour
             
         }
 
+    }
+
+    public void TogglePostProcessing(bool toggle)
+    {
+        Debug.Log("PP called" + toggle);
+        if(Manager.Instance)
+            Manager.Instance.TogglePostProcessing(toggle);
+        else
+        {
+            if (PostProcessingMainMenu != null)
+            {
+                PostProcessingMainMenu.SetActive(toggle);
+            }
+        }
+
+        int t = 0;
+
+        if (toggle) { t = 1; }
+        PlayerPrefs.SetInt("postp", t);
     }
 
     

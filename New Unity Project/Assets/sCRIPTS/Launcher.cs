@@ -413,7 +413,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     bool gameStarting = false;
     public void StartGame()////////////////////////////////////////////
     {
-       
+        Debug.Log("are all palyers ready"+ RoomManager.Instance.AllPlayersReady());
 
         if (gameStarting == false)
         {

@@ -1,0 +1,547 @@
+Using pre-set license
+Built from '2021.3/staging' branch; Version is '2021.3.16f1 (4016570cf34f) revision 4200023'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19045) 64bit Core' Language: 'en' Physical Memory: 16272 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.3.16f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Users/erice/OneDrive/Documents/GitHub/FpsGame/FPSmicrogame
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+54004
+Successfully changed project path to: C:/Users/erice/OneDrive/Documents/GitHub/FpsGame/FPSmicrogame
+C:/Users/erice/OneDrive/Documents/GitHub/FpsGame/FPSmicrogame
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [35232] Host "[IP] 192.168.1.184 [Port] 0 [Flags] 2 [Guid] 826513554 [EditorId] 826513554 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-K61T99D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [35232] Host "[IP] 192.168.1.184 [Port] 0 [Flags] 2 [Guid] 826513554 [EditorId] 826513554 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-K61T99D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 108.21 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.3.16f1 (4016570cf34f)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/erice/OneDrive/Documents/GitHub/FpsGame/FPSmicrogame/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3080 (ID=0x2206)
+    Vendor:   NVIDIA
+    VRAM:     10067 MB
+    Driver:   31.0.15.2849
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56536
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.008390 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 107.55 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.629 seconds
+Domain Reload Profiling:
+	ReloadAssembly (630ms)
+		BeginReloadAssembly (73ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (1ms)
+		EndReloadAssembly (449ms)
+			LoadAssemblies (69ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (92ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (23ms)
+			SetupLoadedEditorAssemblies (285ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (7ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (108ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (122ms)
+				ProcessInitializeOnLoadMethodAttributes (46ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.015452 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\erice\OneDrive\Documents\GitHub\FpsGame\FPSmicrogame\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\erice\OneDrive\Documents\GitHub\FpsGame\FPSmicrogame\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 109.73 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.320 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1321ms)
+		BeginReloadAssembly (105ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (16ms)
+		EndReloadAssembly (1100ms)
+			LoadAssemblies (109ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (286ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (59ms)
+			SetupLoadedEditorAssemblies (588ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (110ms)
+				BeforeProcessingInitializeOnLoad (137ms)
+				ProcessInitializeOnLoadAttributes (255ms)
+				ProcessInitializeOnLoadMethodAttributes (67ms)
+				AfterProcessingInitializeOnLoad (14ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (16ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.11 seconds
+Refreshing native plugins compatible for Editor in 0.93 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5833 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 77 unused Assets / (3.5 MB). Loaded Objects now: 6247.
+Memory consumption went from 229.9 MB to 226.3 MB.
+Total: 4.697500 ms (FindLiveObjects: 0.488800 ms CreateObjectMapping: 0.452100 ms MarkObjects: 2.562400 ms  DeleteObjects: 1.193600 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 182134.623681 seconds.
+  path: Assets/Kinemation/FPSFramework
+  artifactKey: Guid(a11b627f2000e4240a605c758680d7eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework using Guid(a11b627f2000e4240a605c758680d7eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '05fb43e1b04d42cca0cef0318edf0bf3') in 0.010398 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 10.510797 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Core
+  artifactKey: Guid(474eccd1b56f93c4291b009403c49f05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Core using Guid(474eccd1b56f93c4291b009403c49f05) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ebf3042741bd042bcabd9b3407605ee8') in 0.002989 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.916495 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Core/Types
+  artifactKey: Guid(0edc9380c2af4574eb2b9836e2cb2759) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Core/Types using Guid(0edc9380c2af4574eb2b9836e2cb2759) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bdb77c536f8ee6e5b78b1d74d69f90da') in 0.002773 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.398754 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Core/Types/CoreAnimMixer.cs
+  artifactKey: Guid(d89958a30988b9344969fa6ff472f7b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Core/Types/CoreAnimMixer.cs using Guid(d89958a30988b9344969fa6ff472f7b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'deec9731b7f412e544040106335737f1') in 0.028886 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.451270 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Core/Types/AimOffsetTable.cs
+  artifactKey: Guid(da3b626ae8ae5d84eaab7146ee6f43d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Core/Types/AimOffsetTable.cs using Guid(da3b626ae8ae5d84eaab7146ee6f43d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b6f1ef10bbc7b1b0c06f1aa446f560cc') in 0.003207 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 11.345021 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Core/Components
+  artifactKey: Guid(06292fab4ea147bdb690d4b3e76d4c96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Core/Components using Guid(06292fab4ea147bdb690d4b3e76d4c96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '878f4530c6d303c9bc757582583ac0d5') in 0.002822 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.757559 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Core/Components/CoreAnimComponent.cs
+  artifactKey: Guid(ba16871dfe92aac4990a21ccc966de6e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Core/Components/CoreAnimComponent.cs using Guid(ba16871dfe92aac4990a21ccc966de6e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a0d7ef9e0b843767e285a809c6e834a5') in 0.003014 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.647689 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Core/Components/BoneContainer.cs
+  artifactKey: Guid(09e71029ad38bb048b5427ab91bf490f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Core/Components/BoneContainer.cs using Guid(09e71029ad38bb048b5427ab91bf490f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7bb5e64a86cca82fc8ca17d3c63ce278') in 0.002869 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 12.876449 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Core/Components/CoreAnimGraph.cs
+  artifactKey: Guid(dd2258f0895906a468b5aa9c218c1a43) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Core/Components/CoreAnimGraph.cs using Guid(dd2258f0895906a468b5aa9c218c1a43) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1fb9f440938d4f0b8cdfaedd869d95d3') in 0.003206 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 5.241413 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Layers
+  artifactKey: Guid(f4d6821578b99344eafd8dd8e7959dd2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Layers using Guid(f4d6821578b99344eafd8dd8e7959dd2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8dfcb273afeb9dd2a3485d24c8670b6b') in 0.027407 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.266983 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Layers/AdsLayer.cs
+  artifactKey: Guid(6e30d4c845764f8479f965b1871a1901) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Layers/AdsLayer.cs using Guid(6e30d4c845764f8479f965b1871a1901) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6d895e71d4f56044a693c563d02e276b') in 0.002583 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.194539 seconds.
+  path: Assets/Kinemation/FPSFramework/Runtime/Layers/LegIK.cs
+  artifactKey: Guid(d37cced8cc6deff45bd4a302178162a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Runtime/Layers/LegIK.cs using Guid(d37cced8cc6deff45bd4a302178162a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f92353935d092da78a5ac5f519797d87') in 0.006728 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4.233412 seconds.
+  path: Assets/Kinemation/FPSFramework/Editor
+  artifactKey: Guid(0cf1ea951eb2f9d469547cbe877d89d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Editor using Guid(0cf1ea951eb2f9d469547cbe877d89d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c45ebf87f2c8f6e99f2b71d0c56efc9') in 0.002995 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.077466 seconds.
+  path: Assets/Kinemation/FPSFramework/Editor/FPSAF.Editor.asmdef
+  artifactKey: Guid(86fb03b7f8075ba48a23c50658463310) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/Editor/FPSAF.Editor.asmdef using Guid(86fb03b7f8075ba48a23c50658463310) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5583c1f9b8f7293d0d57ce7cb39b4695') in 0.007956 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 13.074656 seconds.
+  path: Assets/Kinemation/FPSFramework/README.pdf
+  artifactKey: Guid(b0bfe6047dae1a04ab76c1ec809c07b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Kinemation/FPSFramework/README.pdf using Guid(b0bfe6047dae1a04ab76c1ec809c07b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4c7ee77dfdb9fddcbf2cb1e5ad7376cd') in 0.015881 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 44.574362 seconds.
+  path: Assets
+  artifactKey: Guid(00000000000000001000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets using Guid(00000000000000001000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '79842766b460edbeab6a34051e857a80') in 0.002923 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 18.886834 seconds.
+  path: Assets/Test.unity
+  artifactKey: Guid(c3d0f193fd3368047be738b6f8ae2a41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Test.unity using Guid(c3d0f193fd3368047be738b6f8ae2a41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e3d1b6e6eaf9d98e1e601f349c1a2555') in 0.002699 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 615.427368 seconds.
+  path: Assets/FPSMicrogame
+  artifactKey: Guid(2503187799981714ebef4b804eb7c96b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSMicrogame using Guid(2503187799981714ebef4b804eb7c96b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'be0c90cc28af7ce665260693fbedfc81') in 0.003145 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 14.707232 seconds.
+  path: Assets/minotaur1
+  artifactKey: Guid(f2c5090b34815534d9f832cd119f3153) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1 using Guid(f2c5090b34815534d9f832cd119f3153) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2a687fd53fc558981a592f0ee60a58da') in 0.003098 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.014752 seconds.
+ArgumentException: An item with the same key has already been added. Key: 00000000000000000000000000000000
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryInsert (TKey key, TValue value, System.Collections.Generic.InsertionBehavior behavior) [0x0015a] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].Add (TKey key, TValue value) [0x00000] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (TSource[] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x0001c] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x00043] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector) [0x00000] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at UnityEditor.Scripting.ScriptCompilation.LoadingAssemblyDefinition.SetAllCustomScriptAssemblyReferenceJsonsContents (System.String[] paths, System.String[] contents) [0x00172] in <11d97693183d4a6bb35c29ae7882c66b>:0 
+UnityEngine.DebugLogHandler:Internal_LogException(Exception, Object)
+UnityEngine.DebugLogHandler:LogException(Exception, Object)
+UnityEngine.Logger:LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:EmitExceptionsAsErrors(Exception[])
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:SetAllCustomScriptAssemblyReferenceJsons(String[], String[])
+
+ArgumentException: An item with the same key has already been added. Key: 00000000000000000000000000000000
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryInsert (TKey key, TValue value, System.Collections.Generic.InsertionBehavior behavior) [0x0015a] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].Add (TKey key, TValue value) [0x00000] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (TSource[] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x0001c] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x00043] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector) [0x00000] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at UnityEditor.Scripting.ScriptCompilation.LoadingAssemblyDefinition.SetAllCustomScriptAssemblyReferenceJsonsContents (System.String[] paths, System.String[] contents) [0x00172] in <11d97693183d4a6bb35c29ae7882c66b>:0 
+UnityEngine.DebugLogHandler:Internal_LogException(Exception, Object)
+UnityEngine.DebugLogHandler:LogException(Exception, Object)
+UnityEngine.Logger:LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:EmitExceptionsAsErrors(Exception[])
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:SetAllCustomScriptAssemblyReferenceJsons(String[], String[])
+
+ArgumentException: An item with the same key has already been added. Key: 00000000000000000000000000000000
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryInsert (TKey key, TValue value, System.Collections.Generic.InsertionBehavior behavior) [0x0015a] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].Add (TKey key, TValue value) [0x00000] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (TSource[] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x0001c] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x00043] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector) [0x00000] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at UnityEditor.Scripting.ScriptCompilation.LoadingAssemblyDefinition.SetAllCustomScriptAssemblyReferenceJsonsContents (System.String[] paths, System.String[] contents) [0x00172] in <11d97693183d4a6bb35c29ae7882c66b>:0 
+UnityEngine.DebugLogHandler:Internal_LogException(Exception, Object)
+UnityEngine.DebugLogHandler:LogException(Exception, Object)
+UnityEngine.Logger:LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:EmitExceptionsAsErrors(Exception[])
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:SetAllCustomScriptAssemblyReferenceJsons(String[], String[])
+
+ArgumentException: An item with the same key has already been added. Key: 00000000000000000000000000000000
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryInsert (TKey key, TValue value, System.Collections.Generic.InsertionBehavior behavior) [0x0015a] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].Add (TKey key, TValue value) [0x00000] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (TSource[] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x0001c] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x00043] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector) [0x00000] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at UnityEditor.Scripting.ScriptCompilation.LoadingAssemblyDefinition.SetAllCustomScriptAssemblyReferenceJsonsContents (System.String[] paths, System.String[] contents) [0x00172] in <11d97693183d4a6bb35c29ae7882c66b>:0 
+UnityEngine.DebugLogHandler:Internal_LogException(Exception, Object)
+UnityEngine.DebugLogHandler:LogException(Exception, Object)
+UnityEngine.Logger:LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:EmitExceptionsAsErrors(Exception[])
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:SetAllCustomScriptAssemblyReferenceJsons(String[], String[])
+
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\erice\OneDrive\Documents\GitHub\FpsGame\FPSmicrogame\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\erice\OneDrive\Documents\GitHub\FpsGame\FPSmicrogame\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.89 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Assembly with name 'fps.UI' already exists (Assets/FPSMicrogame/FPS/Scripts/UI/fps.UI.asmdef)
+Assembly with name 'fps.UI' already exists (Assets/FPS/Scripts/UI/fps.UI.asmdef)
+Assembly with name 'fps.Editor' already exists (Assets/FPSMicrogame/FPS/Scripts/Editor/fps.Editor.asmdef)
+Assembly with name 'fps.Editor' already exists (Assets/FPS/Scripts/Editor/fps.Editor.asmdef)
+Assembly with name 'fps.AI' already exists (Assets/FPSMicrogame/FPS/Scripts/AI/fps.AI.asmdef)
+Assembly with name 'fps.AI' already exists (Assets/FPS/Scripts/AI/fps.AI.asmdef)
+Assembly with name 'Unity.FPS.Tutorials' already exists (Assets/FPSMicrogame/FPS/Tutorials/Unity.FPS.Tutorials.asmdef)
+Assembly with name 'Unity.FPS.Tutorials' already exists (Assets/FPS/Tutorials/Unity.FPS.Tutorials.asmdef)
+Assembly with name 'NavMeshComponents' already exists (Assets/FPSMicrogame/NavMeshComponents/Scripts/NavMeshComponents.asmdef)
+Assembly with name 'NavMeshComponents' already exists (Assets/NavMeshComponents/Scripts/NavMeshComponents.asmdef)
+Assembly with name 'NavMeshComponentsEditor' already exists (Assets/FPSMicrogame/NavMeshComponents/Editor/NavMeshComponentsEditor.asmdef)
+Assembly with name 'NavMeshComponentsEditor' already exists (Assets/NavMeshComponents/Editor/NavMeshComponentsEditor.asmdef)
+Assembly with name 'fps.Game' already exists (Assets/FPSMicrogame/FPS/Scripts/Game/fps.Game.asmdef)
+Assembly with name 'fps.Game' already exists (Assets/FPS/Scripts/Game/fps.Game.asmdef)
+Assembly with name 'fps.Gameplay' already exists (Assets/FPSMicrogame/FPS/Scripts/Gameplay/fps.Gameplay.asmdef)
+Assembly with name 'fps.Gameplay' already exists (Assets/FPS/Scripts/Gameplay/fps.Gameplay.asmdef)
+Assembly with name 'Unity.Microgame.Tutorials' already exists (Assets/FPSMicrogame/FPS/Tutorials/BuildAndPublish/Criteria/Unity.Microgame.Tutorials.asmdef)
+Assembly with name 'Unity.Microgame.Tutorials' already exists (Assets/FPS/Tutorials/BuildAndPublish/Criteria/Unity.Microgame.Tutorials.asmdef)
+ArgumentException: An item with the same key has already been added. Key: 00000000000000000000000000000000
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryInsert (TKey key, TValue value, System.Collections.Generic.InsertionBehavior behavior) [0x0015a] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].Add (TKey key, TValue value) [0x00000] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (TSource[] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x0001c] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x00043] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector) [0x00000] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at UnityEditor.Scripting.ScriptCompilation.LoadingAssemblyDefinition.SetAllCustomScriptAssemblyReferenceJsonsContents (System.String[] paths, System.String[] contents) [0x00172] in <11d97693183d4a6bb35c29ae7882c66b>:0 
+UnityEngine.DebugLogHandler:Internal_LogException(Exception, Object)
+UnityEngine.DebugLogHandler:LogException(Exception, Object)
+UnityEngine.Logger:LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:EmitExceptionsAsErrors(Exception[])
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:SetAllCustomScriptAssemblyReferenceJsons(String[], String[])
+
+ArgumentException: An item with the same key has already been added. Key: 00000000000000000000000000000000
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].TryInsert (TKey key, TValue value, System.Collections.Generic.InsertionBehavior behavior) [0x0015a] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Collections.Generic.Dictionary`2[TKey,TValue].Add (TKey key, TValue value) [0x00000] in <75633565436c42f0a6426b33f0132ade>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (TSource[] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x0001c] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector, System.Collections.Generic.IEqualityComparer`1[T] comparer) [0x00043] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at System.Linq.Enumerable.ToDictionary[TSource,TKey] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] keySelector) [0x00000] in <1c318258bf0843289b0e2cbe692fee39>:0 
+  at UnityEditor.Scripting.ScriptCompilation.LoadingAssemblyDefinition.SetAllCustomScriptAssemblyReferenceJsonsContents (System.String[] paths, System.String[] contents) [0x00172] in <11d97693183d4a6bb35c29ae7882c66b>:0 
+UnityEngine.DebugLogHandler:Internal_LogException(Exception, Object)
+UnityEngine.DebugLogHandler:LogException(Exception, Object)
+UnityEngine.Logger:LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:LogException(Exception)
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:EmitExceptionsAsErrors(Exception[])
+UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:SetAllCustomScriptAssemblyReferenceJsons(String[], String[])
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.188 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1188ms)
+		BeginReloadAssembly (144ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (36ms)
+		EndReloadAssembly (929ms)
+			LoadAssemblies (118ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (266ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (45ms)
+			SetupLoadedEditorAssemblies (441ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (11ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (135ms)
+				ProcessInitializeOnLoadAttributes (218ms)
+				ProcessInitializeOnLoadMethodAttributes (62ms)
+				AfterProcessingInitializeOnLoad (14ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (23ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 2.98 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5717 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 70 unused Assets / (3.5 MB). Loaded Objects now: 6251.
+Memory consumption went from 223.7 MB to 220.2 MB.
+Total: 4.394600 ms (FindLiveObjects: 0.360800 ms CreateObjectMapping: 0.298700 ms MarkObjects: 2.542100 ms  DeleteObjects: 1.192600 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 15.957664 seconds.
+  path: Assets/minotaur1/Scenes
+  artifactKey: Guid(f4f28064ed654f1409c7b36aae267f93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Scenes using Guid(f4f28064ed654f1409c7b36aae267f93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86cb8af31d7210e6e564986d52563ac9') in 0.009164 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.060179 seconds.
+  path: Assets/minotaur1/Scenes/plane_material.mat
+  artifactKey: Guid(aa42f4e720766fc44aff8887479b604c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Scenes/plane_material.mat using Guid(aa42f4e720766fc44aff8887479b604c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '14ba525a665093cf2bb31fc503253670') in 0.245981 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.157934 seconds.
+  path: Assets/minotaur1/minotaur1 Animator Controller.controller
+  artifactKey: Guid(1ec31ee6b4e699b4c919f9ddd24f6f73) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/minotaur1 Animator Controller.controller using Guid(1ec31ee6b4e699b4c919f9ddd24f6f73) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36ed4c91ddceea59bc321a2d8a8fb11d') in 0.017847 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.220056 seconds.
+  path: Assets/minotaur1/Prefab
+  artifactKey: Guid(6f30550a74e8ec6409d0217d044a73c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Prefab using Guid(6f30550a74e8ec6409d0217d044a73c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd5039f827f310b23a6cbf35d48111c37') in 0.002893 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.869372 seconds.
+  path: Assets/minotaur1/Materials
+  artifactKey: Guid(ce4540fa9fbbc59428311e7fa6850b3a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Materials using Guid(ce4540fa9fbbc59428311e7fa6850b3a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '371122e396de3e967898d4302c6ff605') in 0.002905 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.122725 seconds.
+  path: Assets/minotaur1/Animations
+  artifactKey: Guid(6c91dc81d7e6a94429258357da163192) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations using Guid(6c91dc81d7e6a94429258357da163192) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ceabfe6958fb912250ca14019533c709') in 0.002893 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.478111 seconds.
+  path: Assets/minotaur1/Base mesh
+  artifactKey: Guid(ac97ffaf5a43593459b5412ea8578c87) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Base mesh using Guid(ac97ffaf5a43593459b5412ea8578c87) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b693c981b346d46321b47904946ec479') in 0.002829 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.697699 seconds.
+  path: Assets/minotaur1/Base mesh/minotaur1.fbx
+  artifactKey: Guid(63e974d9ec82619419e69ae2287be94e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Base mesh/minotaur1.fbx using Guid(63e974d9ec82619419e69ae2287be94e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd0f6ccebdbe993dbe2884e9ae0b14321') in 3.901766 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.288252 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@attack1.fbx
+  artifactKey: Guid(1245117f7c42d8e4ca48df3b8262dc0b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@attack1.fbx using Guid(1245117f7c42d8e4ca48df3b8262dc0b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd84331d0a584a95077b09d7f62043f80') in 0.053651 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009241 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@attack3.fbx
+  artifactKey: Guid(05590660f4e50e64687328f63b84c33c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@attack3.fbx using Guid(05590660f4e50e64687328f63b84c33c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '71b20e1570a19f08006cf6bd27c3f2c9') in 0.013442 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@death.fbx
+  artifactKey: Guid(fcefcb225af888d48a34ad59a46f1be4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@death.fbx using Guid(fcefcb225af888d48a34ad59a46f1be4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6d3773d357389a6899aaa416ca3c8ea5') in 0.008170 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@walk_forward.fbx
+  artifactKey: Guid(f9baf7d375c915b41b92848001cb6117) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@walk_forward.fbx using Guid(f9baf7d375c915b41b92848001cb6117) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2c67fb26144a0d848eed451d16a4147e') in 0.006743 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@run_strafe_left45.fbx
+  artifactKey: Guid(efb13636ee4bc884c9da45660416063c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@run_strafe_left45.fbx using Guid(efb13636ee4bc884c9da45660416063c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c574e8b6dbb3fccd23ff179ff18aeb9') in 0.006784 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@walk_strafe_right45.fbx
+  artifactKey: Guid(b68bf00b532c9444c9caa40411435233) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@walk_strafe_right45.fbx using Guid(b68bf00b532c9444c9caa40411435233) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5cdb8b2348a833bf4341212acbc83bd9') in 0.009250 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@run_strafe_right45.fbx
+  artifactKey: Guid(ddeea1fe56fecde41bb5cc3a0b87d192) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@run_strafe_right45.fbx using Guid(ddeea1fe56fecde41bb5cc3a0b87d192) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bf22a482505ce2a9271cd1e04a670517') in 0.007162 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@walk_back.fbx
+  artifactKey: Guid(6fc2561cd4b4d774bb8ff5db40bca1b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@walk_back.fbx using Guid(6fc2561cd4b4d774bb8ff5db40bca1b9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f292538a485ca7d0b6de6d14148b9ef7') in 0.012577 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000020 seconds.
+  path: Assets/minotaur1/Animations/minotaur1@attack4_kick.fbx
+  artifactKey: Guid(2266cfaabe6e767489b2331a158fe7d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/minotaur1/Animations/minotaur1@attack4_kick.fbx using Guid(2266cfaabe6e767489b2331a158fe7d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2e955df2199fca706b5258263b8c6d37') in 0.007243 seconds 
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0

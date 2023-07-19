@@ -22,7 +22,7 @@ public class CrosshairListItem : MonoBehaviour
         }
         myRectTransform = GetComponent<RectTransform>();
         parentCanvas = transform.parent.parent.parent.parent.parent;//Canvas 
-        crosshairOnPlayer = parentCanvas.GetChild(2).GetChild(4);//Crosshair
+        crosshairOnPlayer = parentCanvas.GetChild(2).GetChild(3);//Crosshair
         
         setup = true;
 

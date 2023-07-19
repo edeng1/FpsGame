@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +45,7 @@ public class SpawnManager : MonoBehaviour
 
         }
     }
-    public Transform GetSpawnPoint()
+    public Transform GetSpawnPoint(bool firstTimeSpawn=false)
     {
         if(GameSettings.GameMode!= GameMode.FFA)
         {
@@ -63,7 +64,13 @@ public class SpawnManager : MonoBehaviour
                 
         }
 
+        if (firstTimeSpawn)
+        {
+            //return spawnPoints[Mathf.RoundToInt(Mathf.Repeat(PhotonNetwork.LocalPlayer.ActorNumber, spawnPoints.Length))].transform;
+        }
         return spawnPoints[Random.Range(0, spawnPoints.Length)].transform;
+
+        
     }
 
 }

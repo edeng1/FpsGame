@@ -23,6 +23,29 @@ public class GunInfo : ItemInfo
     public Vector3 playerPoseitemPosition;
     public Vector3 playerPoseitemRotation;
     public Vector3 playerPoseitemScale;
+    public Vector3 Spread = new Vector3(0.1f, 0.1f, 0.1f);
+
+    public float MaxSpreadTime = 1f;
+
+    public Vector3 GetSpread(float playerVelocity,float ShootTime = 0)
+    {
+        Vector3 spread = Vector3.zero;
+
+      
+            spread = Vector3.Lerp(
+                Vector3.zero,
+                new Vector3(
+                    Random.Range(-Spread.x, Spread.x),
+                    Random.Range(-Spread.y, Spread.y),
+                    Random.Range(-Spread.z, Spread.z)
+                ),
+                Mathf.Clamp01(ShootTime / MaxSpreadTime)
+            );
+       
+
+
+        return spread;
+    }
 
 
 

@@ -133,10 +133,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         return PhotonNetwork.AutomaticallySyncScene;
     }
-    public void Spawn()
+    public void Spawn(GameState state)
     {
         
-        PM=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
+        PM=PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity, 0, new object[] { state });
         playerManagers.Add(PM.GetComponent<PlayerManager>());
         //Manager.Instance.NewPlayer_S();
     }

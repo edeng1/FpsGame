@@ -17,7 +17,7 @@ public class PlayerManager : MonoBehaviour
 
    public bool die = false;
    public bool awayTeam;
-    public float spawnRadius = 5f;
+    public float spawnRadius = 0f;
 
     GameObject controller;
     private void Awake()
@@ -56,10 +56,17 @@ public class PlayerManager : MonoBehaviour
     
     void CreateController()
     {
-        Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint();
+        bool firstTimeSpawn=false;
+        if ((GameState)PV.InstantiationData[0] == GameState.Starting)
+        {
+            Debug.Log("starting state");
+            firstTimeSpawn = true;
+        }
+        Debug.Log("starting state="+ Manager.Instance.getState());
+        Transform spawnPoint = SpawnManager.Instance.GetSpawnPoint(firstTimeSpawn);
         if (GameSettings.GameMode == GameMode.FFA)
         {
-            spawnPoint = SpawnManager.Instance.GetSpawnPoint();
+            spawnPoint = SpawnManager.Instance.GetSpawnPoint(firstTimeSpawn);
         }
         int spawnIndex= spawnPoint.GetSiblingIndex();
 

@@ -47,6 +47,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
     public static Manager Instance;
     public List<PlayerInfo> playerInfo = new List<PlayerInfo>();
     public List<GameObject> playerList = new List<GameObject>();
+    [SerializeField] GameObject postProcessing;
     
     public int myind;
     public Transform flag;
@@ -124,25 +125,40 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
            
         Instance = this;
         Application.wantsToQuit += CloseBrowser;
+        Application.targetFrameRate = 200;
     }
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerPrefs.HasKey("postp"))
+        {
+            int pp = PlayerPrefs.GetInt("postp");
+            if (pp==0)
+            {
+                postProcessing.SetActive(false);
+            }
+            else if (pp == 1)
+            {
+                postProcessing.SetActive(true);
+            }
+        }
         CacheAllGunInfos();
         actNum = PhotonNetwork.LocalPlayer.ActorNumber;
         EndGameUI = ScoreBoardUI.Find("TieText");
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)//We know this will be when the match first starts
         {
             matchLength = GameSettings.MatchLength;
             killCount = GameSettings.FFAMaxKills;
             teamKillCount = GameSettings.TDMMaxKills;
             teamFlagCount = GameSettings.CTFMaxCaps;
             playerAdded = true;
+            state = GameState.Starting;
+            
             GameSettings.IsAwayTeam = CalculateTeam();
-            RoomManager.Instance.Spawn();
+            RoomManager.Instance.Spawn(state);
         }
         
-        NewPlayer_S();
+        NewPlayer_S();// newplayer spawns
         InitializeTimer();
         RefreshStats();
     }
@@ -156,7 +172,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             return;
         }
-        if (playerAdded == true&&state==GameState.Waiting)
+        if (playerAdded == true&&(state==GameState.Waiting|| state == GameState.Starting))
         {
             state = GameState.Playing;
         }
@@ -449,7 +465,10 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
             {
 
                 if (FindObjectOfType<FlagManager>())
+                {
                     FlagManager.Instance.TrySync();
+                }
+                    
             }
         }
 
@@ -550,7 +569,7 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
                     playerAdded = true;
                     GameSettings.IsAwayTeam = p.awayTeam;
                   
-                      RoomManager.Instance.Spawn();
+                      RoomManager.Instance.Spawn(state); // will spawn first time in GameState.Starting. When dies, updateplayer is called again with GameState.Playing
                       
                       //RoomManager.Instance.getPlayerManager().TrySync();
                 }
@@ -986,5 +1005,17 @@ public class Manager : MonoBehaviourPunCallbacks, IOnEventCallback
         }
         return "";
     }
+
+    public void TogglePostProcessing(bool toggle)
+    {
+        Debug.Log("PP called" + toggle);
+        postProcessing.SetActive(toggle);
+        int t = 0;
+       
+        if (toggle) { t = 1; }
+        PlayerPrefs.SetInt("postp", t);
+        
+    }
+    
 
 }

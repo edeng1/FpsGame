@@ -18,14 +18,14 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: us
+    FixedRegion: 
     Server: 
     Port: 0
     ProxyServer: 
     Protocol: 0
     EnableProtocolFallback: 1
     AuthMode: 0
-    EnableLobbyStatistics: 1
+    EnableLobbyStatistics: 0
     NetworkLogging: 1
   DevRegion: us
   PunLogging: 0
@@ -37,32 +37,30 @@ MonoBehaviour:
   - DestroyRpc
   - DestroySpaceship
   - Fire
+  - OnDoorWayClose
+  - OnDoorWayOpen
+  - QuitGame
   - RespawnSpaceship
-  - RPC_ChangeFlagState
+  - RPC_ChooseSkinColor
   - RPC_DropFlag
   - RPC_instantiateGunModel
   - RPC_muzzleFlash
-  - RPC_Shoot
-  - RPC_TakeDamage
-  - SyncTeam
-  - ToggleDead
   - RPC_PickUpFlag
+  - RPC_playSound
   - RPC_ReturnFlag
   - RPC_ScoreFlag
-  - SyncFlags
-  - SyncFlagOnGround
-  - SyncFlagOnPlayer
-  - RPC_playSound
-  - QuitGame
+  - RPC_Shoot
+  - RPC_SpawnInUse
+  - RPC_TakeDamage
   - RPC_UpdatePlayerKilledUI
-  - RPC_ChooseSkinColor
-  - OnDoorWayClose
-  - OnDoorWayOpen
   - RpcClearBuffer
   - RpcNonServerOwnedTeleportFromServer
   - RpcTeleport
-  - RPC_SpawnInUse
-  - SyncSpawnDictionary
+  - SyncFlagOnGround
+  - SyncFlagOnPlayer
+  - SyncTeam
+  - ToggleDead
+  - RPC_DisableMeshRenderers
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
   DevRegionSetOnce: 1

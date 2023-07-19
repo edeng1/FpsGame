@@ -17,9 +17,9 @@ MonoBehaviour:
     type: 3}
   itemModelsUnlocked:
   - {fileID: 9049938920144453115, guid: 4b55356e6e4f1b54bb8f178a057ba25b, type: 3}
-  itemPosition: {x: 0.2, y: 0.35, z: 0.15}
+  itemPosition: {x: 0.196, y: 0.34, z: 0.12}
   itemRotation: {x: 0, y: 90, z: 0}
-  itemScale: {x: 1, y: 1, z: 1}
+  itemScale: {x: 1.1, y: 1.1, z: 1.1}
   itemSound: {fileID: 8300000, guid: 58aa3bd1fef7672468c36cca82ac75b5, type: 3}
   levelToUnlock: 2
   damageBody: 24
@@ -37,3 +37,5 @@ MonoBehaviour:
   playerPoseitemPosition: {x: -0.012, y: 0.32, z: 0.035}
   playerPoseitemRotation: {x: 0, y: 18.264, z: 31.545}
   playerPoseitemScale: {x: 1.5, y: 1.5, z: 1.5}
+  Spread: {x: 0.1, y: 0.1, z: 0.1}
+  MaxSpreadTime: 1

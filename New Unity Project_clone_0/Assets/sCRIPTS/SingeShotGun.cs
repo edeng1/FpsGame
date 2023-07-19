@@ -25,6 +25,10 @@ public class SingeShotGun : Gun
     public Shaker myShaker;
     public ShakePreset myShakePreset;
     public TrailRenderer bulletTrail;
+    private float nextTimeToFire = 0f;
+    public float initialClickTime;
+    public float stopShootingTime;
+    private bool lastFrameWantedToShoot;
     float time;
 
 
@@ -92,10 +96,25 @@ public class SingeShotGun : Gun
         
     }
 
+    public void Tick(bool wantsToShoot)
+    {
+        if (wantsToShoot)
+        {
+            lastFrameWantedToShoot = true;
+            Shoot();
+        }
+        else if(!wantsToShoot && lastFrameWantedToShoot)
+        {
+            stopShootingTime = Time.time;
+            lastFrameWantedToShoot = false;
+        }
+    }
+
     void Shoot()
     {
         if (switchingGuns) { return; }
         if (isReloading) { return; }
+       // if(Time.time - nextTimeToFire)
         if (clip > 0)
         {
             clip--;
@@ -114,8 +133,13 @@ public class SingeShotGun : Gun
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
         ray.origin = cam.transform.position;
 
+        //Vector3 shootDirection = gi.GetSpread();
+        
+    
+        
         if(Physics.Raycast(ray,out RaycastHit hit))
         {
+            Debug.Log(hit.collider);
             //hit.collider.transform.root.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
             bool applyDamage = false;
             if(GameSettings.GameMode==GameMode.FFA)
@@ -188,7 +212,8 @@ public class SingeShotGun : Gun
                 PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal,false);
 
             
-        }    
+        }
+        
     }
     void GenerateRecoil()
     {
@@ -200,8 +225,13 @@ public class SingeShotGun : Gun
     {
         // UnityEngine.Object gun = Resources.Load("Items/Guns/" + gunName, typeof(GunInfo));// This will get the gun of the player whos shooting and play their gun sound
         UnityEngine.Object gun = gunsDictionairy[gunName]; // delete this and uncomment ^ if stops working
-        if (((GunInfo)gun).itemSound!=null)
+        if (((GunInfo)gun).itemSound != null)
+        {
+           
             sfx.PlayOneShot(((GunInfo)gun).itemSound);
+            
+        }
+
     }
 
 

@@ -1,0 +1,229 @@
+Using pre-set license
+Built from '2021.3/staging' branch; Version is '2021.3.16f1 (4016570cf34f) revision 4200023'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19045) 64bit Core' Language: 'en' Physical Memory: 16272 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.3.16f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker2
+-projectPath
+C:/Users/erice/OneDrive/Documents/GitHub/FpsGame/My project
+-logFile
+Logs/AssetImportWorker2.log
+-srvPort
+49307
+Successfully changed project path to: C:/Users/erice/OneDrive/Documents/GitHub/FpsGame/My project
+C:/Users/erice/OneDrive/Documents/GitHub/FpsGame/My project
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [17444] Host "[IP] 192.168.1.184 [Port] 0 [Flags] 2 [Guid] 942120080 [EditorId] 942120080 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-K61T99D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [17444] Host "[IP] 192.168.1.184 [Port] 0 [Flags] 2 [Guid] 942120080 [EditorId] 942120080 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-K61T99D) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 75.39 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.3.16f1 (4016570cf34f)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/erice/OneDrive/Documents/GitHub/FpsGame/My project/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3080 (ID=0x2206)
+    Vendor:   NVIDIA
+    VRAM:     10067 MB
+    Driver:   31.0.15.2849
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56048
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.16f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.006744 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 73.02 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.571 seconds
+Domain Reload Profiling:
+	ReloadAssembly (571ms)
+		BeginReloadAssembly (64ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (1ms)
+		EndReloadAssembly (411ms)
+			LoadAssemblies (61ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (90ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (23ms)
+			SetupLoadedEditorAssemblies (253ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (7ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (73ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (127ms)
+				ProcessInitializeOnLoadMethodAttributes (45ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.006578 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\erice\OneDrive\Documents\GitHub\FpsGame\My project\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\erice\OneDrive\Documents\GitHub\FpsGame\My project\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.59 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.920 seconds
+Domain Reload Profiling:
+	ReloadAssembly (921ms)
+		BeginReloadAssembly (95ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (16ms)
+		EndReloadAssembly (721ms)
+			LoadAssemblies (73ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (237ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (47ms)
+			SetupLoadedEditorAssemblies (329ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (79ms)
+				ProcessInitializeOnLoadAttributes (211ms)
+				ProcessInitializeOnLoadMethodAttributes (24ms)
+				AfterProcessingInitializeOnLoad (8ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (7ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 0.85 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3965 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 31 unused Assets / (206.4 KB). Loaded Objects now: 4422.
+Memory consumption went from 138.1 MB to 137.9 MB.
+Total: 2.896600 ms (FindLiveObjects: 0.288600 ms CreateObjectMapping: 0.260000 ms MarkObjects: 2.161400 ms  DeleteObjects: 0.185800 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 48618.208699 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/Datas
+  artifactKey: Guid(59d037c6d70678b4990f8c0665fb5838) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/Datas using Guid(59d037c6d70678b4990f8c0665fb5838) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '46484dd784a845e563c6fcac70133ef2') in 0.010929 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.805974 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/Datas/Firearm.cs
+  artifactKey: Guid(25d5e92c32d4c4545839d4d7d798899e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/Datas/Firearm.cs using Guid(25d5e92c32d4c4545839d4d7d798899e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '41b09c8b443cdf1901c110c4a885152b') in 0.021922 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 35.043109 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/Datas/Weapon.cs
+  artifactKey: Guid(6cb856652c235fc43bb29e40a100a0e1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/Datas/Weapon.cs using Guid(6cb856652c235fc43bb29e40a100a0e1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7e46b7e8677ce2e6d5208ead81bbd4e0') in 0.006765 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 14.497554 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/Datas/WeaponReserveData.cs
+  artifactKey: Guid(a607047076f112f4aaae113a43e1455b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/Datas/WeaponReserveData.cs using Guid(a607047076f112f4aaae113a43e1455b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bf3e5f03ebd6e2163d63e5e2983ec6c1') in 0.006370 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.332308 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/Datas/ThrownInstantiateEventArgs.cs
+  artifactKey: Guid(fa2d9fcae09d25245885bec64a258726) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/Datas/ThrownInstantiateEventArgs.cs using Guid(fa2d9fcae09d25245885bec64a258726) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4f6426ed2fccfbc75687a3c90f6483e3') in 0.006561 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.579879 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/Datas/Thrown.cs
+  artifactKey: Guid(d4ced92562d7702439cea5303860be01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/Datas/Thrown.cs using Guid(d4ced92562d7702439cea5303860be01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b1f65983366e1f8c9a0a38fb375a110d') in 0.006330 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 13.332373 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/World/WeaponPickup.cs
+  artifactKey: Guid(47ded2a2aef1ef247b52945c8064da93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/World/WeaponPickup.cs using Guid(47ded2a2aef1ef247b52945c8064da93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e6b625883ea39b8a22a5794a653ae7bd') in 0.006284 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.742049 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/World/IThrowable.cs
+  artifactKey: Guid(ebbf15d2db2aa9a47bc6aca93b3373cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/World/IThrowable.cs using Guid(ebbf15d2db2aa9a47bc6aca93b3373cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '607d3e4cdd4ca845fa3aa79e78fd1c58') in 0.006574 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.289604 seconds.
+  path: Assets/FPSLand/Scripts/Weapons/World/Grenade.cs
+  artifactKey: Guid(63c3aab28f32a564bb3059dc97ca035f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Weapons/World/Grenade.cs using Guid(63c3aab28f32a564bb3059dc97ca035f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '138a10edeba7641d1ef90bf08306d596') in 0.006173 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 34.365725 seconds.
+  path: Assets/FPSLand/Scripts/Clients
+  artifactKey: Guid(8af80f8b81955334aa7be72ca2462874) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Clients using Guid(8af80f8b81955334aa7be72ca2462874) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '498c2cb65264adbd1408b67286c24a3a') in 0.006324 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.929097 seconds.
+  path: Assets/FPSLand/Scripts/Clients/PlayerSpawner.cs
+  artifactKey: Guid(d91e6a695787568469981b0beeb0ec96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/FPSLand/Scripts/Clients/PlayerSpawner.cs using Guid(d91e6a695787568469981b0beeb0ec96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5e03fcc6970d9b4a745a720770eb0cc4') in 0.006596 seconds 

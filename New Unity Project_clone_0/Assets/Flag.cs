@@ -153,15 +153,18 @@ public class Flag : MonoBehaviour
 
     public void TrySync()//Called in FlagManager, which is called in Manager by the Master Client whenever a NewPlayer joins the game. Syncs flag positions and parents for the new player.
     {
+        Debug.Log("Flag parent on trysync= " + transform.parent);
         if (FlagSpawn == null) { FlagSpawn = transform.parent; }
         if (transform.parent == null)
         {
-            PV.RPC("SyncFlagOnGround", RpcTarget.All, flagPos);
+            Debug.Log("SyncFlagOnPlayer is called");
+            PV.RPC("SyncFlagOnGround", RpcTarget.All, flagPos); 
         }
 
 
         if (transform.parent != FlagSpawn && transform.parent != null)
         {
+            Debug.Log("SyncFlagOnPlayer is called");
             PV.RPC("SyncFlagOnPlayer", RpcTarget.All, transform.parent.GetComponent<PhotonView>().ViewID);
         }
 

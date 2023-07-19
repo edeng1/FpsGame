@@ -8,7 +8,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using TMPro;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamageable
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IDamageable
 {
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
     float initialWalkSpeed;
@@ -17,14 +17,16 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     [SerializeField] Item[] items;
 
     int itemIndex, enemyItemIndex;
-    int previousItemIndex=-1;
+    int previousItemIndex = -1;
 
     public CharacterController controller;
     public bool awayTeam;
     public float verticalLookRotation;
-    bool isGrounded;
+    public bool isGrounded { get; private set; }
     Vector3 smoothMoveVelocity;
     Vector3 moveAmount;
+    public Vector3 previousPosition;
+    public float currentVelocity;
     private Vector3 realPosition = Vector3.zero;
     public Animator anim;
     [SerializeField] Pause pauseM;
@@ -41,6 +43,10 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
     [SerializeField] GameObject eventHeadshotUI;
     [SerializeField] GameObject KillFeedUI;
+    [SerializeField] GameObject headMeshRenderer; // to disable on my player and enable on otherss
+    [SerializeField] GameObject bodyMeshRenderer;//
+    [SerializeField] GameObject legsMeshRenderer;//
+    [SerializeField] CapsuleCollider[] myHitBoxColliders;
     public bool isDead;
     public float pointIncreasePerSecond = 5f;
     //Vector3 move;
@@ -58,6 +64,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     public Texture2D[] crosshairs;
     public RawImage crosshair;
 
+    private Vector3 playerVelocity;
+
     //Values that will be synced over network
     Vector3 latestPos;
     Quaternion latestRot;
@@ -67,6 +75,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     double lastPacketTime = 0;
     Vector3 positionAtLastPacket = Vector3.zero;
     Quaternion rotationAtLastPacket = Quaternion.identity;
+    public Vector3 vel;
+    float defaultPlayerHeight = 1.4f;
 
     [SerializeField] private GameObject ragdollModel;
     [SerializeField] private GameObject normalModel;
@@ -80,7 +90,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     
     private void Awake()
     {
-       
+        
         actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         isDead = false;
         isSprinting = false;
@@ -88,6 +98,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         PV = GetComponent<PhotonView>();
         sprintSpeed *= transform.localScale.x;
         walkSpeed *=transform.localScale.x;
+        defaultPlayerHeight = 1.4f;
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
         awayTeam = (bool)PV.InstantiationData[1];
 
@@ -96,6 +107,9 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     {
         if (PV.IsMine)
         {
+            //headMeshRenderer.layer = 11;
+           //bodyMeshRenderer.layer = 11;
+            //legsMeshRenderer.layer = 11;
             crosshairs = new Texture2D[35];
             for(int i = 0; i < 35; i++)
             {
@@ -112,20 +126,21 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             {
                crosshair.texture= (Texture2D)crosshairs[PlayerPrefs.GetInt("Crosshair") - 1] as Texture2D;
             }
-
+            previousPosition = transform.position;
             anim = GetComponent<Animator>();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
         else
         {
-            Destroy(GetComponentInChildren<Camera>().gameObject);
-            Destroy(ragdollModel.transform.GetChild(7).GetChild(0).gameObject);
+            Destroy(GetComponentInChildren<Camera>().gameObject);// DESTROYS ENEMY CAMERA
+            //Destroy(ragdollModel.transform.GetChild(7).GetChild(0).gameObject);// DESTROYS ENEMY RAGDOLL CAMERA
+            Destroy(ragdollModel.transform.GetChild(0).gameObject);//CSGO MODEL RAGDOLL CAMERA DESTROY
             Destroy(rb);
-            
+            gameObject.layer = 0;
             //Destroy(healthUI.transform.parent.gameObject);
             //Destroy(ammoUI.transform.parent.gameObject);
-            Destroy(transform.GetChild(5).gameObject);
+            Destroy(transform.GetChild(6).gameObject);// DESTROYS ENEMY CANVAS
         }
         ChooseSkinColor();
         initialWalkSpeed = walkSpeed;
@@ -162,8 +177,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
         if (PV.IsMine)
         {
-
-
+            foreach(CapsuleCollider c in myHitBoxColliders)// disable my hitbox colliders 
+            {
+                c.enabled=false;
+            }
+           
             if (awayTeam != playerManager.awayTeam)
             {
                 //PV.RPC("SyncTeam", RpcTarget.All, GameSettings.IsAwayTeam);
@@ -191,6 +209,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
                     Sprint();
                     OnStateChange();
                     Crouch();
+                    SetControllerHeight();
                     SwitchWeapon();
                     Shoot();
                     anim.SetBool("isShooting", isShooting);
@@ -208,7 +227,8 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
 
 
-
+           
+            
 
 
             if (transform.position.y < -40f)
@@ -250,6 +270,13 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             skinColorRag[1].SetActive(false);
             skinColorRag[0].SetActive(true);
         }
+    }
+    [PunRPC]
+    void RPC_DisableMeshRenderers()
+    {
+        headMeshRenderer.layer = 11;
+        bodyMeshRenderer.layer = 11;
+        legsMeshRenderer.layer = 11;
     }
     
     void Look()
@@ -298,7 +325,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         //yAnim = Mathf.MoveTowards(yAnim, y, 1f * Time.deltaTime);
 
         Vector3 move = (transform.right * x + transform.forward * y);
-        if (move.magnitude > 1)
+        if (move.magnitude > 1) //normalizes
         {
             move /= move.magnitude;
         }
@@ -331,6 +358,10 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             return;
         }
         MoveController();
+        Vector3 displacement= (transform.position - previousPosition) / Time.deltaTime;
+        currentVelocity = displacement.magnitude;
+        previousPosition = transform.position;
+        //Debug.Log(currentVelocity.magnitude);
         //Move();
         //rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
 
@@ -353,13 +384,16 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
     {
         if (Input.GetKey(KeyCode.LeftControl)|| Input.GetKey(KeyCode.C))
         {
+            
             isCrouched = true;
             isSprinting = false;
             
+
         }
         else
         {
             isCrouched = false;
+
             
         }
         
@@ -371,7 +405,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isSprinting = true;
-           
+            isCrouched = false;
         }
         else
         {
@@ -379,6 +413,23 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         }
         anim.SetBool("isSprinting", isSprinting);
     }
+    void SetControllerHeight()
+    {
+        if (controller != null)
+        {
+            if (isCrouched)
+            {
+                if (!isSprinting)
+                    controller.height = defaultPlayerHeight / 1.5f;
+            }
+            else
+            {
+                controller.height = defaultPlayerHeight;
+            }
+        }
+     
+    }
+
     void Reload()
     {
         if(Input.GetKeyDown(KeyCode.R)&&!isDead)
@@ -651,7 +702,7 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
             }
             else
             {
-                healthUI.color = Color.green;
+                healthUI.color = Color.white;
                 healthUI.transform.parent.GetComponentInChildren<RawImage>().color = Color.green;
             }
         }
@@ -752,9 +803,9 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
             
             isDead = true;
-            Destroy(transform.GetChild(5).GetChild(0).gameObject);
-            Destroy(transform.GetChild(5).GetChild(1).gameObject);
-            Destroy(transform.GetChild(5).GetChild(2).gameObject);
+            Destroy(transform.GetChild(6).GetChild(0).gameObject);
+            Destroy(transform.GetChild(6).GetChild(1).gameObject);
+            Destroy(transform.GetChild(6).GetChild(2).gameObject);
             PV.RPC("ToggleDead", RpcTarget.All, GetComponent<PhotonView>().ViewID);
            
             playerManager.StartCoroutine(playerManager.Die());
@@ -766,9 +817,10 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         {
 
             isDead = true;
-            Destroy(transform.GetChild(5).GetChild(0).gameObject);
-            Destroy(transform.GetChild(5).GetChild(1).gameObject);
-            Destroy(transform.GetChild(5).GetChild(2).gameObject);
+            //canvas
+            Destroy(transform.GetChild(6).GetChild(0).gameObject);
+            Destroy(transform.GetChild(6).GetChild(1).gameObject);
+            Destroy(transform.GetChild(6).GetChild(2).gameObject);
             PV.RPC("ToggleDead", RpcTarget.All,GetComponent<PhotonView>().ViewID);
            
             
@@ -804,10 +856,11 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
 
                 destination.position = source.position;
                 destination.rotation = source.rotation;
-                var rb = destination.GetComponent<Rigidbody>();
+                var rb = destination.GetComponentInChildren<Rigidbody>();
                 if (rb != null)
                 {
-                    rb.velocity = new Vector3(-5, -5, -5);
+                    Debug.Log("ragdoll Has rigidbody");
+                   // rb.velocity = new Vector3(0, 30, 0);
                 }
 
                 CopyTransformData(source, destination);
@@ -851,6 +904,15 @@ public class PlayerController : MonoBehaviourPunCallbacks,IPunObservable, IDamag
         return ((SingeShotGun)items[itemIndex]).itemInfo.itemName;
     }
 
+    public float GetCurrentPlayerVelocity()
+    {
+        return currentVelocity;
+    }
+
+    public bool SprintCheck()
+    {
+        return isSprinting;
+    }
 
 
 }
